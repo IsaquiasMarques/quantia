@@ -1,0 +1,66 @@
+<div class="layout bg-green appear-softly w-full h-full flex justify-center items-stretch">
+    <div class="form w-full h-full bg-white flex justify-center items-center">
+        <div class="panel max-w-[383px] p-5 flex flex-col gap-y-[30px]">
+            <div class="header">
+                <div class="goback flex justify-center items-center lg:justify-start">
+                    <button
+                    (click)="goback()"
+                    class="text-base font-semibold font-outfit text-center flex gap-3 justify-start items-center">
+                        <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.5 22C18.0228 22 22.5 17.5228 22.5 12C22.5 6.47715 18.0228 2 12.5 2C6.97715 2 2.5 6.47715 2.5 12C2.5 17.5228 6.97715 22 12.5 22Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12.5 8L8.5 12L12.5 16" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16.5 12H8.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Voltar
+                    </button>
+                </div>
+            </div>
+            <div class="description">
+                <h1 class="text-primary font-outfit mb-[30px] text-[2rem] text-center lg:text-left font-semibold">
+                    Esqueceu a senha?
+                </h1>
+                <p class="text-base text-black font-medium text-center lg:text-left">
+                    Digite o endereço de e-mail que você usou quando se inscreveu e enviaremos instruções para redefinir sua senha.
+                </p>
+            </div>
+            <div class="inputs">
+                <form
+                    (submit)="submit()"
+                    [formGroup]="recoveryFormGroup"
+                    class="flex flex-col gap-y-3">
+                    <div class="input-container flex flex-col gap-y-4">
+                        <div class="input w-full">
+                            <input
+                                type="email"
+                                formControlName="email"
+                                id="email"
+                                placeholder="Email"
+                                class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-[#BDBDBD] duration-[.2s] px-5 py-4 w-full border-[2px] border-[#F3F3F3] rounded-full text-sm"
+                                [ngClass]="{
+                                    'is-invalid': recoveryFormGroup.get('email').invalid && recoveryFormGroup.get('email').touched
+                                }"
+                                >
+                        </div>
+                    </div>
+                    <div class="submit-container flex flex-col gap-y-4">
+                        <div class="submit w-full">
+                            <button
+                                [disabled]="this.recoveryFormGroup.invalid"
+                                type="submit"
+                                class="focus:outline-none disabled:cursor-auto px-5 py-4 font-outfit w-full duration-[.2s] bg-primary disabled:bg-primary/80 border-[2px] border-white hover:enabled:border-primary hover:enabled:bg-white text-white hover:enabled:text-primary font-medium rounded-full text-sm">
+                                @if (!authLoader$()) {
+                                    <span class="font-outfit">Enviar</span>
+                                } @else {
+                                    <app-load-spinner />
+                                }
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="image w-full max-w-[460px] overflow-hidden h-full hidden lg:block">
+        <img src="assets/images/auth/recover/cover.jpg" class="w-full h-full object-cover object-center" alt="">
+    </div>
+</div>

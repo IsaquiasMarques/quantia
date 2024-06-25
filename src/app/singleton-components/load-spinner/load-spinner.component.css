@@ -1,0 +1,40 @@
+:host{
+    --loader-dimentions: 10px;
+    --loader-selector-dimentions: 48px;
+}
+
+.loader {
+    width: var(--loader-dimentions);
+    height: var(--loader-dimentions);
+    display: inline-block;
+    position: relative;
+}
+.loader::after,
+.loader::before {
+    content: '';  
+    box-sizing: border-box;
+    width: var(--loader-selector-dimentions);
+    height: var(--loader-selector-dimentions);
+    border-radius: 50%;
+    border: 2px solid #808080;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    opacity: 0;
+    animation: animloader 2s linear infinite;
+}
+.loader::after {
+    animation-delay: 1s;
+}
+  
+@keyframes animloader {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(.8);
+        opacity: 0;
+    }
+}

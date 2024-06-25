@@ -1,0 +1,235 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/inter/Inter-Light-300.ttf');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/inter/Inter-Regular-400.ttf');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/inter/Inter-Medium-500.ttf');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/inter/Inter-SemiBold-600.ttf');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/inter/Inter-Bold-700.ttf');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/inter/Inter-ExtraBold-800.ttf');
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('assets/fonts/inter/Inter-Black-900.ttf');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('assets/fonts/outfit/Outfit-Thin.ttf');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('assets/fonts/outfit/Outfit-ExtraLight.ttf');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('assets/fonts/outfit/Outfit-Light.ttf');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('assets/fonts/outfit/Outfit-Regular.ttf');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('assets/fonts/outfit/Outfit-Medium.ttf');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('assets/fonts/outfit/Outfit-SemiBold.ttf');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('assets/fonts/outfit/Outfit-Bold.ttf');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('assets/fonts/outfit/Outfit-ExtraBold.ttf');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('assets/fonts/outfit/Outfit-Black.ttf');
+  font-weight: 900;
+  font-style: normal;
+}
+
+*{
+  font-family: 'Inter';
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.font-outfit{
+  font-family: 'Outfit' !important;
+}
+
+.limited-container{
+  max-width: 95%;
+  margin: 0px auto;
+}
+@media screen and (min-width: 1280px) {
+  .limited-container{
+      max-width: 90%;
+  }
+}
+@media screen and (min-width: 1440px) {
+  .limited-container{
+      max-width: var(--max-w);
+  }
+}
+@media screen and (min-width: 1600px) {
+  .limited-container{
+      max-width: 75%;
+  }
+}
+@media screen and (min-width: 1900px) {
+  .limited-container{
+      /* max-width: 1536px; */
+      /* max-width: 1920px; */
+      max-width: 90%;
+  }
+}
+
+.overflow-x-auto::-webkit-scrollbar,
+.no-scroller::-webkit-scrollbar
+{
+  display: none;
+}
+.overflow-x-auto,
+.no-scroller{
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.limited-text
+{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.limited-text.one-line{
+  -webkit-line-clamp: 1;
+}
+.limited-text.two-lines{
+  -webkit-line-clamp: 2;
+}
+.limited-text.three-lines{
+  -webkit-line-clamp: 3;
+}
+.limited-text.four-lines{
+  -webkit-line-clamp: 4;
+}
+.limited-text.five-lines{
+  -webkit-line-clamp: 5;
+}
+.limited-text.nine-lines{
+  -webkit-line-clamp: 9;
+}
+
+.appear-softly{
+  animation: appearSoftly .5s forwards ease-in-out;
+}
+
+@keyframes appearSoftly {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
+.appear-softly-from-top{
+  animation: appearSoftlyFromTop .3s forwards ease-in-out;
+}
+
+@keyframes appearSoftlyFromTop {
+  0% {
+      opacity: 0;
+      translate: 0 -15px;
+  }
+  100% {
+      opacity: 1;
+      translate: 0 0px;
+  }
+}
+
+.placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: placeholderAnimation 3s infinite linear;
+}
+
+@keyframes placeholderAnimation {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+input.is-invalid{
+  border-color: #FF9A9A;
+}

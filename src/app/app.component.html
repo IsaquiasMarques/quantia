@@ -1,0 +1,17 @@
+<router-outlet></router-outlet>
+<div class="logs-container absolute w-full max-w-[90%] md:max-w-[250px] flex flex-col gap-y-2 right-[50%] translate-x-[50%] lg:right-10 lg:translate-x-0 top-10">
+    @for (log of this.logger.logs$(); track $index) {
+    <div class="log-panel appear-softly-from-top px-4 py-3 rounded-lg font-['Outfit'] text-base text-center bg-white/30 backdrop-blur-[25px] text-[#626262] border-[1px] border-[#DCDCDC]">
+        <p class="font-outfit"
+        [ngClass]="{
+            'text-[#DD2C2C]': log.status === this.logStatus.ERROR,
+            'text-[#43A747]': log.status === this.logStatus.SUCCESS,
+            'text-[#4383A7]': log.status === this.logStatus.INFO,
+            'text-[#626262]': log.status === this.logStatus.DEFAULT,
+        }"
+        >
+            {{ log.message }}
+        </p>
+    </div>
+    }
+</div>
