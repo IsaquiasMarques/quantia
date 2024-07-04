@@ -27,7 +27,7 @@ export class AuthService extends AuthenticationContext{
     ){
         super();
         this.supabaseService.supabase.auth.onAuthStateChange((event, session) => {
-            // console.log(event, session);
+            console.log(event, session);
             switch(event){
                 case 'INITIAL_SESSION':
                     break;
