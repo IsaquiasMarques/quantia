@@ -1,21 +1,23 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { AuthService } from '@core/services/auth/auth.service';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, inject, signal } from '@angular/core';
+import { Unsubscriber } from '@core/classes/unsubscriber.class';
+import { Actions } from '@core/data/actions/actions.data';
+import { Store } from '@core/data/store/store.data';
+import { IPlan } from '@core/models/entities/plan.model';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrl: './account.component.css'
 })
-export class AccountComponent implements OnInit, OnDestroy {
+export class AccountComponent
+implements OnInit {
 
-  private authService = inject(AuthService);
+  private actions = inject(Actions);
 
   ngOnInit(): void {
-    this.authService.supabaseClient.from('users').select('id, plan_id:plans(name)').then(console.log);
-  }
-
-  ngOnDestroy(): void {
-    
+    this.actions.getPlan();
+    this.actions.getSettings();
+    this.actions.getCards();
   }
   
 }

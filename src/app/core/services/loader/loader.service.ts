@@ -1,4 +1,4 @@
-import { Injectable, WritableSignal, signal } from "@angular/core";
+import { Injectable, Signal, WritableSignal, signal } from "@angular/core";
 import { LoaderActionEnum } from "@core/enums/loader/loader.enum";
 
 interface ILoader{
@@ -14,6 +14,18 @@ export class Loader{
         {
             action: LoaderActionEnum.USER_AUTHENTICATION,
             loading: signal(false)
+        },
+        {
+            action: LoaderActionEnum.SETTINGS,
+            loading: signal(false)
+        },
+        {
+            action: LoaderActionEnum.PLAN,
+            loading: signal(false)
+        },
+        {
+            action: LoaderActionEnum.CARDS,
+            loading: signal(false)
         }
     ];
 
@@ -22,7 +34,7 @@ export class Loader{
         theLoader?.loading.update(loaderState => loaderState = state);
     }
 
-    getState(action: LoaderActionEnum): WritableSignal<boolean> | undefined{
+    getState(action: LoaderActionEnum): Signal<boolean> | undefined{
         const theLoader = this.loaders.find(loader => loader.action === action);
         return theLoader?.loading;
     }

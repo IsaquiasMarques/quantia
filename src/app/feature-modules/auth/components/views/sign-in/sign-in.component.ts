@@ -1,6 +1,7 @@
 import { Component, OnInit, Signal, WritableSignal, computed, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationLoader } from '@core/classes/abstracts/authentication-loader.class';
+import { LoaderSupporter } from '@core/classes/abstracts/loader-supporter.class';
+import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
 import { EmailPasswordAuthentication } from '@core/models/authentication/email-password.model';
 import { AuthenticationFacade } from '@feature-modules/auth/facades/authentication.facade';
 import { Provider } from '@supabase/supabase-js';
@@ -10,7 +11,7 @@ import { Provider } from '@supabase/supabase-js';
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css'
 })
-export class SignInComponent extends AuthenticationLoader implements OnInit {
+export class SignInComponent extends LoaderSupporter implements OnInit {
 
   private authenticationFacade = inject(AuthenticationFacade);
 
@@ -25,6 +26,8 @@ export class SignInComponent extends AuthenticationLoader implements OnInit {
     hasNumber: false,
     hasSpecialChar: false
   }
+
+  override loaderActionEnum: LoaderActionEnum = LoaderActionEnum.USER_AUTHENTICATION;
 
   ngOnInit(): void {
     this.signInFormGroup = new FormGroup({

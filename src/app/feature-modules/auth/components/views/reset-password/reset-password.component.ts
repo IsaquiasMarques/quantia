@@ -1,9 +1,10 @@
 import { Component, OnInit, computed, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AuthenticationLoader } from '@core/classes/abstracts/authentication-loader.class';
+import { LoaderSupporter } from '@core/classes/abstracts/loader-supporter.class';
 import { RedirectTo } from '@core/classes/redirect.class';
 import { translateErrorMessage } from '@core/constants/errors/message-translator';
+import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
 import { LogStatus, PopupLogService } from '@core/services/loggers/pop-up-log.service';
 import { AuthenticationFacade } from '@feature-modules/auth/facades/authentication.facade';
 
@@ -13,7 +14,7 @@ import { AuthenticationFacade } from '@feature-modules/auth/facades/authenticati
   styleUrl: './reset-password.component.css'
 })
 export class ResetPasswordComponent
-extends AuthenticationLoader
+extends LoaderSupporter
 implements OnInit {
   private popup = inject(PopupLogService);
   private authenticationFacade = inject(AuthenticationFacade);
@@ -23,6 +24,8 @@ implements OnInit {
 
   passwordResetFormGroup: any;
   submitted: boolean = false;
+
+  override loaderActionEnum: LoaderActionEnum = LoaderActionEnum.USER_AUTHENTICATION;
 
   passwordFieldIsFocused = false;
   passwordCriteria = {

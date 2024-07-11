@@ -1,18 +1,22 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { AccountRoutingModule } from './account-routing.module';
 import { AccountComponent } from './components/containers/account.component';
 import { DashboardComponent } from './components/views/dashboard/dashboard.component';
+import { HeaderComponent } from './partials/header/header.component';
+import { SharedModule } from '@shared/shared.module';
+import { TipsComponent } from '@shared/components/singleton/tips/tips.component';
 
 
 @NgModule({
   declarations: [
     AccountComponent,
-    DashboardComponent
+    DashboardComponent,
+    HeaderComponent
   ],
   imports: [
-    CommonModule,
+    SharedModule,
+    TipsComponent,
     AccountRoutingModule
   ]
 })

@@ -1,14 +1,17 @@
 import { Injectable, inject, signal } from "@angular/core";
 import { AuthenticationContext } from "@core/strategies/authentication/authentication.context";
 import { SupabaseService } from "../supabase/supabase.service";
-import { User } from "@core/classes/User/user.class";
-import { UserService } from "../user/user.service";
+import { User } from "@core/classes/entities/User/user.class";
+import { UserService } from "../entities/user/user.service";
 import { Router } from "@angular/router";
 import { LogStatus, PopupLogService } from "../loggers/pop-up-log.service";
 import { AuthChangeEvent, Session, SupabaseClient, isAuthApiError } from "@supabase/supabase-js";
 import { SupabaseAuthClient } from "@supabase/supabase-js/dist/module/lib/SupabaseAuthClient";
 import { Observable } from "rxjs";
 import { translateErrorMessage } from "@core/constants/errors/message-translator";
+import { SECRET_COFING } from "@core/config/secret.config";
+import { IPlan } from "@core/models/entities/plan.model";
+import { IUser } from "@core/models/entities/user.model";
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +30,7 @@ export class AuthService extends AuthenticationContext{
     ){
         super();
         this.supabaseService.supabase.auth.onAuthStateChange((event, session) => {
-            console.log(event, session);
+            // console.log(event, session);
             switch(event){
                 case 'INITIAL_SESSION':
                     break;
@@ -69,25 +72,21 @@ export class AuthService extends AuthenticationContext{
     }
 
     private setUserFromSession(session: Session, authType: 'normal' | 'recovery'){
-        let user = new User(
-            session.user.id,
-            session.user.user_metadata['fullname'],
-            session.user.user_metadata['avatar'],
-            session.user.email,
-            session.access_token,
-            session.expires_in,
-            session.expires_at,
-            authType
-        );
+        let user: User = new User({
+            id: session.user.id,
+            fullname: session.user.user_metadata['full_name'],
+            avatar: session.user.user_metadata['avatar_url'],
+            email: session.user.email!,
+            token: session.access_token,
+            expiresIn: session.expires_in,
+            expiresAt: session.expires_at,
+            authType: authType
+        });
         this.userService.setUser(user);
     }
 
     changeEvent(): AuthChangeEvent{
         return this.authChangeEvent;
-    }
-
-    get supabaseClient(): SupabaseClient{
-        return this.supabaseService.supabase;
     }
 
     get auth(): SupabaseAuthClient{

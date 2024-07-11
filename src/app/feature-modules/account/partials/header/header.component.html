@@ -1,0 +1,24 @@
+<header class="bg-white/50 darks:bg-primary/50 sticky top-0 backdrop-blur-[25px] shadow-[0px_1px_10px_rgba(0,0,0,9%)]">
+    <div class="header-content py-5">
+        <div class="limited-container flex justify-between items-center">
+            <div class="menu-hamburger">
+                <a class="darks:bg-[#EFEFEF] w-10 h-10 flex justify-center items-center rounded-full">
+                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 6.5H3" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M15 12.5H3" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M17 18.5H3" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="user-circle relative overflow-hidden cursor-pointer font-outfit font-semibold w-10 h-10 flex justify-center items-center bg-primary darks:bg-[#EFEFEF] rounded-full">
+                @if(auth.user?.avatar){
+                    <div class="avatar w-full h-full">
+                        <img [src]="auth.user?.avatar" alt="">
+                    </div>
+                } @else {
+                    <p class="text-white darks:text-primary">{{ (auth.user?.firstName ?? auth.user?.email) | getTheInitials }}</p>
+                }
+            </div>
+        </div>
+    </div>
+</header>

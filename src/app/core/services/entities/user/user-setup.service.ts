@@ -1,12 +1,7 @@
-import { Injectable } from "@angular/core";
-import { User } from "@core/classes/User/user.class";
+import { User } from "@core/classes/entities/User/user.class";
 import { BehaviorSubject, Observable } from "rxjs";
 
-@Injectable({
-    providedIn: 'root'
-})
-export class UserService{
-
+export class UserSetup{
     private userSubject: BehaviorSubject<User | null>;
     private user$: Observable<User | null>;
 
@@ -30,5 +25,4 @@ export class UserService{
     clearUser(){
         this.userSubject.next(null);
     }
-
 }

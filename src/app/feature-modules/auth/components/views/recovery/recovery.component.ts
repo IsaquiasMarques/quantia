@@ -1,7 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, computed, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationLoader } from '@core/classes/abstracts/authentication-loader.class';
+import { LoaderSupporter } from '@core/classes/abstracts/loader-supporter.class';
+import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
 import { AuthenticationFacade } from '@feature-modules/auth/facades/authentication.facade';
 
 @Component({
@@ -9,12 +10,14 @@ import { AuthenticationFacade } from '@feature-modules/auth/facades/authenticati
   templateUrl: './recovery.component.html',
   styleUrl: './recovery.component.css'
 })
-export class RecoveryComponent extends AuthenticationLoader implements OnInit {
+export class RecoveryComponent extends LoaderSupporter implements OnInit {
 
   private authenticationFacade = inject(AuthenticationFacade);
   private location = inject(Location);
 
   recoveryFormGroup: any;
+
+  override loaderActionEnum: LoaderActionEnum = LoaderActionEnum.USER_AUTHENTICATION;
 
   ngOnInit(): void {
     this.recoveryFormGroup = new FormGroup({

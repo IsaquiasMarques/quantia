@@ -1,0 +1,15 @@
+<input type="checkbox" class="hidden" [(ngModel)]="enabled" >
+<div class="toggle-container duration-[300ms] cursor-pointer w-[38px] h-[20px] p-[3px] relative rounded-full"
+[ngClass]="{
+    'bg-primary': enabled(),
+    'bg-[#F2F2F2]': !enabled(),
+}"
+(click)="changeState()"
+>
+    <div class="selector duration-[300ms] absolute w-[14px] h-[14px] bg-white rounded-full"
+    [ngClass]="{
+        'bg-white right-[3px]': enabled(),
+        'bg-[#D9D9D9] right-[21px]': !enabled()
+    }"
+    ></div>
+</div>

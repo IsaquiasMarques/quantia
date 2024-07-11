@@ -8,7 +8,7 @@ export class AuthenticationContext implements IAuthentication{
         this.strategy = strategy;
     }
 
-    login(...args: any[]) {
+    login(...args: any) {
         this.strategy.login(...args);
     }
 

@@ -1,7 +1,5 @@
 import { Injectable, inject } from "@angular/core";
-import { Router } from "@angular/router";
 import { RedirectTo } from "@core/classes/redirect.class";
-import { AuthenticationConnstants } from "@core/constants/authentication.const";
 import { translateErrorMessage } from "@core/constants/errors/message-translator";
 import { LoaderActionEnum } from "@core/enums/loader/loader.enum";
 import { IAuthentication } from "@core/interfaces/authentication/IAuthentication";
@@ -10,7 +8,7 @@ import { AuthService } from "@core/services/auth/auth.service";
 import { Loader } from "@core/services/loader/loader.service";
 import { LogStatus, PopupLogService } from "@core/services/loggers/pop-up-log.service";
 import { SupabaseService } from "@core/services/supabase/supabase.service";
-import { AuthError, isAuthApiError } from "@supabase/supabase-js";
+import { isAuthApiError } from "@supabase/supabase-js";
 
 @Injectable({
     providedIn: 'root'
@@ -40,7 +38,7 @@ export class EmailPasswordAuthStrategy implements IAuthentication{
             }
         } catch (error: any) {
             this.loggerService.add("Erro ao fazer login: " + error.message, LogStatus.ERROR);
-            console.log("Erro ao fazer login: " + error.message);
+            console.error("Erro ao fazer login: " + error.message);
             throw new Error("Error during sign-in: " + error);
 
         } finally {
@@ -62,7 +60,7 @@ export class EmailPasswordAuthStrategy implements IAuthentication{
             }
         } catch (error: any) {
             this.loggerService.add("Erro ao registrar: " + error.message, LogStatus.ERROR);
-            console.log("Erro ao registrar: " + error.message);
+            console.error("Erro ao registrar: " + error.message);
             throw new Error("Error during registration: " + error);
         } finally {
             this.loaderService.changeState(LoaderActionEnum.USER_AUTHENTICATION, false);
@@ -90,7 +88,7 @@ export class EmailPasswordAuthStrategy implements IAuthentication{
 
         } catch (error: any){
             this.loggerService.add("Erro ao tentar acessar a página de reset da senha: " + translateErrorMessage(error.message), LogStatus.ERROR);
-            console.log("Erro ao tentar acessar a página de reset da senha: " + translateErrorMessage(error.message));
+            console.error("Erro ao tentar acessar a página de reset da senha: " + translateErrorMessage(error.message));
             throw new Error("Error while trying call reset-password page: " + translateErrorMessage(error.message));
         } finally {
             this.loaderService.changeState(LoaderActionEnum.USER_AUTHENTICATION, false);
@@ -118,7 +116,7 @@ export class EmailPasswordAuthStrategy implements IAuthentication{
 
         } catch (error: any) {
             this.loggerService.add("Erro ao resetar a senha: " + translateErrorMessage(error.message), LogStatus.ERROR);
-            console.log("Erro ao resetar a senha: " + translateErrorMessage(error.message));
+            console.error("Erro ao resetar a senha: " + translateErrorMessage(error.message));
             throw new Error("Error during password reseting: " + translateErrorMessage(error.message));
         } finally {
             this.loaderService.changeState(LoaderActionEnum.USER_AUTHENTICATION, false);

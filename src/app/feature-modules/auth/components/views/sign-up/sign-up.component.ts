@@ -1,6 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationLoader } from '@core/classes/abstracts/authentication-loader.class';
+import { LoaderSupporter } from '@core/classes/abstracts/loader-supporter.class';
+import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
 import { EmailPasswordAuthentication } from '@core/models/authentication/email-password.model';
 import { AuthenticationFacade } from '@feature-modules/auth/facades/authentication.facade';
 import { Provider } from '@supabase/supabase-js';
@@ -10,12 +11,14 @@ import { Provider } from '@supabase/supabase-js';
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css'
 })
-export class SignUpComponent extends AuthenticationLoader {
+export class SignUpComponent extends LoaderSupporter {
 
   private authenticationFacade = inject(AuthenticationFacade);
 
   signUpFormGroup: any;
   submitted: boolean = false;
+
+  override loaderActionEnum: LoaderActionEnum = LoaderActionEnum.USER_AUTHENTICATION;
 
   passwordFieldIsFocused = false;
   passwordCriteria = {
@@ -86,7 +89,7 @@ export class SignUpComponent extends AuthenticationLoader {
   }
 
   signUpWithOAuth(provider: Provider){
-    this.authenticationFacade.OAuthLogin(provider);
+    this.authenticationFacade.OAuthLogin(provider, 'register');
   }
 
   signUpWithEmailPassword(userData: EmailPasswordAuthentication){

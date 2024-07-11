@@ -23,9 +23,9 @@ export class AuthenticationFacade implements OnInit{
     return this.authService.auth;
   }
 
-  OAuthLogin(provider: Provider): any{
+  OAuthLogin(provider: Provider, origin: 'login' | 'register' = 'login'): any{
     this.authService.setStrategy(this.oauthStrategy);
-    this.authService.login(provider);
+    this.authService.login(provider, origin);
   }
 
   EmailPasswordLogin(data: EmailPasswordAuthentication): any{

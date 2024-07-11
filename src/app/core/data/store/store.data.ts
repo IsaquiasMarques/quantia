@@ -1,27 +1,21 @@
 import { Injectable } from "@angular/core";
+import { SECRET_COFING } from "@core/config/secret.config";
+import { IStore } from "@core/interfaces/store.model";
+import { IPlan } from "@core/models/entities/plan.model";
+import { BehaviorSubject, map, Observable, take, tap } from "rxjs";
+import { StoreMeta } from "./store-meta.data";
 
 @Injectable({
     providedIn: 'root'
 })
-export class Store{
+export class Store extends StoreMeta{
 
-    private storeObj = {
+    get(): Observable<IStore>{
+        return this.storeObj.asObservable();
+    }
 
-        profile: {
-            user: {
-                first_name: '',
-                last_name: '',
-                plan: '',
-                settings: {
-                    language: '',
-                    theme: '',
-                }
-            }
-        },
-        cards: {
-            
-        }
-
+    set(object: IStore): void{
+        this.storeObj.next(object);
     }
 
 }

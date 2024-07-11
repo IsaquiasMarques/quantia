@@ -1,4 +1,4 @@
-import { OTPAuth } from "@core/models/otpauth.model";
+import { OTPAuth } from "@core/models/authentication/otpauth.model";
 import { AuthenticationContext } from "./authentication.context";
 import { IAuthentication } from "@core/interfaces/authentication/IAuthentication";
 import { SupabaseService } from "@core/services/supabase/supabase.service";

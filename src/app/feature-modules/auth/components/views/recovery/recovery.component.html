@@ -48,7 +48,7 @@
                                 [disabled]="this.recoveryFormGroup.invalid"
                                 type="submit"
                                 class="focus:outline-none disabled:cursor-auto px-5 py-4 font-outfit w-full duration-[.2s] bg-primary disabled:bg-primary/80 border-[2px] border-white hover:enabled:border-primary hover:enabled:bg-white text-white hover:enabled:text-primary font-medium rounded-full text-sm">
-                                @if (!authLoader$()) {
+                                @if (!loader$()) {
                                     <span class="font-outfit">Enviar</span>
                                 } @else {
                                     <app-load-spinner />

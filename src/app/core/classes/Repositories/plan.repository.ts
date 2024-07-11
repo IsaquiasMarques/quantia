@@ -1,4 +1,4 @@
-import { Plan } from "../Plan/plan.class";
+import { Plan } from "../entities/Plan/plan.class";
 
 export class PlanRepository{
 
@@ -19,8 +19,8 @@ export class PlanRepository{
         return plan;
     }
 
-    getPlanById(id: string): Plan | undefined{
-        return this.plans.find(plan => plan.planId === id);
-    }
+    // getPlanById(id: string): Plan | undefined{
+    //     return this.plans.find(plan => plan.planId === id);
+    // }
 
 }

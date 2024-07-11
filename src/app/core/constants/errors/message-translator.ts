@@ -9,5 +9,6 @@ const errorTranslations: { [key: string]: string } = {
     "Invalid JWT": "JWT inválido",
     "New password should be different from the old password." : "A nova senha deve ser diferente da senha antiga",
     "For security purposes, you can only request this once every 60 seconds": "Por motivos de segurança, você só pode solicitar isso uma vez a cada 60 segundos",
-    "Failed to fetch": ""
+    "Failed to fetch": "",
+    "new row violates row-level security policy for table \"settings\"": "Nova linha viola a política de segurança em nível de linha para tabela \"settings\""
 };
