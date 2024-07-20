@@ -8,7 +8,7 @@ import { RecoveryComponent } from './components/views/recovery/recovery.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SignInComponent } from './components/views/sign-in/sign-in.component';
 import { SharedModule } from '@shared/shared.module';
-import { LoadSpinnerComponent } from 'src/app/singleton-components/load-spinner/load-spinner.component';
+import { LoadSpinnerComponent } from 'src/app/components/load-spinner/load-spinner.component';
 import { ResetPasswordComponent } from './components/views/reset-password/reset-password.component';
 
 

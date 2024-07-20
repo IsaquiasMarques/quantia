@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, HostListener, signal, WritableSignal } from "@angular/core";
+import { AfterViewInit, Directive, ElementRef, EventEmitter, HostListener, Output, signal, WritableSignal } from "@angular/core";
 import { LoaderSupporter } from "./loader-supporter.class";
 import { ControlledScrollControls } from "@core/interfaces/controlled-scroll-controls.interface";
 
@@ -9,6 +9,7 @@ export class ControlledScrollWithLoader extends LoaderSupporter implements Contr
     private initialY: number | null = null;
     
     protected activeIndex = 0;
+    @Output() protected activeIndexEventEmitter: EventEmitter<number> = new EventEmitter<number>();
     protected itemsArray: any[] = [];
 
     scrollerElementRef!: ElementRef<HTMLElement>;
@@ -37,18 +38,18 @@ export class ControlledScrollWithLoader extends LoaderSupporter implements Contr
     
     next(){
         if(this.activeIndex === this.itemsArray.length - 1){
-        return;
+            return;
         }else{
-        this.activeIndex++;
+            this.activeIndex++;
         }
         this.scrollToActiveIndex(this.activeIndex);
     }
 
     prev(){
         if(this.activeIndex === 0){
-        return;
+            return;
         }else { 
-        this.activeIndex--;
+            this.activeIndex--;
         }
         this.scrollToActiveIndex(this.activeIndex);
     }
@@ -63,6 +64,8 @@ export class ControlledScrollWithLoader extends LoaderSupporter implements Contr
         let scrollerElementRefChildrensAsHtmlElement = this.scrollerElementRef.nativeElement.childNodes[TIPS_CONTAINER_INDEX] as HTMLElement;
         let getActiveItemByActiveIndexAsHtmlElement = scrollerElementRefChildrensAsHtmlElement.children[activeIndex] as HTMLElement;
         this.scrollerElementRef.nativeElement.scrollTo(getActiveItemByActiveIndexAsHtmlElement.offsetLeft - this.paddingX(), 0)
+        
+        this.activeIndexEventEmitter.emit(this.activeIndex);
     }
 
     @HostListener('touchstart', ['$event'])

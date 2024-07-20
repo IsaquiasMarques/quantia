@@ -1,3 +1,4 @@
+import { IconEnum } from "@core/enums/icon.enum"
 import { ICardObjective } from "./card-objective.model"
 import { ICardSettings } from "./card-settings.model"
 import { IGoal } from "./goals.model"
@@ -7,5 +8,7 @@ export interface ICard{
     name: string,
     objective: ICardObjective,
     settings: ICardSettings,
-    goals: IGoal[]
+    iconRef: IconEnum,
+    goals: IGoal[],
+    amount: number
 }

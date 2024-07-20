@@ -10,6 +10,8 @@ import { LogStatus, PopupLogService } from "@core/services/loggers/pop-up-log.se
 import { ICard } from "@core/models/entities/cards.model";
 import { ICardObjective } from "@core/models/entities/card-objective.model";
 import { ICardSettings } from "@core/models/entities/card-settings.model";
+import { IGoal } from "@core/models/entities/goals.model";
+import { IGoalAmount } from "@core/models/entities/goal-amount.model";
 
 @Injectable({
     providedIn: 'root'
@@ -28,8 +30,9 @@ export class UserService extends UserSetup{
 
     myCards(): Observable<ICard[]>{
         return from(
-            this.supabase.supabase.from('users').select('cards(id,name, objective_id:cardObjectives(*), cardSettings(id,highlightColor, currency_id:currencies(id,name,description)))').single()
+            this.supabase.supabase.from('users').select('cards(id,name,created_at,icon_reference, objective_id:cardObjectives(id,description), cardSettings(id,highlightColor, currency_id:currencies(id,name,description)), cardGoals(id,name,description,achievement_amount,goal_icon, goalAmount(id,amount)))').order('created_at', { referencedTable: 'cards' ,ascending: true }).single()
         ).pipe(
+            tap(console.log),
             map(response => {
                 let data = response.data;
                 let cards: ICard[] = [];
@@ -54,13 +57,33 @@ export class UserService extends UserSetup{
                                     description: card.cardSettings[0].currency_id.description
                                 }
                             }
+
+                            let cardGoals: IGoal[] = [];
+                            let cardAmount: number = 0;
+                            card.cardGoals.forEach((goal: any) => {
+
+                                let goalAmount: IGoalAmount;
+                                goalAmount = (goal.goalAmount.length > 0) ? goal.goalAmount[0] : { id: 'empty', amount: 0 };
+                                cardAmount += goalAmount.amount;
+
+                                cardGoals.push({
+                                    id: goal.id,
+                                    name: goal.name,
+                                    description: goal.description,
+                                    iconRef: goal.goal_icon,
+                                    achievement_amount: goal.achievement_amount,
+                                    goal_amount: goalAmount
+                                });
+                            });
     
                             cards.push({
                                 id: card.id,
                                 name: card.name,
+                                iconRef: card.icon_reference,
                                 objective: cardObjective,
                                 settings: cardSettings,
-                                goals: []
+                                goals: cardGoals,
+                                amount: cardAmount
                             });
     
                         });

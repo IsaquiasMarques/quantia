@@ -1,0 +1,40 @@
+<div class="my-cards-container">
+    <div class="section-header py-[10px]">
+        <div class="limited-container" #sectionHeaderLimitedContainer>
+            <h1 class="uppercase text-lg font-medium font-outfit text-primary leading-[23px]">
+                {{ sectionTitle }}
+            </h1>
+        </div>
+    </div>
+    <div class="section-content py-[25px] w-full overflow-hidden" #cardsContentScroller>
+        @if (this.loader$()) {
+            <div class="spinner flex justify-center">
+                <app-load-spinner />
+            </div>
+            
+        } @else {
+            @if (cards.length > 0) {
+                <div class="cards-container w-max flex gap-[15px] justify-start items-stretch"
+                [style.paddingLeft.px]="this.paddingX()"
+                [style.paddingRight.px]="this.paddingX()"
+                >
+                    @for (card of cards; track $index) {
+                        <app-square-card
+                        [icon]="{ ref: card.iconRef, color: 'white' }"
+                        [title]="card.name"
+                        [description]="card.objective.description"
+                        [highlightColor]="card.settings.highlightColor"
+                        [tinyRightText]="card.settings.currency.name"
+                        [amount]="card.amount"
+                        />
+                    }
+                </div>
+            } @else {
+                <div class="h-[181px]">
+                    <p class="text-center text-base font-outfit font-medium">Sem informações para mostrar</p>
+                </div>
+            }
+        }
+    </div>
+</div>
+

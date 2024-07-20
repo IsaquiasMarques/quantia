@@ -1,9 +1,25 @@
 <div class="dashboard-wrapper">
     <div class="content-wrapper">
-        <div class="cards-section">
-            <app-cards-with-scroll
-            [cards]="cards"
+        <div class="general-quantia-section">
+            <app-square-cards-with-scroll
+            [sectionTitle]="'Quantia geral'"
+            [cards]="generalCards"
             />
+        </div>
+        <div class="quantia-by-cards-section">
+            <app-square-cards-with-scroll
+            [sectionTitle]="'Quantia por cartão'"
+            [cards]="cards"
+            (activeIndexEventEmitter)="activeIndexEventListener($event)"
+            />
+        </div>
+        <div class="goals-by-active-card-section">
+            @if (this.cards.length > 0) {
+                <app-rectangle-cards-with-scroll
+                [sectionTitle]="'Metas'"
+                [goals]="cards[activeCardIndex()].goals"
+                />
+            }
         </div>
     </div>
 </div>

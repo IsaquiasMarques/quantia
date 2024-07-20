@@ -2,9 +2,12 @@ import { Directive, inject } from "@angular/core";
 import { LoaderActionEnum } from "@core/enums/loader/loader.enum";
 import { ICard } from "@core/models/entities/cards.model";
 import { Loader } from "@core/services/loader/loader.service";
+import { Unsubscriber } from "../unsubscriber.class";
+import { IconEnum } from "@core/enums/icon.enum";
+import { ICurrency } from "@core/models/entities/currencies.model";
 
 @Directive()
-export class DashboardMicroTasks{
+export class DashboardMicroTasks extends Unsubscriber{
 
     protected loader = inject(Loader);            
     
@@ -17,6 +20,43 @@ export class DashboardMicroTasks{
           this.loader.changeStateAfterFirstResponseIsEmpty(LoaderActionEnum.CARDS, false);
           return [];
         }
+    }
+
+    getGeneralAmountCardsMicroTask(incoming: ICard[]): ICard[]{
+      let currencies: ICurrency[] = [];
+      let artificialCards: ICard[] = [];
+      incoming.forEach(card => {
+        currencies.push(card.settings.currency);
+      })
+          
+      if(currencies.length > 0){
+        currencies.forEach(currency => {
+
+          let cardsWithTheCurrency = incoming.filter(card => card.settings.currency.id === currency.id);
+          let artificialCardAmount = cardsWithTheCurrency.reduce((total: number, card: ICard) => total + card.amount, 0)
+
+          let existentCard = artificialCards.findIndex(card => card.settings.currency.id === currency.id);
+          if(existentCard !== -1) return;
+          artificialCards.push({
+            id: '',
+            name: ('Total - ' + currency.name).toUpperCase(),
+            objective: {
+              id: '',
+              description: 'Contabilidade Geral'
+            },
+            settings: {
+              id: '',
+              highlightColor: '#16171D',
+              currency: currency
+            },
+            iconRef: IconEnum.MONEY,
+            goals: [],
+            amount: artificialCardAmount
+          });
+        })
+      }
+
+      return artificialCards;
     }
 
 }

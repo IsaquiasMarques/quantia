@@ -1,0 +1,39 @@
+<div class="card w-[204px] min-h-[181px] h-full border border-[#DCDCDC] rounded-[15px] p-[15px] flex flex-col justify-between items-start">
+    <div class="card-header w-full flex justify-between items-center">
+        <div class="icon w-[34px] h-[34px] flex justify-center items-center rounded-[10px]"
+        [style.backgroundColor]="this.highlightColor"
+        >
+            <app-icon
+            [icon]="this.icon"
+            />
+        </div>
+
+        <div class="card-dots h-max">
+            <a>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+    <div class="card-body w-full">
+        <h1 class="font-outfit text-[1.25rem] limited-text two-lines leading-[25px] text-left text-primary">
+            {{ this.title }}
+        </h1>
+        <p class="text-xs font-outfit text-mediumGray">
+            {{ this.description }}
+        </p>
+    </div>
+    <div class="card-footer w-full flex justify-between items-center">
+        <div class="amount max-w-[130px]">
+            <p class="text-[20px] text-primary font-outfit font-semibold limited-text one-line">
+                {{ this.amount | number | format }} <span class="opacity-0">br</span>
+            </p>
+        </div>
+        <div class="currency">
+            <p class="text-xs font-outfit text-mediumGray limited-text one-line">{{ this.tinyRightText }}</p>
+        </div>
+    </div>
+</div>

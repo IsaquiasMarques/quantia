@@ -17,7 +17,7 @@ import { TipsComponent } from '@shared/components/singleton/tips/tips.component'
   imports: [
     SharedModule,
     TipsComponent,
-    AccountRoutingModule
+    AccountRoutingModule,
   ]
 })
 export class AccountModule { }
