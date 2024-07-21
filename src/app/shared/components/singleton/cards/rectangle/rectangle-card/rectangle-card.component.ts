@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { ICurrency } from '@core/models/entities/currencies.model';
 import { Icon } from '@core/models/icon.model';
 import { IconComponent } from '@shared/components/singleton/icon/icon.component';
 import { FormatPipe } from '@shared/pipes/number/format.pipe';
@@ -20,4 +21,5 @@ export class RectangleCardComponent {
   @Input() description: string = '';
   @Input() achievement: number = 0;
   @Input() amount: number = 0;
+  @Input() currency!: ICurrency;
 }

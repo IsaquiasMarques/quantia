@@ -2,6 +2,7 @@ import { Component, ElementRef, inject, Input, OnChanges, OnInit, SimpleChanges,
 import { ControlledScrollWithLoader } from '@core/classes/abstracts/controlled-scroll-with-loader.class';
 import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
 import { ICard } from '@core/models/entities/cards.model';
+import { ICurrency } from '@core/models/entities/currencies.model';
 import { IGoal } from '@core/models/entities/goals.model';
 import { Loader } from '@core/services/loader/loader.service';
 
@@ -16,6 +17,7 @@ implements OnInit, OnChanges {
   public loader = inject(Loader);
   @Input() sectionTitle: string = '';
   @Input() goals: IGoal[] = [];
+  @Input() cardCurrency!: ICurrency;
   
   override loaderActionEnum: LoaderActionEnum = LoaderActionEnum.CARDS;
 

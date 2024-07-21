@@ -30,7 +30,7 @@ export class UserService extends UserSetup{
 
     myCards(): Observable<ICard[]>{
         return from(
-            this.supabase.supabase.from('users').select('cards(id,name,created_at,icon_reference, objective_id:cardObjectives(id,description), cardSettings(id,highlightColor, currency_id:currencies(id,name,description)), cardGoals(id,name,description,achievement_amount,goal_icon, goalAmount(id,amount)))').order('created_at', { referencedTable: 'cards' ,ascending: true }).single()
+            this.supabase.supabase.from('users').select('cards(id,name,created_at,icon_reference, objective_id:cardObjectives(id,description), cardSettings(id,highlightColor, currency_id:currencies(id,name,description)), cardGoals(id,name,description,achievement_amount,goal_icon, goalAmount(id,amount)))').order('created_at', { referencedTable: 'cards', ascending: true }).single()
         ).pipe(
             tap(console.log),
             map(response => {

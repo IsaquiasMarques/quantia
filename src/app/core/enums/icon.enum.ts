@@ -5,5 +5,6 @@ export enum IconEnum{
     CAR = 'car',
     HOUSE = 'house',
     FLAG = 'flag',
-    HEALTH = 'health'
+    HEALTH = 'health',
+    HEART = 'heart'
 }

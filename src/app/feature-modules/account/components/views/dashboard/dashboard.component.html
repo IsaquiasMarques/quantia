@@ -18,6 +18,7 @@
                 <app-rectangle-cards-with-scroll
                 [sectionTitle]="'Metas'"
                 [goals]="cards[activeCardIndex()].goals"
+                [cardCurrency]="cards[activeCardIndex()].settings.currency"
                 />
             }
         </div>
