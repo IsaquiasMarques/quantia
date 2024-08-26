@@ -30,6 +30,7 @@ implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.itemsArray = this.goals;
+    this.activeIndex = 0;
   }
   
   override bootstrap(){
