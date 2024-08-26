@@ -26,6 +26,10 @@ export class Loader{
         {
             action: LoaderActionEnum.CARDS,
             loading: signal(false)
+        },
+        {
+            action: LoaderActionEnum.GOALS,
+            loading: signal(false)
         }
     ];
 
@@ -39,10 +43,10 @@ export class Loader{
         return theLoader?.loading;
     }
 
-    changeStateAfterFirstResponseIsEmpty(action: LoaderActionEnum, state: boolean, timeOut: number = 3){
+    changeStateAfterFirstResponseIsEmpty(action: LoaderActionEnum, state: boolean, timeOutInSeconds: number = 3){
         setTimeout(() => {
             this.changeState(action, state);
-        }, timeOut * 1000)
+        }, timeOutInSeconds * 1000)
     }
 
 }

@@ -1,0 +1,11 @@
+<div class="section-points py-[10px] w-full">
+    <div class="points flex gap-1 justify-center items-center">
+        @for (point of itemsArray; track $index) {
+            <div class="point duration-[.3s] w-2 h-2 rounded-full bg-primary/15"
+            [ngClass]="{
+                '!w-7 !bg-primary': $index === activeIndex
+            }"
+            ></div>
+        }
+    </div>
+</div>

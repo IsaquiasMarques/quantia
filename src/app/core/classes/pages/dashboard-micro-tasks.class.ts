@@ -5,14 +5,16 @@ import { Loader } from "@core/services/loader/loader.service";
 import { Unsubscriber } from "../unsubscriber.class";
 import { IconEnum } from "@core/enums/icon.enum";
 import { ICurrency } from "@core/models/entities/currencies.model";
+import { IGoal } from "@core/models/entities/goals.model";
 
 @Directive()
 export class DashboardMicroTasks extends Unsubscriber{
 
     protected loader = inject(Loader);            
     
-    getCardsMicroTask(incoming: ICard[]){
+    getCardsWithLoadingMicroTask(incoming: ICard[]){
         let cards: ICard[] = incoming;
+
         if(cards.length > 0){
           this.loader.changeState(LoaderActionEnum.CARDS, false);
           return cards;
@@ -21,6 +23,18 @@ export class DashboardMicroTasks extends Unsubscriber{
           return [];
         }
     }
+
+    getCardGoalsWithLoadingMicroTask(incoming: IGoal[]){
+      let goals: IGoal[] = incoming;
+
+      if(goals.length > 0){
+        this.loader.changeState(LoaderActionEnum.GOALS, false);
+        return goals;
+      } else {
+        this.loader.changeStateAfterFirstResponseIsEmpty(LoaderActionEnum.GOALS, false, 1.5);
+        return [];
+      }
+  }
 
     getGeneralAmountCardsMicroTask(incoming: ICard[]): ICard[]{
       let currencies: ICurrency[] = [];
@@ -50,7 +64,6 @@ export class DashboardMicroTasks extends Unsubscriber{
               currency: currency
             },
             iconRef: IconEnum.MONEY,
-            goals: [],
             amount: artificialCardAmount
           });
         })

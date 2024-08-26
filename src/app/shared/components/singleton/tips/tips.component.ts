@@ -3,11 +3,17 @@ import { ToggleComponent } from '../toggle/toggle.component';
 import { ITips } from '@core/models/entities/tips.model';
 import { SharedModule } from '@shared/shared.module';
 import { ControlledScrollWithLoader } from '@core/classes/abstracts/controlled-scroll-with-loader.class';
+import { ScrollerPointControllersComponent } from "../scroller-point-controllers/scroller-point-controllers.component";
+import { BackgroundUrlablePipe } from '@shared/pipes/css-supporter/background-urlable.pipe';
 
 @Component({
   selector: 'app-tips',
   standalone: true,
-  imports: [ToggleComponent, SharedModule],
+  imports: [
+    ToggleComponent,
+    BackgroundUrlablePipe,
+    ScrollerPointControllersComponent
+  ],
   templateUrl: './tips.component.html',
   styleUrl: './tips.component.css'
 })

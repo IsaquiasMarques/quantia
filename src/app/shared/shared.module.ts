@@ -9,11 +9,12 @@ import { IconComponent } from './components/singleton/icon/icon.component';
 import { RectangleCardsWithScrollComponent } from './components/containers/rectangle-cards-with-scroll/rectangle-cards-with-scroll.component';
 import { SquareCardComponent } from './components/singleton/cards/square/square-card.component';
 import { RectangleCardComponent } from './components/singleton/cards/rectangle/rectangle-card/rectangle-card.component';
+import { RouterModule } from '@angular/router';
+import { ScrollerPointControllersComponent } from './components/singleton/scroller-point-controllers/scroller-point-controllers.component';
 
 @NgModule({
   declarations: [
     GetTheInitialsPipe,
-    BackgroundUrlablePipe,
     SquareCardsWithScrollComponent,
     RectangleCardsWithScrollComponent,
     // CardComponent,
@@ -25,15 +26,17 @@ import { RectangleCardComponent } from './components/singleton/cards/rectangle/r
     FormatPipe,
     SquareCardComponent,
     RectangleCardComponent,
+    ScrollerPointControllersComponent,
+    RouterModule
   ],
   exports: [
     CommonModule,
     GetTheInitialsPipe,
-    BackgroundUrlablePipe,
     SquareCardsWithScrollComponent,
     RectangleCardsWithScrollComponent,
     IconComponent,
     FormatPipe,
+    RouterModule,
   ]
 })
 export class SharedModule { }

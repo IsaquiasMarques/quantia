@@ -4,7 +4,9 @@
     </div>
     <div class="body-content flex flex-col gap-y-5">
         <div class="tips-section">
-            <app-tips />
+            <app-tips
+            [captureEvents]="false"
+            />
         </div>
         <div class="account-container">
             <router-outlet />

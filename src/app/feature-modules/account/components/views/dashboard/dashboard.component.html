@@ -1,27 +1,52 @@
 <div class="dashboard-wrapper">
     <div class="content-wrapper">
-        <div class="general-quantia-section">
-            <app-square-cards-with-scroll
-            [sectionTitle]="'Quantia geral'"
-            [cards]="generalCards"
-            />
-        </div>
-        <div class="quantia-by-cards-section">
+        @if(cards.length > 0){
+            <div class="general-quantia-section appear-softly">
+                <app-square-cards-with-scroll
+                [captureEvents]="false"
+                [loaderActionEnum]="this.loaderActionEnum.CARDS"
+                [sectionTitle]="'Quantia geral'"
+                [cards]="generalCards"
+                />
+            </div>
+        }
+        <div class="quantia-by-cards-section appear-softly">
             <app-square-cards-with-scroll
             [sectionTitle]="'Quantia por cartão'"
+            [loaderActionEnum]="this.loaderActionEnum.CARDS"
+            [addCardButton]="{ visibility: true, route: '/account/card/add' }"
             [cards]="cards"
-            (activeIndexEventEmitter)="activeIndexEventListener($event)"
+            (activeIndexEventEmitter)="activeCardListener($event)"
             />
         </div>
-        <div class="goals-by-active-card-section">
-            @if (this.cards.length > 0) {
+        @if (this.cards.length > 0) {
+            <div class="goals-by-active-card-section">
                 <app-rectangle-cards-with-scroll
                 [sectionTitle]="'Metas'"
-                [goals]="cards[activeCardIndex()].goals"
+                [addCardButton]="{ visibility: true, route: '/account/goal/add' }"
+                [loaderActionEnum]="this.loaderActionEnum.GOALS"
+                [goals]="goals"
                 [cardCurrency]="cards[activeCardIndex()].settings.currency"
+                (activeIndexEventEmitter)="activeGoalEventListener($event)"
                 />
-            }
-        </div>
+            </div>
+        }
+        <!-- <div class="transactions-by-active-goal-section appear-softly">
+            <div class="transactions-container">
+                <div class="section-header py-[10px]">
+                    <div class="limited-container flex justify-between items-center" #sectionHeaderLimitedContainer>
+                        <h1 class="uppercase text-lg font-medium font-outfit text-primary leading-[23px]">
+                            Transações
+                        </h1>
+                    </div>
+                </div>
+                <div class="section-content py-[25px] w-full overflow-hidden">
+                   <div class="limited-container">
+                    s
+                   </div>
+                </div>
+            </div>
+        </div> -->
     </div>
 </div>
 

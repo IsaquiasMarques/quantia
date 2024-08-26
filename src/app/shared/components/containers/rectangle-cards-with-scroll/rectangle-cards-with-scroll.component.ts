@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ControlledScrollWithLoader } from '@core/classes/abstracts/controlled-scroll-with-loader.class';
 import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
 import { ICard } from '@core/models/entities/cards.model';
@@ -18,8 +18,7 @@ implements OnInit, OnChanges {
   @Input() sectionTitle: string = '';
   @Input() goals: IGoal[] = [];
   @Input() cardCurrency!: ICurrency;
-  
-  override loaderActionEnum: LoaderActionEnum = LoaderActionEnum.CARDS;
+  @Input() addCardButton: { visibility: boolean, route?: string } = { visibility: false };
 
   // element with overflow hidden
   @ViewChild('goalsContentScroller') goalsContentScroller!: ElementRef<HTMLElement>;

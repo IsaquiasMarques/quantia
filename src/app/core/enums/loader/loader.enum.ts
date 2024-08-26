@@ -3,4 +3,5 @@ export enum LoaderActionEnum{
     SETTINGS = '[user-account] get user settings meta-data',
     PLAN = '[user-account] get user plan meta-data',
     CARDS = '[user-account] get user cards meta-data',
+    GOALS = '[user-account] get user goals meta-data',
 }
