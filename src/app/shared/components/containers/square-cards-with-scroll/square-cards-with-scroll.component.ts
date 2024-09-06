@@ -13,7 +13,6 @@ export class SquareCardsWithScrollComponent
 extends ControlledScrollWithLoader
 implements OnInit, OnChanges {
 
-  public loader = inject(Loader);
   @Input() sectionTitle: string = '';
   @Input() cards: ICard[] = [];
   @Input() addCardButton: { visibility: boolean, route?: string } = { visibility: false }
@@ -22,6 +21,11 @@ implements OnInit, OnChanges {
   @ViewChild('cardsContentScroller') cardsContentScroller!: ElementRef<HTMLElement>;
   @ViewChild('sectionHeaderLimitedContainer') sectionHeaderLimitedContainer!: ElementRef<HTMLElement>
 
+  override bootstrap(){
+    this.scrollerElementRef = this.cardsContentScroller;
+    this.limitedContainerElementRef = this.sectionHeaderLimitedContainer;
+  }
+  
   ngOnInit(): void {
     if(this.captureEvents){
         this.activeIndexEventEmitter.emit(this.activeIndex);
@@ -32,8 +36,4 @@ implements OnInit, OnChanges {
     this.itemsArray = this.cards;
   }
 
-  override bootstrap(){
-    this.scrollerElementRef = this.cardsContentScroller;
-    this.limitedContainerElementRef = this.sectionHeaderLimitedContainer;
-  }
 }

@@ -1,4 +1,4 @@
-import { Directive, inject } from "@angular/core";
+import { computed, Directive, inject } from "@angular/core";
 import { LoaderActionEnum } from "@core/enums/loader/loader.enum";
 import { ICard } from "@core/models/entities/cards.model";
 import { Loader } from "@core/services/loader/loader.service";
@@ -6,11 +6,12 @@ import { Unsubscriber } from "../unsubscriber.class";
 import { IconEnum } from "@core/enums/icon.enum";
 import { ICurrency } from "@core/models/entities/currencies.model";
 import { IGoal } from "@core/models/entities/goals.model";
+import { ITransaction } from "@core/models/entities/transaction.model";
 
 @Directive()
 export class DashboardMicroTasks extends Unsubscriber{
 
-    protected loader = inject(Loader);            
+    protected loader = inject(Loader);
     
     getCardsWithLoadingMicroTask(incoming: ICard[]){
         let cards: ICard[] = incoming;
@@ -34,7 +35,19 @@ export class DashboardMicroTasks extends Unsubscriber{
         this.loader.changeStateAfterFirstResponseIsEmpty(LoaderActionEnum.GOALS, false, 1.5);
         return [];
       }
-  }
+    }
+
+    getTransactionsWithLoadingMicroTask(incoming: ITransaction[]){
+      let transactions: ITransaction[] = incoming;
+
+      if(transactions.length > 0){
+        this.loader.changeState(LoaderActionEnum.TRANSACTIONS, false);
+        return transactions;
+      } else {
+        this.loader.changeStateAfterFirstResponseIsEmpty(LoaderActionEnum.TRANSACTIONS, false);
+        return [];
+      }
+    }
 
     getGeneralAmountCardsMicroTask(incoming: ICard[]): ICard[]{
       let currencies: ICurrency[] = [];

@@ -5,13 +5,10 @@ import { User } from "@core/classes/entities/User/user.class";
 import { UserService } from "../entities/user/user.service";
 import { Router } from "@angular/router";
 import { LogStatus, PopupLogService } from "../loggers/pop-up-log.service";
-import { AuthChangeEvent, Session, SupabaseClient, isAuthApiError } from "@supabase/supabase-js";
+import { AuthChangeEvent, Provider, Session, SupabaseClient, isAuthApiError } from "@supabase/supabase-js";
 import { SupabaseAuthClient } from "@supabase/supabase-js/dist/module/lib/SupabaseAuthClient";
 import { Observable } from "rxjs";
 import { translateErrorMessage } from "@core/constants/errors/message-translator";
-import { SECRET_COFING } from "@core/config/secret.config";
-import { IPlan } from "@core/models/entities/plan.model";
-import { IUser } from "@core/models/entities/user.model";
 
 @Injectable({
     providedIn: 'root'
@@ -33,6 +30,8 @@ export class AuthService extends AuthenticationContext{
             // console.log(event, session);
             switch(event){
                 case 'INITIAL_SESSION':
+                    // if(!session || session?.user.app_metadata.provider === undefined || session?.user.app_metadata['providers'][1] === undefined) return;
+                    // this.identityUnlink(session?.user.app_metadata['providers'][1]);
                     break;
 
                 case 'TOKEN_REFRESHED':
@@ -119,5 +118,13 @@ export class AuthService extends AuthenticationContext{
             console.log("Erro ao fazer o logout: " + error.message);
             throw new Error("Error during sign out: " + error);
         }
+    }
+
+    async identityUnlink(provider: string){
+          
+        const { data: identities } = await this.supabaseService.supabase.auth.getUserIdentities()
+        if(identities === null) return;
+        const googleIdentity = identities.identities.find((identity) => identity.provider === provider)!
+        const { data, error } = await this.supabaseService.supabase.auth.unlinkIdentity(googleIdentity)
     }
 }

@@ -114,6 +114,11 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+:root{
+  --blured-bg-opacity: 50%;
+  --dark-blured-bg-opacity: 50%;
+}
+
 .font-outfit{
   font-family: 'Outfit' !important;
 }

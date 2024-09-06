@@ -14,7 +14,7 @@ import { Loader } from '@core/services/loader/loader.service';
 export class RectangleCardsWithScrollComponent
 extends ControlledScrollWithLoader
 implements OnInit, OnChanges {
-  public loader = inject(Loader);
+  
   @Input() sectionTitle: string = '';
   @Input() goals: IGoal[] = [];
   @Input() cardCurrency!: ICurrency;
@@ -24,8 +24,15 @@ implements OnInit, OnChanges {
   @ViewChild('goalsContentScroller') goalsContentScroller!: ElementRef<HTMLElement>;
   @ViewChild('sectionHeaderLimitedContainer') sectionHeaderLimitedContainer!: ElementRef<HTMLElement>
 
+  override bootstrap(){
+    this.scrollerElementRef = this.goalsContentScroller;
+    this.limitedContainerElementRef = this.sectionHeaderLimitedContainer;
+  }
+  
   ngOnInit(): void {
-    
+    if(this.captureEvents){
+      this.activeIndexEventEmitter.emit(this.activeIndex);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -33,8 +40,4 @@ implements OnInit, OnChanges {
     this.activeIndex = 0;
   }
   
-  override bootstrap(){
-    this.scrollerElementRef = this.goalsContentScroller;
-    this.limitedContainerElementRef = this.sectionHeaderLimitedContainer;
-  }
 }

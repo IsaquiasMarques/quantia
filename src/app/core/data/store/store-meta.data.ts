@@ -3,6 +3,7 @@ import { ICard } from "@core/models/entities/cards.model";
 import { IGoal } from "@core/models/entities/goals.model";
 import { IPlan } from "@core/models/entities/plan.model";
 import { ISetting } from "@core/models/entities/settings.model";
+import { ITransaction } from "@core/models/entities/transaction.model";
 import { BehaviorSubject, map, take, tap } from "rxjs";
 
 export class StoreMeta{
@@ -11,7 +12,12 @@ export class StoreMeta{
         plan: undefined,
         settings: undefined,
         cards: [],
-        goals: { 'empty': [] }
+        goals: { 'empty': [] },
+        transactions: {
+            0: {
+                'empty': []
+            }
+        }
     });
 
     storePlanMeta(plan: IPlan | undefined): void{
@@ -48,14 +54,29 @@ export class StoreMeta{
         this.storeObj.pipe(
             take(1),
             map(data => {
-                if(data.goals[card_id]){
-                    
-                }
                 return {
                     ...data,
                     goals: {
                         ...data.goals,
                         [card_id]: goals
+                    }
+                }
+            })
+        ).subscribe(updated => this.storeObj.next(updated));
+    }
+
+    storeTransactionsMeta(page: number, goal_id: string, transactions: ITransaction[]): void{
+        this.storeObj.pipe(
+            take(1),
+            map(data => {
+                return {
+                    ...data,
+                    transactions: {
+                        ...data.transactions,
+                        [page]: {
+                            ...data.transactions[page],
+                            [goal_id]: transactions
+                        }
                     }
                 }
             })

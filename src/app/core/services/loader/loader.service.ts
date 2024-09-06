@@ -1,4 +1,4 @@
-import { Injectable, Signal, WritableSignal, signal } from "@angular/core";
+import { Injectable, Signal, WritableSignal, computed, signal } from "@angular/core";
 import { LoaderActionEnum } from "@core/enums/loader/loader.enum";
 
 interface ILoader{
@@ -29,6 +29,10 @@ export class Loader{
         },
         {
             action: LoaderActionEnum.GOALS,
+            loading: signal(false)
+        },
+        {
+            action: LoaderActionEnum.TRANSACTIONS,
             loading: signal(false)
         }
     ];

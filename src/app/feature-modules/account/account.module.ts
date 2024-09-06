@@ -6,7 +6,7 @@ import { DashboardComponent } from './components/views/dashboard/dashboard.compo
 import { HeaderComponent } from './partials/header/header.component';
 import { SharedModule } from '@shared/shared.module';
 import { TipsComponent } from '@shared/components/singleton/tips/tips.component';
-
+import { TransactionsComponent } from '@shared/components/views/transactions/transactions.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +18,7 @@ import { TipsComponent } from '@shared/components/singleton/tips/tips.component'
     SharedModule,
     TipsComponent,
     AccountRoutingModule,
+    TransactionsComponent
   ]
 })
 export class AccountModule { }

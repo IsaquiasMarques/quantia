@@ -2,13 +2,12 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { DashboardMicroTasks } from '@core/classes/pages/dashboard-micro-tasks.class';
 import { Actions } from '@core/data/actions/actions.data';
 import { Store } from '@core/data/store/store.data';
-import { IconEnum } from '@core/enums/icon.enum';
 import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
 import { ICard } from '@core/models/entities/cards.model';
-import { ICurrency } from '@core/models/entities/currencies.model';
 import { IGoal } from '@core/models/entities/goals.model';
+import { ITransaction } from '@core/models/entities/transaction.model';
 import { AuthService } from '@core/services/auth/auth.service';
-import { map, takeUntil } from 'rxjs';
+import { map, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,6 +25,7 @@ implements OnInit {
   generalCards: ICard[] = [];
   cards: ICard[] = [];
   goals: IGoal[] = [];
+  transactions: ITransaction[] = [];
 
   loaderActionEnum = LoaderActionEnum;
 
@@ -52,8 +52,11 @@ implements OnInit {
     this.store.getByKey('goals').pipe(
       takeUntil(this.unsubscribe$),
       map((incoming) => {
-        if(!this.cards[this.activeCardIndex()]) return;
-        // console.log(incoming[this.cards[this.activeCardIndex()].id])
+        if(!this.cards[this.activeCardIndex()]) {
+          this.loader.changeState(LoaderActionEnum.GOALS, false);
+          return [];
+        };
+        
         if(incoming[this.cards[this.activeCardIndex()].id]){
           this.goals = this.getCardGoalsWithLoadingMicroTask(incoming[this.cards[this.activeCardIndex()].id]);
         } else {
@@ -66,6 +69,28 @@ implements OnInit {
 
   activeGoalEventListener($event: number){
     this.activeGoalIndex.set($event);
+
+    const DASHBOARD_INITIAL_TRANSACTIONS_PAGE = 1;
+
+    this.loader.changeState(LoaderActionEnum.TRANSACTIONS, true);
+
+    this.store.getByKey('transactions').pipe(
+      takeUntil(this.unsubscribe$),
+      map((incoming) => {
+        if(!this.goals[this.activeGoalIndex()]) {
+          this.loader.changeState(LoaderActionEnum.TRANSACTIONS, false);
+          return [];
+        };
+
+        if(incoming[DASHBOARD_INITIAL_TRANSACTIONS_PAGE] && incoming[DASHBOARD_INITIAL_TRANSACTIONS_PAGE][this.goals[this.activeGoalIndex()].id]){
+          this.transactions = this.getTransactionsWithLoadingMicroTask(incoming[DASHBOARD_INITIAL_TRANSACTIONS_PAGE][this.goals[this.activeGoalIndex()].id]);
+        } else {
+          this.actions.getTransactionsByGoalId(this.goals[this.activeGoalIndex()].id, DASHBOARD_INITIAL_TRANSACTIONS_PAGE);
+        }
+        
+        return incoming;
+      })
+    ).subscribe();
   }
 
   signOut(){

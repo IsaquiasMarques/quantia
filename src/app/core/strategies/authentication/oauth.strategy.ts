@@ -19,6 +19,7 @@ export class OAuthStrategy implements IAuthentication{
                     redirectTo: (origin === 'login') ? environment.domain + '/auth/sign-in' : environment.domain + '/auth/sign-up'
                 }
             });
+
             if(error){
                 console.error(error);
             }

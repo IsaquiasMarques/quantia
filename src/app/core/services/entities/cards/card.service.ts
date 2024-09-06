@@ -36,14 +36,10 @@ export class CardService{
                     )
                 ),
                 cardGoals (
-                    id,
-                    name,
-                    description,
-                    achievement_amount,
-                        goalAmount:goalAmount(
-                            id,
-                            amount
-                        )
+                    goalAmount:goalAmount(
+                        id,
+                        amount
+                    )
                 )
             `)
             .eq('user_id', user?.id)

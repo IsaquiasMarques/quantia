@@ -9,9 +9,9 @@ export interface IStore{
     settings: ISetting | undefined
     cards: ICard[],
     goals: { [card_id: string]: IGoal[] },
-    // transactions: {
-    //     [pageNumber: number]: {
-    //         [goal_id: string]: ITransaction[]
-    //     }
-    // },
+    transactions: {
+        [pageNumber: number]: {
+            [goal_id: string]: ITransaction[]
+        }
+    },
 }

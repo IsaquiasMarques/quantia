@@ -1,0 +1,59 @@
+<div class="limited-container py-[15px] px-[16px] border border-[#DCDCDC] rounded-[10px]">
+    @if (loader$()) {
+        <div class="spinner h-[80px] flex justify-center items-center">
+            <app-load-spinner />
+        </div>
+    } @else {
+        @if(transactions.length > 0){
+
+            <div class="table-container relative">
+                @for (groupDateKey of getDateKeys(this.groupedTransactions); track $index) {
+                    <div class="fixed-cell py-[10px]">
+                        <p class="font-medium font-outfit">
+                            {{ groupDateKey | humanFriendlyDate }}
+                        </p>
+                    </div>
+                    @for (transaction of this.groupedTransactions[groupDateKey]; track $index) {
+                        <div class="cell py-[10px] flex flex-col gap-1 justify-start items-start">
+                            <div class="transaction-description w-full">
+                                <p class="limited-text one-line font-outfit text-mediumGray">
+                                    {{ transaction.description }}
+                                </p>
+                            </div>
+                            <div class="amount flex justify-start text-sm gap-2 items-center w-full"
+                            [ngClass]="{
+                                'text-success': (transaction.destinationGoalId === this.activeGoal?.id),
+                                'text-error': (transaction.originGoalId === this.activeGoal?.id),
+                            }"
+                            >
+                                <div class="icon">
+                                    @if(transaction.destinationGoalId === this.activeGoal?.id){
+                                        <div class="income">
+                                            <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4.375 11.125L10.625 4.875" stroke="#43A747" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M4.375 4.875H10.625V11.125" stroke="#43A747" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                    }  @else if(transaction.originGoalId === this.activeGoal?.id){
+                                        <div class="outcome">
+                                            <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4.375 4.875L10.625 11.125" stroke="#DD2C2C" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M10.625 4.875V11.125H4.375" stroke="#DD2C2C" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </div>
+                                    }
+                                </div>
+                                <p class=" font-outfit limited-tet one-line">
+                                    {{ (transaction.destinationGoalId === this.activeGoal?.id) ? '+' : '-' }} {{ transaction.amount | number | format }} {{ this.activeCard?.settings?.currency?.name }}
+                                </p>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+
+        } @else {
+            <p class=" text-mediumGray">Sem transações resgistradas.</p>
+        }
+    }
+</div>
