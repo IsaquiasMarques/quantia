@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-scroller-point-controllers',
@@ -11,4 +11,11 @@ import { Component, Input } from '@angular/core';
 export class ScrollerPointControllersComponent {
   @Input() itemsArray!: any[];
   @Input() activeIndex!: number;
+  @Input() clickableDotControllers: boolean = true;
+  @Output() gotoIndex: EventEmitter<number> = new EventEmitter<number>();
+
+  goto($index: number){
+    if(!this.clickableDotControllers) return;
+    this.gotoIndex.emit($index);
+  }
 }

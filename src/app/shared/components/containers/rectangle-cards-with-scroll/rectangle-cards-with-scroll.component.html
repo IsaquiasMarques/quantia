@@ -1,4 +1,4 @@
-<div class="my-goals-container">
+<div class="my-goals-container mt-[20px]">
     <div class="section-header py-[10px]">
         <div class="limited-container flex justify-between items-center" #sectionHeaderLimitedContainer>
             <h1 class="uppercase text-lg font-medium font-outfit text-primary leading-[23px]">
@@ -16,7 +16,7 @@
             }
         </div>
     </div>
-    <div class="section-content py-[25px] w-full overflow-hidden" #goalsContentScroller>
+    <div class="section-content py-[20px] w-full overflow-hidden" #goalsContentScroller>
         @if (this.loader$()) {
             <div class="spinner h-[157px] flex justify-center items-center">
                 <app-load-spinner />
@@ -56,6 +56,7 @@
         <app-scroller-point-controllers
         [itemsArray]="itemsArray"
         [activeIndex]="this.activeIndex"
+        (gotoIndex)="gotToIndexEventHandler($event)"
         />
     }
 </div>

@@ -57,6 +57,10 @@ export class ControlledScrollWithLoader extends LoaderSupporter implements Contr
         this.scrollToActiveIndex(this.activeIndex);
     }
 
+    gotToIndexEventHandler($event: number){
+        this.slideTo($event);
+    }
+
     slideTo(index: number){
         this.activeIndex = index;
         this.scrollToActiveIndex(this.activeIndex);

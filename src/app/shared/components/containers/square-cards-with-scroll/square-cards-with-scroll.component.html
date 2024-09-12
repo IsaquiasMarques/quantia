@@ -1,4 +1,4 @@
-<div class="my-cards-container">
+<div class="my-cards-container mt-[20px]">
     <div class="section-header py-[10px]">
         <div class="limited-container flex justify-between items-center" #sectionHeaderLimitedContainer>
             <h1 class="uppercase text-lg font-medium font-outfit text-primary leading-[23px]">
@@ -17,7 +17,7 @@
             }
         </div>
     </div>
-    <div class="section-content py-[25px] w-full overflow-hidden" #cardsContentScroller>
+    <div class="section-content py-[20px] w-full overflow-hidden" #cardsContentScroller>
         @if (this.loader$()) {
             <div class="spinner h-[181px] flex justify-center items-center">
                 <app-load-spinner />
@@ -55,6 +55,7 @@
         <app-scroller-point-controllers
         [itemsArray]="itemsArray"
         [activeIndex]="this.activeIndex"
+        (gotoIndex)="gotToIndexEventHandler($event)"
         />
     }
 </div>

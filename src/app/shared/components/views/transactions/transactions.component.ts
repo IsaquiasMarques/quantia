@@ -1,5 +1,6 @@
 import { DecimalPipe, NgClass } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { LoaderSupporter } from '@core/classes/abstracts/loader-supporter.class';
 import { TransactionOriginType } from '@core/enums/entities/transaction-origin-type.enum';
 import { TransationType } from '@core/enums/entities/transation-type.enum';
@@ -13,7 +14,14 @@ import { LoadSpinnerComponent } from 'src/app/components/load-spinner/load-spinn
 @Component({
   selector: 'app-transactions',
   standalone: true,
-  imports: [LoadSpinnerComponent, NgClass, DecimalPipe, FormatPipe, HumanFriendlyDate],
+  imports: [
+    LoadSpinnerComponent,
+    NgClass,
+    DecimalPipe,
+    FormatPipe,
+    HumanFriendlyDate,
+    RouterLink
+  ],
   templateUrl: './transactions.component.html',
   styleUrl: './transactions.component.css'
 })

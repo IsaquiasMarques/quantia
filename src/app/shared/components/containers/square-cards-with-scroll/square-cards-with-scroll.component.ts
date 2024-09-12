@@ -25,7 +25,7 @@ implements OnInit, OnChanges {
     this.scrollerElementRef = this.cardsContentScroller;
     this.limitedContainerElementRef = this.sectionHeaderLimitedContainer;
   }
-  
+
   ngOnInit(): void {
     if(this.captureEvents){
         this.activeIndexEventEmitter.emit(this.activeIndex);

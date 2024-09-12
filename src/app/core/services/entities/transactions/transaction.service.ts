@@ -24,6 +24,7 @@ export class TransactionService{
             .select('id, amount, type, description, notes, from, origin_goal_id, destination_goal_id, created_at')
             .or(`origin_goal_id.eq.${goal_id},destination_goal_id.eq.${goal_id}`)
             .range(start, end)
+            .order('created_at', { ascending: false })
         ).pipe(
             // tap(console.log),
             map(incoming => {
