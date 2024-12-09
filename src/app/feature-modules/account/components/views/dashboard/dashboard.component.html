@@ -14,7 +14,7 @@
             <app-square-cards-with-scroll
             [sectionTitle]="'Quantia por cartão'"
             [loaderActionEnum]="this.loaderActionEnum.CARDS"
-            [addCardButton]="{ visibility: true, route: '/account/card/add' }"
+            [addCardButton]="{ visibility: true, route: '/account/cards/create' }"
             [cards]="cards"
             (activeIndexEventEmitter)="activeCardListener($event)"
             />
@@ -23,7 +23,7 @@
             <div class="goals-by-active-card-section">
                 <app-rectangle-cards-with-scroll
                 [sectionTitle]="'Metas'"
-                [addCardButton]="{ visibility: true, route: '/account/goal/add' }"
+                [addCardButton]="{ visibility: true, route: '/account/goals/create' }"
                 [loaderActionEnum]="this.loaderActionEnum.GOALS"
                 [goals]="goals"
                 [cardCurrency]="cards[activeCardIndex()].settings.currency"
@@ -63,7 +63,3 @@
         }
     </div>
 </div>
-
-<p>{{ authService.user?.email }}</p>
-
-<button (click)="signOut()">Sair</button>
