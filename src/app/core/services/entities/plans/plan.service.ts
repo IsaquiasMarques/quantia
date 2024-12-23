@@ -13,7 +13,7 @@ export class PlanService{
 
     private supabase = inject(SupabaseService);
 
-    getUserPlan(user: User | null): Observable<IPlan | undefined>{
+    getUserPlan(user: User | null): Observable<IPlan | null>{
         return from(
             this.supabase.supabase.from('users')
             .select('plan_id:plans(*)')
@@ -25,7 +25,6 @@ export class PlanService{
 
                     if(data === null){
                         do{
-                            // console.log("deve adicionar", this.getUser()?.id)
                             this.supabase.supabase.from('users')
                                 .insert({ id: user?.id, plan_id: SECRET_COFING.defaultPlan.id })
                                 .select()
@@ -40,7 +39,6 @@ export class PlanService{
                         plan = new Plan(SECRET_COFING.defaultPlan).get();
 
                     } else {
-                        // console.log("já existe, então ignora");
                         let planData = data.plan_id as any;
                         plan = new Plan({
                             id: planData.id,

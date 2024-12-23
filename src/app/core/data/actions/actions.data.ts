@@ -16,11 +16,11 @@ export class Actions{
     private transactionService = inject(TransactionService);
 
     getPlan(): void{
-        this.userService.plan().pipe(take(1)).subscribe(incoming => this.store.storePlanMeta(incoming));
+        this.userService.planAsObservable().pipe(take(1)).subscribe(incoming => this.store.storePlanMeta(incoming));
     }
 
     getSettings(): void{
-        this.userService.settings().pipe(take(1)).subscribe(incoming => this.store.storeSettingsMeta(incoming));
+        this.userService.settingsAsObservable().pipe(take(1)).subscribe(incoming => this.store.storeSettingsMeta(incoming));
     }
 
     getCards(): void{

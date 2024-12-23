@@ -234,7 +234,7 @@
     background-position: -200% 0;
   }
 }
-textarea.is-invalid,
-input.is-invalid{
-  border-color: #FF9A9A;
+
+.is-invalid{
+  border-color: #f33939 !important;
 }

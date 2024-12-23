@@ -12,6 +12,7 @@ import { GoalComponent } from './components/views/goals/container/goal/goal.comp
 import { MyCardsComponent } from './components/views/cards/views/index/my-cards.component';
 import { CreateCardComponent } from './components/views/cards/views/create/create-card.component';
 import { EditCardComponent } from './components/views/cards/views/edit/edit-card.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,9 @@ import { EditCardComponent } from './components/views/cards/views/edit/edit-card
     SharedModule,
     TipsComponent,
     AccountRoutingModule,
-    TransactionsComponent
+    TransactionsComponent,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class AccountModule { }

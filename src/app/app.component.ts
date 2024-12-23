@@ -1,5 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
+import { Loader } from '@core/services/loader/loader.service';
 import { LogStatus, PopupLogService } from '@core/services/loggers/pop-up-log.service';
 
 @Component({
@@ -9,8 +11,9 @@ import { LogStatus, PopupLogService } from '@core/services/loggers/pop-up-log.se
 })
 export class AppComponent implements OnInit {
   logger = inject(PopupLogService);
-  location = inject(Location);
   logStatus = LogStatus;
+  loaderService = inject(Loader);
+  loaderActionEnum = LoaderActionEnum;
 
   ngOnInit(): void {
     

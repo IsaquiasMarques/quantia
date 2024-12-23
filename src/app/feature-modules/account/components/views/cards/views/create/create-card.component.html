@@ -1,11 +1,96 @@
 <div class="page-wrapper">
     <div class="quantia-by-cards-section appear-softly">
         <app-square-cards-with-scroll
-        [sectionTitle]="'Quantia por cartão'"
-        [loaderActionEnum]="this.loaderActionEnum.CARDS"
+        [sectionTitle]="{ title: 'Meus cartões', count: true }"
+        [showLimitationsInformation]="{ status: true, limit: this.userService.getUser()!.plan!.limits!.cards}"
         [addCardButton]="{ visibility: false }"
+        [loaderActionEnum]="this.loaderActionEnum"
         [cards]="cards"
+        [showCardButton]="false"
         [captureEvents]="false"
+        [showBottomInformations]="false"
         />
+    </div>
+
+    <div class="add-card-form my-7">
+        <div class="limited-container">
+            <form
+            (submit)="this.submit()"
+            [formGroup]="this.createCardFormGroup"
+            class="flex flex-col gap-y-10">
+                <div class="input-container flex flex-col gap-y-4">
+                    <div class="input w-full flex flex-col gap-[10px]">
+                        <label for="name" class="text-primary font-outfit text-base">Nome</label>
+                        <input
+                        type="text"
+                        formControlName="name"
+                        id="name"
+                        placeholder=""
+                        class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-[#BDBDBD] duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                        [ngClass]="{
+                            'is-invalid': createCardFormGroup.get('name')?.invalid && createCardFormGroup.get('name')?.touched
+                        }"
+                        >
+                    </div>
+                    <div class="objectives-select w-full flex flex-col gap-[10px]">
+                        <app-select
+                        [name]="'objectives'"
+                        [items]="objectives"
+                        [label]="'Objectivo do cartão'"
+                        [multi]="false"
+                        (selectedItemsEventEmitter)="this.captureSelectedObjective($event)"
+                        [optionValue]="'id'"
+                        [optionName]="'description'"
+                        [clearSelection]="this.resetObjectivesSelection"
+                        [placeholder]="'Seleccione o objectivo'"
+                        [required]="true"
+                        />
+                    </div>
+                    <div class="currencies-select w-full flex flex-col gap-[10px]">
+                        <app-select
+                        [name]="'currencies'"
+                        [items]="currencies"
+                        [label]="'Moeda'"
+                        [multi]="false"
+                        (selectedItemsEventEmitter)="this.captureSelectedCurrency($event)"
+                        [optionValue]="'id'"
+                        [optionName]="'name'"
+                        [clearSelection]="this.resetCurrenciesSelection"
+                        [placeholder]="'Seleccione a moeda'"
+                        [required]="true"
+                        />
+                    </div>
+                    <div class="input w-full flex flex-col gap-[10px]">
+                        <label for="color" class="text-primary font-outfit text-base">Cor de destaque</label>
+                        <input
+                        type="color"
+                        formControlName="color"
+                        id="color"
+                        [value]="'#B61010'"
+                        placeholder=""
+                        class="focus:outline-none input-color placeholder:text-base placeholder:font-['Outfit'] placeholder:text-[#BDBDBD] duration-[.2s] px-[15px] py-[15px] w-full h-[54px] bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                        [ngClass]="{
+                            'is-invalid': createCardFormGroup.get('color')?.invalid && createCardFormGroup.get('color')?.touched
+                        }"
+                        >
+                    </div>
+                </div>
+                
+                <div class="submit-container">
+                    <div class="submit w-full">
+                        <button
+                            [disabled]="this.createCardFormGroup.invalid || !(this.selectedObjective.length > 0) || !(this.selectedCurrency.length > 0)"
+                            type="submit"
+                            class="focus:outline-none disabled:cursor-auto px-5 py-4 font-outfit w-full duration-[.2s] bg-primary disabled:bg-primary/80 border-[1px] border-white hover:enabled:border-primary hover:enabled:bg-white text-white hover:enabled:text-primary font-medium rounded-[10px] text-sm">
+                            @if (!this.loaderService.getState(this.createCardloaderActionEnum)()) {
+                                <span class="font-outfit">Adicionar cartão</span>
+                            } @else {
+                                <app-load-spinner />
+                            }
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

@@ -29,13 +29,14 @@
                     [formGroup]="recoveryFormGroup"
                     class="flex flex-col gap-y-3">
                     <div class="input-container flex flex-col gap-y-4">
-                        <div class="input w-full">
+                        <div class="input w-full flex flex-col gap-[10px]">
+                            <label for="email" class="text-primary font-outfit text-base">Email</label>
                             <input
                                 type="email"
                                 formControlName="email"
                                 id="email"
-                                placeholder="Email"
-                                class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-[#BDBDBD] duration-[.2s] px-5 py-4 w-full border-[2px] border-[#F3F3F3] rounded-full text-sm"
+                                placeholder=""
+                                class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-[#BDBDBD] duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
                                 [ngClass]="{
                                     'is-invalid': recoveryFormGroup.get('email').invalid && recoveryFormGroup.get('email').touched
                                 }"
@@ -47,7 +48,7 @@
                             <button
                                 [disabled]="this.recoveryFormGroup.invalid"
                                 type="submit"
-                                class="focus:outline-none disabled:cursor-auto px-5 py-4 font-outfit w-full duration-[.2s] bg-primary disabled:bg-primary/80 border-[2px] border-white hover:enabled:border-primary hover:enabled:bg-white text-white hover:enabled:text-primary font-medium rounded-full text-sm">
+                                class="focus:outline-none disabled:cursor-auto px-5 py-4 font-outfit w-full duration-[.2s] bg-primary disabled:bg-primary/80 border-[1px] border-white hover:enabled:border-primary hover:enabled:bg-white text-white hover:enabled:text-primary font-medium rounded-[10px] text-sm">
                                 @if (!loader$()) {
                                     <span class="font-outfit">Enviar</span>
                                 } @else {

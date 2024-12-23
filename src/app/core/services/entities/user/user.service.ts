@@ -30,11 +30,11 @@ export class UserService extends UserSetup{
         return this.cardService.getCardsFromUser(this.getUser());
     }
 
-    plan(): Observable<IPlan | undefined>{
+    planAsObservable(): Observable<IPlan | null>{
         return this.planService.getUserPlan(this.getUser());
     }
 
-    settings(): Observable<ISetting | undefined>{
+    settingsAsObservable(): Observable<ISetting | null>{
        return this.settingsService.getUserSettings(this.getUser());
     }
 

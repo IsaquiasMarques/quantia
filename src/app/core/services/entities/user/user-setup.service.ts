@@ -3,11 +3,9 @@ import { BehaviorSubject, Observable } from "rxjs";
 
 export class UserSetup{
     private userSubject: BehaviorSubject<User | null>;
-    private user$: Observable<User | null>;
 
     constructor() {
         this.userSubject = new BehaviorSubject<User | null>(null);
-        this.user$ = this.userSubject.asObservable();
     }
 
     setUser(user: User){
@@ -19,7 +17,7 @@ export class UserSetup{
     }
 
     getUserAsObservable(): Observable<User | null>{
-        return this.user$;
+        return this.userSubject.asObservable();
     }
 
     clearUser(){

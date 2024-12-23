@@ -9,8 +9,8 @@ import { BehaviorSubject, map, take, tap } from "rxjs";
 export class StoreMeta{
 
     protected storeObj: BehaviorSubject<IStore> = new BehaviorSubject<IStore>({
-        plan: undefined,
-        settings: undefined,
+        plan: null,
+        settings: null,
         cards: [],
         goals: { 'empty': [] },
         transactions: {
@@ -20,7 +20,7 @@ export class StoreMeta{
         }
     });
 
-    storePlanMeta(plan: IPlan | undefined): void{
+    storePlanMeta(plan: IPlan | null): void{
         this.storeObj.pipe(
             take(1),
             map(data => {
@@ -30,7 +30,7 @@ export class StoreMeta{
         ).subscribe((updated) => this.storeObj.next(updated))
     }
 
-    storeSettingsMeta(setting: ISetting | undefined): void{
+    storeSettingsMeta(setting: ISetting | null): void{
         this.storeObj.pipe(
             take(1),
             map(data => {

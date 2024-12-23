@@ -16,6 +16,10 @@ export class Loader{
             loading: signal(false)
         },
         {
+            action: LoaderActionEnum.GETTING_USER_DATA,
+            loading: signal(false)
+        },
+        {
             action: LoaderActionEnum.SETTINGS,
             loading: signal(false)
         },
@@ -25,6 +29,10 @@ export class Loader{
         },
         {
             action: LoaderActionEnum.CARDS,
+            loading: signal(false)
+        },
+        {
+            action: LoaderActionEnum.CREATE_CARD,
             loading: signal(false)
         },
         {
@@ -42,9 +50,9 @@ export class Loader{
         theLoader?.loading.update(loaderState => loaderState = state);
     }
 
-    getState(action: LoaderActionEnum): Signal<boolean> | undefined{
-        const theLoader = this.loaders.find(loader => loader.action === action);
-        return theLoader?.loading;
+    getState(action: LoaderActionEnum): Signal<boolean>{
+        const theLoader = this.loaders.find(loader => loader.action === action)!;
+        return theLoader.loading;
     }
 
     changeStateAfterFirstResponseIsEmpty(action: LoaderActionEnum, state: boolean, timeOutInSeconds: number = 3){

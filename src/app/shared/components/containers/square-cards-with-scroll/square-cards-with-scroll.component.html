@@ -1,8 +1,12 @@
 <div class="my-cards-container mt-[20px]">
-    <div class="section-header py-[10px]">
-        <div class="limited-container flex justify-between items-center" #sectionHeaderLimitedContainer>
+    <div class="limited-container py-[10px] flex flex-col gap-4" #sectionHeaderLimitedContainer>
+        <div class="section-header flex justify-between items-center">
             <h1 class="uppercase text-lg font-medium font-outfit text-primary leading-[23px]">
-                {{ sectionTitle }}
+                {{ sectionTitle.title }}
+                
+                @if (sectionTitle.count) {
+                    <span class="text-base text-mediumGray/80 font-normal">({{ this.cards.length }})</span>
+                }
             </h1>
             
             @if (addCardButton.visibility && cards.length > 0) {
@@ -16,6 +20,11 @@
                 </div>
             }
         </div>
+        @if (this.showLimitationsInformation && this.showLimitationsInformation.status) {
+            <div class="limitations-information">
+                <p class="text-warning text-sm">Faltam {{ this.showLimitationsInformation.limit - this.cards.length }} cartões para atingir o limite do seu plano.</p>
+            </div>
+        }
     </div>
     <div class="section-content py-[20px] w-full overflow-hidden" #cardsContentScroller>
         @if (this.loader$()) {
@@ -37,16 +46,20 @@
                             [highlightColor]="card.settings.highlightColor"
                             [tinyRightText]="card.settings.currency.name"
                             [amount]="card.amount"
+                            [showValue]="this.showValue"
+                            [showBottomInformations]="this.showBottomInformations"
                             />
                         }
                 } @else {
-                    <div class="card w-[204px] min-h-[181px] h-full border border-dashed border-[#DCDCDC] rounded-[15px] p-[15px] flex justify-center items-center">
-                        <a [routerLink]="addCardButton.route" class="block w-fit h-full">
-                            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 30H50M30 10V50" stroke="#B2B2B2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </a>
-                    </div>
+                    @if (this.showCardButton) {
+                        <div class="card w-[204px] min-h-[181px] h-full border border-dashed border-[#DCDCDC] rounded-[15px] p-[15px] flex justify-center items-center">
+                            <a [routerLink]="addCardButton.route" class="block w-fit h-full">
+                                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 30H50M30 10V50" stroke="#B2B2B2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        </div>
+                    }
                 }
             </div>
         }

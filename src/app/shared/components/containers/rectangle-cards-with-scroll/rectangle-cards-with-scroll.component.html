@@ -1,8 +1,12 @@
 <div class="my-goals-container mt-[20px]">
-    <div class="section-header py-[10px]">
-        <div class="limited-container flex justify-between items-center" #sectionHeaderLimitedContainer>
+    <div class="limited-container py-[10px] flex flex-col gap-4" #sectionHeaderLimitedContainer>
+        <div class="section-header flex justify-between items-center">
             <h1 class="uppercase text-lg font-medium font-outfit text-primary leading-[23px]">
-                {{ sectionTitle }}
+                {{ sectionTitle.title }}
+                
+                @if (sectionTitle.count) {
+                    <span class="text-base text-mediumGray/80 font-normal">({{ this.goals.length }})</span>
+                }
             </h1>
             @if (addCardButton.visibility && goals.length > 0) {
                 <div class="button">
@@ -36,6 +40,7 @@
                         [description]="goal.description"
                         [achievement]="goal.achievement_amount"
                         [currency]="cardCurrency"
+                        [showValue]="this.showValue"
                         />
                     }
             } @else {

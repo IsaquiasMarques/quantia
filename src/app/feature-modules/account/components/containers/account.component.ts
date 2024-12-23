@@ -17,8 +17,6 @@ implements OnInit {
   public authService = inject(AuthService);
 
   ngOnInit(): void {
-    this.actions.getPlan();
-    this.actions.getSettings();
     this.actions.getCards();
   }
 

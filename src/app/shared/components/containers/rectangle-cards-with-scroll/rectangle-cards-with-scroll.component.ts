@@ -15,10 +15,12 @@ export class RectangleCardsWithScrollComponent
 extends ControlledScrollWithLoader
 implements OnInit, OnChanges {
   
-  @Input() sectionTitle: string = '';
+  @Input() sectionTitle: { title: string, count: boolean } = { title: 'Cards', count: false };
+  @Input() showLimitationsInformation!: { status: boolean, limit: number };
   @Input() goals: IGoal[] = [];
   @Input() cardCurrency!: ICurrency;
   @Input() addCardButton: { visibility: boolean, route?: string } = { visibility: false };
+  @Input() showValue = false;
 
   // element with overflow hidden
   @ViewChild('goalsContentScroller') goalsContentScroller!: ElementRef<HTMLElement>;

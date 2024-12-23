@@ -1,16 +1,14 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { DashboardMicroTasks } from '@core/classes/pages/dashboard-micro-tasks.class';
-import { Actions } from '@core/data/actions/actions.data';
-import { Store } from '@core/data/store/store.data';
+
 import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
 import { ICard } from '@core/models/entities/cards.model';
 import { IGoal } from '@core/models/entities/goals.model';
 import { ITransaction } from '@core/models/entities/transaction.model';
-import { AuthService } from '@core/services/auth/auth.service';
 import { CardFacade } from '@feature-modules/account/facades/card.facade';
 import { GoalFacade } from '@feature-modules/account/facades/goal.facade';
 import { TransactionFacade } from '@feature-modules/account/facades/transaction.facade';
-import { map, take, takeUntil, tap } from 'rxjs';
+import { map, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',

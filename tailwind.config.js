@@ -24,10 +24,10 @@ module.exports = {
         success: '#43A747',
         error: '#DD2C2C',
         info: '#4383A7',
+        warning: '#e3a021',
         default: '#626262'
       }
     },
   },
   plugins: [],
 }
-

@@ -5,8 +5,8 @@ import { ISetting } from "@core/models/entities/settings.model"
 import { ITransaction } from "@core/models/entities/transaction.model"
 
 export interface IStore{
-    plan: IPlan | undefined,
-    settings: ISetting | undefined
+    plan: IPlan | null,
+    settings: ISetting | null
     cards: ICard[],
     goals: { [card_id: string]: IGoal[] },
     transactions: {

@@ -12,12 +12,16 @@ export class Store extends StoreMeta{
         return this.storeObj.asObservable();
     }
 
-    getByKey(key: keyof(IStore)): Observable<any>{
+    getByKeyAsObservable(key: keyof(IStore)): Observable<any>{
         return this.storeObj.pipe(
             map(incoming => {
                 return incoming[key];
             })
         );
+    }
+
+    getByKey(key: keyof(IStore)): any{
+        return this.storeObj.getValue()[key];
     }
 
     set(object: IStore): void{

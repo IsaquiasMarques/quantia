@@ -36,7 +36,7 @@
             <div class="oauth flex flex-col gap-y-[22px]">            
                 <div class="oauth-providers mt-0 flex flex-col gap-y-3">
                     <button
-                        class="flex w-full gap-3 px-3 py-4 rounded-full text-sm justify-center items-center border-[2px] border-[#F3F3F3]"
+                        class="flex w-full gap-3 px-3 py-4 rounded-[10px] text-sm justify-center items-center border-[1px] border-[#F3F3F3]"
                         (click)="signInWithOAuth('google')">
                         <svg width="15" height="15" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M39.375 24.8438C39.3773 28.2634 38.1727 31.5741 35.9734 34.1926C33.7741 36.8112 30.7212 38.5695 27.3526 39.158C23.984 39.7464 20.5159 39.1272 17.5591 37.4093C14.6023 35.6914 12.3466 32.9852 11.1894 29.7673L2.87793 36.4165C5.46234 41.3292 9.61831 45.2344 14.6822 47.5085C19.7462 49.7825 25.426 50.2942 30.8149 48.9619C36.2037 47.6297 40.9908 44.5302 44.4117 40.1585C47.8326 35.7867 49.6901 30.3949 49.6875 24.8438" fill="#00AC47"/>
@@ -58,29 +58,31 @@
                     [formGroup]="signInFormGroup"
                     class="flex flex-col gap-y-3">
                     <div class="input-container flex flex-col gap-y-4">
-                        <div class="input w-full">
+                        <div class="input w-full flex flex-col gap-[10px]">
+                            <label for="email" class="text-primary font-outfit text-base">Email</label>
                             <input
-                                type="email"
-                                formControlName="email"
-                                id="email"
-                                placeholder="Email"
-                                class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-[#BDBDBD] duration-[.2s] px-5 py-4 w-full border-[2px] border-[#F3F3F3] rounded-full text-sm"
-                                [ngClass]="{
-                                    'is-invalid': signInFormGroup.get('email').invalid && signInFormGroup.get('email').touched
-                                }"
-                                >
+                            type="email"
+                            formControlName="email"
+                            id="email"
+                            placeholder=""
+                            class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] bg-[#F9F9F9] placeholder:text-[#BDBDBD] duration-[.2s] px-5 py-4 w-full border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                            [ngClass]="{
+                                'is-invalid': signInFormGroup.get('email').invalid && signInFormGroup.get('email').touched
+                            }"
+                            >
                         </div>
-                        <div class="input w-full">
+                        <div class="input w-full flex flex-col gap-[10px]">
+                            <label for="password" class="text-primary font-outfit text-base">Senha</label>
                             <input
                                 type="password"
                                 formControlName="password"
                                 id="password"
                                 minlength="8"
                                 pattern=""
-                                placeholder="Senha"
+                                placeholder=""
                                 (focus)="this.focusOnPassword()"
                                 (blur)="this.blurOnPassword()"
-                                class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-[#BDBDBD] duration-[.2s] px-5 py-4 w-full border-[2px] border-[#F3F3F3] rounded-full text-sm"
+                                class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-[#BDBDBD] bg-[#F9F9F9] duration-[.2s] px-5 py-4 w-full border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
                                 [ngClass]="{
                                     'is-invalid': signInFormGroup.get('password').invalid && signInFormGroup.get('password').touched
                                 }"
@@ -92,62 +94,12 @@
                             </a>
                         </div>
                     </div>
-                    <div class="input-container">
-                        <!-- <div class="error" *ngIf="submitted && formGroupControls.password.errors">
-                            <div *ngIf="formGroupControls.password.errors.required">Senha é obrigatória</div>
-                            <div *ngIf="formGroupControls.password.errors.minlength">Senha deve ter pelo menos 8 caractéres</div>
-                        </div> -->
-                        <!-- <div class="criterias appear-softly mt-3" *ngIf="this.passwordFieldIsFocused">
-                            <ul class="text-sm">
-                                <li [class.valid]="passwordCriteria.minLength" class="flex gap-2 justify-start items-center">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <circle class="duration-[.2s]" cx="12" cy="12.0005" r="9" [attr.fill]="passwordCriteria.minLength ? '#61C554' : '#cacaca'"/>
-                                        <path d="M8 11.4894L11.0222 14.5116L16 9.00049" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <circle class="duration-[.2s]" cx="12" cy="12" r="11.5" [attr.stroke]="passwordCriteria.minLength ? '#61C554' : '#cacaca'"/>
-                                    </svg>
-                                    Pelo menos 8 caractéres
-                                </li>
-                                <li [class.valid]="passwordCriteria.hasUpperCase" class="flex gap-2 justify-start items-center">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <circle class="duration-[.2s]" cx="12" cy="12.0005" r="9" [attr.fill]="passwordCriteria.hasUpperCase ? '#61C554' : '#cacaca'"/>
-                                        <path d="M8 11.4894L11.0222 14.5116L16 9.00049" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <circle class="duration-[.2s]" cx="12" cy="12" r="11.5" [attr.stroke]="passwordCriteria.hasUpperCase ? '#61C554' : '#cacaca'"/>
-                                    </svg>
-                                    Pelo menos uma letra maiúscula
-                                </li>
-                                <li [class.valid]="passwordCriteria.hasLowerCase" class="flex gap-2 justify-start items-center">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <circle class="duration-[.2s]" cx="12" cy="12.0005" r="9" [attr.fill]="passwordCriteria.hasLowerCase ? '#61C554' : '#cacaca'"/>
-                                        <path d="M8 11.4894L11.0222 14.5116L16 9.00049" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <circle class="duration-[.2s]" cx="12" cy="12" r="11.5" [attr.stroke]="passwordCriteria.hasLowerCase ? '#61C554' : '#cacaca'"/>
-                                    </svg>
-                                    Pelo menos uma letra minúscula
-                                </li>
-                                <li [class.valid]="passwordCriteria.hasNumber" class="flex gap-2 justify-start items-center">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <circle class="duration-[.2s]" cx="12" cy="12.0005" r="9" [attr.fill]="passwordCriteria.hasNumber ? '#61C554' : '#cacaca'"/>
-                                        <path d="M8 11.4894L11.0222 14.5116L16 9.00049" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <circle class="duration-[.2s]" cx="12" cy="12" r="11.5" [attr.stroke]="passwordCriteria.hasNumber ? '#61C554' : '#cacaca'"/>
-                                    </svg>
-                                    Pelo menos um número
-                                </li>
-                                <li [class.valid]="passwordCriteria.hasSpecialChar" class="flex gap-2 justify-start items-center">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <circle class="duration-[.2s]" cx="12" cy="12.0005" r="9" [attr.fill]="passwordCriteria.hasSpecialChar ? '#61C554' : '#cacaca'"/>
-                                        <path d="M8 11.4894L11.0222 14.5116L16 9.00049" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <circle class="duration-[.2s]" cx="12" cy="12" r="11.5" [attr.stroke]="passwordCriteria.hasSpecialChar ? '#61C554' : '#cacaca'"/>
-                                    </svg>
-                                    Pelo menos um caractér especial (&commat;, $, !, %, *, ?, &, #)
-                                </li>
-                            </ul>
-                        </div> -->
-                    </div>
                     <div class="submit-container flex flex-col gap-y-4">
                         <div class="submit w-full">
                             <button
                                 [disabled]="this.signInFormGroup.invalid"
                                 type="submit"
-                                class="focus:outline-none disabled:cursor-auto px-5 py-4 font-outfit w-full duration-[.2s] bg-primary disabled:bg-primary/80 border-[2px] border-white hover:enabled:border-primary hover:enabled:bg-white text-white hover:enabled:text-primary font-medium rounded-full text-sm">
+                                class="focus:outline-none disabled:cursor-auto px-5 py-4 font-outfit w-full duration-[.2s] bg-primary disabled:bg-primary/80 border-[1px] border-white hover:enabled:border-primary hover:enabled:bg-white text-white hover:enabled:text-primary font-medium rounded-[10px] text-sm">
                                 @if (!loader$()) {
                                     <span class="font-outfit">Entrar</span>
                                 } @else {

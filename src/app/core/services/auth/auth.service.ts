@@ -7,8 +7,10 @@ import { Router } from "@angular/router";
 import { LogStatus, PopupLogService } from "../loggers/pop-up-log.service";
 import { AuthChangeEvent, Provider, Session, SupabaseClient, isAuthApiError } from "@supabase/supabase-js";
 import { SupabaseAuthClient } from "@supabase/supabase-js/dist/module/lib/SupabaseAuthClient";
-import { Observable } from "rxjs";
+import { forkJoin, Observable, take } from "rxjs";
 import { translateErrorMessage } from "@core/constants/errors/message-translator";
+import { Loader } from "../loader/loader.service";
+import { LoaderActionEnum } from "@core/enums/loader/loader.enum";
 
 @Injectable({
     providedIn: 'root'
@@ -18,6 +20,7 @@ export class AuthService extends AuthenticationContext{
     private authChangeEvent!: AuthChangeEvent;
     resettinPassword = signal(false);
     private loggerService = inject(PopupLogService);
+    private loaderService = inject(Loader);
 
     constructor(
         private supabaseService: SupabaseService,
@@ -47,8 +50,7 @@ export class AuthService extends AuthenticationContext{
                         break;
                     }
 
-                    this.setUserFromSession(session, 'normal');
-                    this.router.navigate(['/account']);
+                    this.setUserFromSessionAndNavigate(session, 'normal');
                     break;
                     
                 case 'SIGNED_OUT':
@@ -62,26 +64,57 @@ export class AuthService extends AuthenticationContext{
                         break;
                     }
 
-                    this.setUserFromSession(session, 'recovery');
-                    this.resettinPassword.update(val => val = true);
-                    this.router.navigate(['/auth/reset-password'], { queryParamsHandling: 'preserve', preserveFragment: true });
+                    this.setUserFromSessionAndNavigate(session, 'recovery');
                     break;
             }
         });
     }
 
-    private setUserFromSession(session: Session, authType: 'normal' | 'recovery'){
-        let user: User = new User({
-            id: session.user.id,
-            fullname: session.user.user_metadata['full_name'],
-            avatar: session.user.user_metadata['avatar_url'],
-            email: session.user.email!,
-            token: session.access_token,
-            expiresIn: session.expires_in,
-            expiresAt: session.expires_at,
-            authType: authType
-        });
-        this.userService.setUser(user);
+    private setUserFromSessionAndNavigate(session: Session, authType: 'normal' | 'recovery'){
+        this.loaderService.changeState(LoaderActionEnum.GETTING_USER_DATA, true);
+        forkJoin(
+            [
+                this.userService.planAsObservable().pipe(take(1)),
+                this.userService.settingsAsObservable().pipe(take(1))
+            ]
+        ).subscribe({
+            next: ([plan, settings]) => {
+
+                let user: User = new User(
+                    {
+                        id: session.user.id,
+                        fullname: session.user.user_metadata['full_name'],
+                        avatar: session.user.user_metadata['avatar_url'],
+                        email: session.user.email!,
+                        token: session.access_token,
+                        expiresIn: session.expires_in,
+                        expiresAt: session.expires_at,
+                        authType: authType
+                    },
+                    plan,
+                    settings
+                );
+
+                this.userService.setUser(user);
+
+                switch(authType){
+                    case 'normal':
+                        this.router.navigate(['/account']);
+                        break;
+                    case 'recovery':
+                        this.resettinPassword.update(val => val = true);
+                        this.router.navigate(['/auth/reset-password'], { queryParamsHandling: 'preserve', preserveFragment: true });
+                        break;
+                }
+                this.loaderService.changeState(LoaderActionEnum.GETTING_USER_DATA, false);
+            },
+            error: error => {
+                console.error("Error during getting user data: " + error);
+                this.loggerService.add("Error ao carregar as suas informações", LogStatus.ERROR);
+                this.loaderService.changeState(LoaderActionEnum.GETTING_USER_DATA, false);
+            }
+        })
+
     }
 
     changeEvent(): AuthChangeEvent{

@@ -12,7 +12,7 @@ export class SettingsService{
 
     private supabase = inject(SupabaseService);
 
-    getUserSettings(user: User | null): Observable<ISetting | undefined>{
+    getUserSettings(user: User | null): Observable<ISetting | null>{
         return from(
             this.supabase.supabase.from('settings')
                 .select("*")
@@ -25,35 +25,27 @@ export class SettingsService{
                 let settings: ISetting;
 
                 if(data === null){
-
-                    do{
-                        this.supabase.supabase.from('settings')
-                            .insert({
-                                language: SECRET_COFING.defaultSettings.language,
-                                theme: SECRET_COFING.defaultSettings.theme,
-                                userToken: SECRET_COFING.defaultSettings.token,
-                                user_id: user?.id
-                            })
-                            .select()
-                            .then((response) => {
-                                if(response.error){
-                                    console.error("Error during inserting settings if data is null: " + response.error.message);
-                                }
-                            })
-                        break;
-
-                    } while(user !== null);
-                    
+                    // this.supabase.supabase.from('settings')
+                    // .insert({
+                    //     language: SECRET_COFING.defaultSettings.language,
+                    //     theme: SECRET_COFING.defaultSettings.theme,
+                    //     userToken: SECRET_COFING.defaultSettings.token,
+                    //     user_id: user?.id
+                    // })
+                    // .select()
+                    // .then((response) => {
+                    //     if(response.error){
+                    //         console.error("Error during inserting settings if data is null: " + response.error.message);
+                    //     }
+                    // })
                     settings = SECRET_COFING.defaultSettings;
 
                 } else {
-
                     settings = {
                         language: data.language,
                         theme: data.theme,
                         token: data.token ?? null
                     }
-
                 }
 
                 return settings;

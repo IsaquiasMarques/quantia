@@ -11,13 +11,15 @@ import { SquareCardComponent } from './components/singleton/cards/square/square-
 import { RectangleCardComponent } from './components/singleton/cards/rectangle/rectangle-card/rectangle-card.component';
 import { RouterModule } from '@angular/router';
 import { ScrollerPointControllersComponent } from './components/singleton/scroller-point-controllers/scroller-point-controllers.component';
+import { SelectComponent } from './components/widgets/select/select.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     GetTheInitialsPipe,
     SquareCardsWithScrollComponent,
     RectangleCardsWithScrollComponent,
-    // CardComponent,
+    SelectComponent,
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import { ScrollerPointControllersComponent } from './components/singleton/scroll
     SquareCardComponent,
     RectangleCardComponent,
     ScrollerPointControllersComponent,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   exports: [
     CommonModule,
@@ -37,6 +40,8 @@ import { ScrollerPointControllersComponent } from './components/singleton/scroll
     IconComponent,
     FormatPipe,
     RouterModule,
+    SelectComponent,
+    LoadSpinnerComponent
   ]
 })
 export class SharedModule { }

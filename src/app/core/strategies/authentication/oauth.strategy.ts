@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { IAuthentication } from "@core/interfaces/authentication/IAuthentication";
 import { SupabaseService } from "@core/services/supabase/supabase.service";
-import { Provider, SupabaseClient } from "@supabase/supabase-js";
+import { Provider } from "@supabase/supabase-js";
 import { environment } from "src/environments/environment";
 
 @Injectable({

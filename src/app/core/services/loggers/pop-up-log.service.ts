@@ -23,7 +23,7 @@ export class PopupLogService{
     logs$ = signal<Logger[]>([]);
     private removeTimeOut: any;
 
-    add(message: string, status: LogStatus = LogStatus.DEFAULT): void{
+    add(message: string, status: LogStatus = LogStatus.DEFAULT, timetout?: number): void{
         let randomId;
         do {
             randomId = this.randomize(1, 100);
@@ -31,14 +31,14 @@ export class PopupLogService{
         let theLog = { message: message, status: status, identifier: randomId };
         this.logs.push( theLog );
         this.refreshLogs$();
-        this.removeMessageAfterTimeInSeconds(theLog, APP_CONFIG.POP_UP_TIMEOUT);
+        this.removeMessageAfterTimeInSeconds(theLog, timetout);
     }
 
     private refreshLogs$(){
         this.logs$.update(logs => logs = this.logs);
     }
 
-    private removeMessageAfterTimeInSeconds(log: Logger, timer: number){
+    private removeMessageAfterTimeInSeconds(log: Logger, timer: number = APP_CONFIG.POP_UP_TIMEOUT){
         this.removeTimeOut = setTimeout(() => {
             let logIndex = this.logs.findIndex(item => item.identifier === log.identifier);
             if(logIndex === -1) return;

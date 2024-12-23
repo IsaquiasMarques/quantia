@@ -13,8 +13,12 @@ export class SquareCardsWithScrollComponent
 extends ControlledScrollWithLoader
 implements OnInit, OnChanges {
 
-  @Input() sectionTitle: string = '';
+  @Input() sectionTitle: { title: string, count: boolean } = { title: 'Cards', count: false };
   @Input() cards: ICard[] = [];
+  @Input() showCardButton: boolean = true;
+  @Input() showValue = false;
+  @Input() showBottomInformations = true;
+  @Input() showLimitationsInformation!: { status: boolean, limit: number };
   @Input() addCardButton: { visibility: boolean, route?: string } = { visibility: false }
 
   // element with overflow hidden

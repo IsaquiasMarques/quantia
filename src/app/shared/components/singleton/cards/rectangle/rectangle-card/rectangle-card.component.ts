@@ -22,4 +22,5 @@ export class RectangleCardComponent {
   @Input() achievement: number = 0;
   @Input() amount: number = 0;
   @Input() currency!: ICurrency;
+  @Input() showValue = false;
 }

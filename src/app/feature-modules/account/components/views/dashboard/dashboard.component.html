@@ -5,30 +5,33 @@
                 <app-square-cards-with-scroll
                 [captureEvents]="false"
                 [loaderActionEnum]="this.loaderActionEnum.CARDS"
-                [sectionTitle]="'Quantia geral'"
+                [sectionTitle]="{ title: 'Quantia geral', count: true }"
                 [cards]="generalCards"
+                [showValue]="true"
                 />
             </div>
         }
         <div class="quantia-by-cards-section appear-softly">
             <app-square-cards-with-scroll
-            [sectionTitle]="'Quantia por cartão'"
+            [sectionTitle]="{ title: 'Quantia por cartão', count: true }"
             [loaderActionEnum]="this.loaderActionEnum.CARDS"
             [addCardButton]="{ visibility: true, route: '/account/cards/create' }"
-            [cards]="cards"
             (activeIndexEventEmitter)="activeCardListener($event)"
+            [cards]="cards"
+            [showValue]="true"
             />
         </div>
         @if (this.cards.length > 0) {
             <div class="goals-by-active-card-section">
                 <app-rectangle-cards-with-scroll
-                [sectionTitle]="'Metas'"
+                [sectionTitle]="{ title: 'Metas', count: true }"
                 [addCardButton]="{ visibility: true, route: '/account/goals/create' }"
                 [loaderActionEnum]="this.loaderActionEnum.GOALS"
                 [goals]="goals"
                 [cardCurrency]="cards[activeCardIndex()].settings.currency"
-                [captureEvents]="true"
                 (activeIndexEventEmitter)="activeGoalEventListener($event)"
+                [captureEvents]="true"
+                [showValue]="true"
                 />
             </div>
         }
