@@ -1,4 +1,4 @@
-import { Injectable, Signal, WritableSignal, signal } from "@angular/core";
+import { Injectable, Signal, WritableSignal, computed, signal } from "@angular/core";
 import { LoaderActionEnum } from "@core/enums/loader/loader.enum";
 
 interface ILoader{
@@ -16,6 +16,10 @@ export class Loader{
             loading: signal(false)
         },
         {
+            action: LoaderActionEnum.GETTING_USER_DATA,
+            loading: signal(false)
+        },
+        {
             action: LoaderActionEnum.SETTINGS,
             loading: signal(false)
         },
@@ -26,6 +30,18 @@ export class Loader{
         {
             action: LoaderActionEnum.CARDS,
             loading: signal(false)
+        },
+        {
+            action: LoaderActionEnum.CREATE_CARD,
+            loading: signal(false)
+        },
+        {
+            action: LoaderActionEnum.GOALS,
+            loading: signal(false)
+        },
+        {
+            action: LoaderActionEnum.TRANSACTIONS,
+            loading: signal(false)
         }
     ];
 
@@ -34,15 +50,15 @@ export class Loader{
         theLoader?.loading.update(loaderState => loaderState = state);
     }
 
-    getState(action: LoaderActionEnum): Signal<boolean> | undefined{
-        const theLoader = this.loaders.find(loader => loader.action === action);
-        return theLoader?.loading;
+    getState(action: LoaderActionEnum): Signal<boolean>{
+        const theLoader = this.loaders.find(loader => loader.action === action)!;
+        return theLoader.loading;
     }
 
-    changeStateAfterFirstResponseIsEmpty(action: LoaderActionEnum, state: boolean, timeOut: number = 3){
+    changeStateAfterFirstResponseIsEmpty(action: LoaderActionEnum, state: boolean, timeOutInSeconds: number = 3){
         setTimeout(() => {
             this.changeState(action, state);
-        }, timeOut * 1000)
+        }, timeOutInSeconds * 1000)
     }
 
 }

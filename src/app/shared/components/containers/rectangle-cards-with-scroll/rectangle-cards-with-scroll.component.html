@@ -1,23 +1,37 @@
-<div class="my-goals-container">
-    <div class="section-header py-[10px]">
-        <div class="limited-container" #sectionHeaderLimitedContainer>
+<div class="my-goals-container mt-[20px]">
+    <div class="limited-container py-[10px] flex flex-col gap-4" #sectionHeaderLimitedContainer>
+        <div class="section-header flex justify-between items-center">
             <h1 class="uppercase text-lg font-medium font-outfit text-primary leading-[23px]">
-                {{ sectionTitle }}
+                {{ sectionTitle.title }}
+                
+                @if (sectionTitle.count) {
+                    <span class="text-base text-mediumGray/80 font-normal">({{ this.goals.length }})</span>
+                }
             </h1>
+            @if (addCardButton.visibility && goals.length > 0) {
+                <div class="button">
+                    <a [routerLink]="addCardButton.route" class="">
+                        <svg width="30" height="30" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="25" height="25" rx="5" fill="#16171D"/>
+                            <path d="M6.25 12.7063H19.1625M12.7063 6.25V19.1625" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+            }
         </div>
     </div>
-    <div class="section-content py-[25px] w-full overflow-hidden" #goalsContentScroller>
+    <div class="section-content py-[20px] w-full overflow-hidden" #goalsContentScroller>
         @if (this.loader$()) {
-            <div class="spinner flex justify-center">
+            <div class="spinner h-[157px] flex justify-center items-center">
                 <app-load-spinner />
             </div>
             
         } @else {
+            <div class="goals-container w-max flex gap-[15px] justify-start items-stretch"
+            [style.paddingLeft.px]="this.paddingX()"
+            [style.paddingRight.px]="this.paddingX()"
+            >
             @if (goals.length > 0) {
-                <div class="goals-container w-max flex gap-[15px] justify-start items-stretch"
-                [style.paddingLeft.px]="this.paddingX()"
-                [style.paddingRight.px]="this.paddingX()"
-                >
                     @for (goal of goals; track $index) {
                         <app-rectangle-card
                         [icon]="{ ref: goal.iconRef, color: 'white' }"
@@ -26,15 +40,29 @@
                         [description]="goal.description"
                         [achievement]="goal.achievement_amount"
                         [currency]="cardCurrency"
+                        [showValue]="this.showValue"
                         />
                     }
-                </div>
             } @else {
-                <div class="h-[147px]">
-                    <p class="text-center text-base font-outfit font-medium">Sem informações para mostrar</p>
-                </div>
+                <!-- @if(this.addCardButton.visibility){ -->
+                    <div class="card w-[227px] min-h-[157px] h-full border border-dashed border-[#DCDCDC] rounded-[15px] p-[15px] flex justify-center items-center">
+                        <a [routerLink]="addCardButton.route" class="block w-fit h-full">
+                            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 30H50M30 10V50" stroke="#B2B2B2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </div>
+                <!-- } -->
             }
+            </div>
         }
     </div>
+    @if (showControllers) {
+        <app-scroller-point-controllers
+        [itemsArray]="itemsArray"
+        [activeIndex]="this.activeIndex"
+        (gotoIndex)="gotToIndexEventHandler($event)"
+        />
+    }
 </div>
 

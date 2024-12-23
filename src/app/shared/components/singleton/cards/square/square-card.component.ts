@@ -18,4 +18,6 @@ export class SquareCardComponent {
   @Input() title: string = '';
   @Input() description: string = '';
   @Input() amount: number = 0;
+  @Input() showValue = true;
+  @Input() showBottomInformations = true;
 }

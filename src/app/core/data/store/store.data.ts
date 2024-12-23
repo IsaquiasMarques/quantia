@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
-import { SECRET_COFING } from "@core/config/secret.config";
 import { IStore } from "@core/interfaces/store.model";
-import { IPlan } from "@core/models/entities/plan.model";
-import { BehaviorSubject, map, Observable, take, tap } from "rxjs";
+import { map, Observable } from "rxjs";
 import { StoreMeta } from "./store-meta.data";
 
 @Injectable({
@@ -12,6 +10,18 @@ export class Store extends StoreMeta{
 
     get(): Observable<IStore>{
         return this.storeObj.asObservable();
+    }
+
+    getByKeyAsObservable(key: keyof(IStore)): Observable<any>{
+        return this.storeObj.pipe(
+            map(incoming => {
+                return incoming[key];
+            })
+        );
+    }
+
+    getByKey(key: keyof(IStore)): any{
+        return this.storeObj.getValue()[key];
     }
 
     set(object: IStore): void{

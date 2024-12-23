@@ -7,6 +7,9 @@ export interface ITransaction{
     type: TransationType,
     amount: number,
     from: TransactionOriginType,
-    originGoal: IGoal,
-    destinationGoal: IGoal
+    originGoalId: string,
+    destinationGoalId: string,
+    created_at: string,
+    description: string,
+    notes: string
 }

@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ControlledScrollWithLoader } from '@core/classes/abstracts/controlled-scroll-with-loader.class';
 import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
 import { ICard } from '@core/models/entities/cards.model';
@@ -14,27 +14,32 @@ import { Loader } from '@core/services/loader/loader.service';
 export class RectangleCardsWithScrollComponent
 extends ControlledScrollWithLoader
 implements OnInit, OnChanges {
-  public loader = inject(Loader);
-  @Input() sectionTitle: string = '';
+  
+  @Input() sectionTitle: { title: string, count: boolean } = { title: 'Cards', count: false };
+  @Input() showLimitationsInformation!: { status: boolean, limit: number };
   @Input() goals: IGoal[] = [];
   @Input() cardCurrency!: ICurrency;
-  
-  override loaderActionEnum: LoaderActionEnum = LoaderActionEnum.CARDS;
+  @Input() addCardButton: { visibility: boolean, route?: string } = { visibility: false };
+  @Input() showValue = false;
 
   // element with overflow hidden
   @ViewChild('goalsContentScroller') goalsContentScroller!: ElementRef<HTMLElement>;
   @ViewChild('sectionHeaderLimitedContainer') sectionHeaderLimitedContainer!: ElementRef<HTMLElement>
 
-  ngOnInit(): void {
-    
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.itemsArray = this.goals;
-  }
-  
   override bootstrap(){
     this.scrollerElementRef = this.goalsContentScroller;
     this.limitedContainerElementRef = this.sectionHeaderLimitedContainer;
   }
+  
+  ngOnInit(): void {
+    if(this.captureEvents){
+      this.activeIndexEventEmitter.emit(this.activeIndex);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.itemsArray = this.goals;
+    this.activeIndex = 0;
+  }
+  
 }

@@ -26,14 +26,27 @@
             {{ this.description }}
         </p>
     </div>
-    <div class="card-footer w-full flex justify-between items-center">
-        <div class="amount max-w-[130px]">
-            <p class="text-[20px] text-primary font-outfit font-semibold limited-text one-line">
-                {{ this.amount | number | format }} <span class="opacity-0">br</span>
-            </p>
-        </div>
-        <div class="currency">
-            <p class="text-xs font-outfit text-mediumGray limited-text one-line">{{ this.tinyRightText }}</p>
-        </div>
+    <div class="card-footer w-full flex justify-between items-center"
+    [ngClass]="{
+        'min-h-[30px]': !this.showBottomInformations
+    }"
+    >
+        @if (this.showBottomInformations) {
+            <div class="amount max-w-[130px]">
+                @if (this.showValue) {
+                    <p class="text-[20px] text-primary font-outfit font-semibold limited-text one-line">
+                        {{ this.amount | number | format }} <span class="opacity-0"></span>
+                    </p>
+                } @else {
+                    <!-- <p class="placeholder !relative !w-fit !h-fit rounded text-xl text-transparent font-sembold"> placeholder</p> -->
+                    <p class="text-xl text-primary/30 font-outfit font-semibold limited-text one-line">
+                        --- --- --- ---
+                    </p>
+                }
+            </div>
+            <div class="currency">
+                <p class="text-xs font-outfit text-mediumGray limited-text one-line">{{ this.tinyRightText }}</p>
+            </div>
+        }
     </div>
 </div>

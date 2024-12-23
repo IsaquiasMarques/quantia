@@ -1,12 +1,17 @@
 import { IUser } from "@core/models/entities/user.model";
-import { PlanRepository } from "../../Repositories/plan.repository";
+import { IPlan } from "@core/models/entities/plan.model";
+import { ISetting } from "@core/models/entities/settings.model";
 
 export class User{
 
     private user: IUser;
+    private userPlan: IPlan | null;
+    private userSettings: ISetting | null;
     
-    constructor( user: IUser ) {
+    constructor( user: IUser, plan: IPlan | null, settings: ISetting | null) {
         this.user = user;
+        this.userPlan = plan;
+        this.userSettings = settings;
     }
 
     get getUser(): IUser{
@@ -19,7 +24,7 @@ export class User{
 
     get firstName(): string | undefined{
         if(!this.user.fullname) return undefined;
-        return [...this.user.fullname].shift();
+        return this.user.fullname.split(' ').shift();
     }
 
     get email(): string{
@@ -32,7 +37,7 @@ export class User{
 
     get lastName(): string | undefined{
         if(!this.user.fullname) return undefined;
-        return [...this.user.fullname].pop();
+        return this.user.fullname.split(' ').pop();
     }
 
     get friendlyExpiresAt(): string | undefined{
@@ -42,6 +47,22 @@ export class User{
 
     get getAuthType(): 'normal' | 'recovery'{
         return this.user.authType;
+    }
+
+    get plan(): IPlan | null{
+        return this.userPlan;
+    }
+
+    set updateUserPlan(plan: IPlan | null){
+        this.userPlan = plan;
+    }
+
+    get settings(): ISetting | null{
+        return this.userSettings;
+    }
+
+    set updateUserSettings(settings: ISetting | null){
+        this.userSettings = settings;
     }
 
 }

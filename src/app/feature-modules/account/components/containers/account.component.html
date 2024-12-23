@@ -3,11 +3,20 @@
         <app-header />
     </div>
     <div class="body-content flex flex-col gap-y-5">
-        <div class="tips-section">
-            <app-tips />
-        </div>
+        <!-- <div class="tips-section">
+            <app-tips
+            [captureEvents]="false"
+            />
+        </div> -->
         <div class="account-container">
             <router-outlet />
         </div>
+    </div>
+    <div class="footer bg-primary text-white">
+
+        <p>{{ authService.user?.email }}</p>
+        
+        <button (click)="signOut()">Sair</button>
+
     </div>
 </main>

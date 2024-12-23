@@ -1,12 +1,14 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { DashboardMicroTasks } from '@core/classes/pages/dashboard-micro-tasks.class';
-import { Store } from '@core/data/store/store.data';
-import { IconEnum } from '@core/enums/icon.enum';
+
 import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
 import { ICard } from '@core/models/entities/cards.model';
-import { ICurrency } from '@core/models/entities/currencies.model';
-import { AuthService } from '@core/services/auth/auth.service';
-import { takeUntil } from 'rxjs';
+import { IGoal } from '@core/models/entities/goals.model';
+import { ITransaction } from '@core/models/entities/transaction.model';
+import { CardFacade } from '@feature-modules/account/facades/card.facade';
+import { GoalFacade } from '@feature-modules/account/facades/goal.facade';
+import { TransactionFacade } from '@feature-modules/account/facades/transaction.facade';
+import { map, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,17 +18,30 @@ import { takeUntil } from 'rxjs';
 export class DashboardComponent
 extends DashboardMicroTasks
 implements OnInit {
-  authService = inject(AuthService);
-  private store = inject(Store);
-  cards: ICard[] = [];
+
+  private cardFacade = inject(CardFacade);
+  private goalFacade = inject(GoalFacade);
+  private transactionFacade = inject(TransactionFacade);
+
   generalCards: ICard[] = [];
+  cards: ICard[] = [];
+  goals: IGoal[] = [];
+  transactions: ITransaction[] = [];
+
+  loaderActionEnum = LoaderActionEnum;
+
   activeCardIndex = signal(0);
+  activeGoalIndex = signal(0);
 
   ngOnInit(): void {
+    this.getCards();
+  }
+
+  getCards(): void{
     this.loader.changeState(LoaderActionEnum.CARDS, true)
-    this.store.get().pipe(takeUntil(this.unsubscribe$)).subscribe({
+    this.cardFacade.getCards.pipe(takeUntil(this.unsubscribe$ || this.cards.length > 0)).subscribe({
       next: (incoming) => {
-        this.cards = this.getCardsMicroTask(incoming.cards);
+        this.cards = this.getCardsWithLoadingMicroTask(incoming);
         if(this.cards.length > 0){
           this.generalCards = this.getGeneralAmountCardsMicroTask(this.cards);
         }
@@ -34,11 +49,59 @@ implements OnInit {
     });
   }
 
-  activeIndexEventListener($event: number){
-    this.activeCardIndex.set($event);
-  } 
+  activeCardListener($activeCardIndex: number){
+    this.activeCardIndex.set($activeCardIndex);
+    this.loader.changeState(LoaderActionEnum.GOALS, true);
+    this.getGoalsByCard();
+  }
 
-  signOut(){
-    this.authService.SignOut();
+  getGoalsByCard(): void{
+    this.goalFacade.getGoals.pipe(
+      takeUntil(this.unsubscribe$ || this.goals.length > 0),
+      map((incoming) => {
+        if(!this.cards[this.activeCardIndex()]) {
+          this.loader.changeState(LoaderActionEnum.GOALS, false);
+          return [];
+        };
+
+        if(incoming[this.cards[this.activeCardIndex()].id]){
+          this.goals = this.getCardGoalsWithLoadingMicroTask(incoming[this.cards[this.activeCardIndex()].id]);
+        } else {
+          this.goalFacade.actions.getGoalsByCardId(this.cards[this.activeCardIndex()].id);
+        }
+        return incoming
+      })
+    ).subscribe();
+  }
+
+  activeGoalEventListener($event: number){
+    this.activeGoalIndex.set($event);
+    this.getTransactionsByGoal();
+
+  }
+
+  getTransactionsByGoal(): void{
+    
+    const DASHBOARD_INITIAL_TRANSACTIONS_PAGE = 1;
+
+    this.loader.changeState(LoaderActionEnum.TRANSACTIONS, true);
+    this.transactionFacade.getTransactions.pipe(
+      takeUntil(this.unsubscribe$ || (this.transactions.length > 0)),
+      map((incoming) => {
+
+        if(!this.goals[this.activeGoalIndex()]) {
+          this.loader.changeState(LoaderActionEnum.TRANSACTIONS, false);
+          return [];
+        };
+
+        if(incoming[DASHBOARD_INITIAL_TRANSACTIONS_PAGE] && incoming[DASHBOARD_INITIAL_TRANSACTIONS_PAGE][this.goals[this.activeGoalIndex()].id]){
+          this.transactions = this.getTransactionsWithLoadingMicroTask(incoming[DASHBOARD_INITIAL_TRANSACTIONS_PAGE][this.goals[this.activeGoalIndex()].id]);
+        } else {
+          this.transactionFacade.actions.getTransactionsByGoalId(this.goals[this.activeGoalIndex()].id, DASHBOARD_INITIAL_TRANSACTIONS_PAGE);
+        }
+        
+        return incoming;
+      })
+    ).subscribe();
   }
 }

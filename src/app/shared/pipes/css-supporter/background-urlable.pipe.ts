@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'backgroundUrlable'
+  name: 'backgroundUrlable',
+  standalone: true
 })
 export class BackgroundUrlablePipe implements PipeTransform {
 

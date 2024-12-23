@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, EventEmitter, HostListener, Output, signal, WritableSignal } from "@angular/core";
+import { AfterViewInit, Directive, ElementRef, EventEmitter, HostListener, Input, Output, signal, WritableSignal } from "@angular/core";
 import { LoaderSupporter } from "./loader-supporter.class";
 import { ControlledScrollControls } from "@core/interfaces/controlled-scroll-controls.interface";
 
@@ -10,7 +10,10 @@ export class ControlledScrollWithLoader extends LoaderSupporter implements Contr
     
     protected activeIndex = 0;
     @Output() protected activeIndexEventEmitter: EventEmitter<number> = new EventEmitter<number>();
+    @Input() public captureEvents: boolean = true;
     protected itemsArray: any[] = [];
+
+    @Input() showControllers: boolean = true;
 
     scrollerElementRef!: ElementRef<HTMLElement>;
     limitedContainerElementRef!: ElementRef<HTMLElement>;
@@ -54,6 +57,10 @@ export class ControlledScrollWithLoader extends LoaderSupporter implements Contr
         this.scrollToActiveIndex(this.activeIndex);
     }
 
+    gotToIndexEventHandler($event: number){
+        this.slideTo($event);
+    }
+
     slideTo(index: number){
         this.activeIndex = index;
         this.scrollToActiveIndex(this.activeIndex);
@@ -65,7 +72,9 @@ export class ControlledScrollWithLoader extends LoaderSupporter implements Contr
         let getActiveItemByActiveIndexAsHtmlElement = scrollerElementRefChildrensAsHtmlElement.children[activeIndex] as HTMLElement;
         this.scrollerElementRef.nativeElement.scrollTo(getActiveItemByActiveIndexAsHtmlElement.offsetLeft - this.paddingX(), 0)
         
-        this.activeIndexEventEmitter.emit(this.activeIndex);
+        if(this.captureEvents){
+            this.activeIndexEventEmitter.emit(this.activeIndex);
+        }
     }
 
     @HostListener('touchstart', ['$event'])

@@ -31,7 +31,7 @@ export class EmailPasswordAuthStrategy implements IAuthentication{
                 if (isAuthApiError(error)) {
                     this.loggerService.add(translateErrorMessage(error.message), LogStatus.ERROR)
                 } else {
-                    console.log(error.message);
+                    console.error(error.message);
                     this.loggerService.add('Ocorreu um erro inesperado durante o login', LogStatus.ERROR);
                 }
                 return;

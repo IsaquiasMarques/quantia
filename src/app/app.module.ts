@@ -7,6 +7,7 @@ import { AuthenticationComponent } from './templates/authentication/authenticati
 import { AccountComponent } from './templates/account/account.component';
 import { ManagementComponent } from './templates/management/management.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ManagementComponent
   ],
   imports: [
+    SharedModule,
     BrowserModule,
     AppRoutingModule
   ],

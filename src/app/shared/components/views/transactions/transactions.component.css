@@ -1,0 +1,9 @@
+.see-more::after{
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(180deg, transparent, white 80%);
+}
