@@ -20,6 +20,7 @@ implements OnInit, OnChanges {
   @Input() showBottomInformations = true;
   @Input() showLimitationsInformation!: { status: boolean, limit: number };
   @Input() addCardButton: { visibility: boolean, route?: string } = { visibility: false }
+  @Input() cardDropdownButton: { visible: boolean, items: ('edit' | 'hideValues' | 'delete')[] } = { visible: false, items: [ "edit", "hideValues" ] }
 
   // element with overflow hidden
   @ViewChild('cardsContentScroller') cardsContentScroller!: ElementRef<HTMLElement>;

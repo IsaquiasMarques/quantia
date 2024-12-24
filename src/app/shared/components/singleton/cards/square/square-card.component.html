@@ -1,5 +1,5 @@
 <div class="card w-[204px] min-h-[181px] h-full border border-[#DCDCDC] rounded-[15px] p-[15px] flex flex-col justify-between items-start">
-    <div class="card-header w-full flex justify-between items-center">
+    <div class="card-header relative w-full flex justify-between items-center">
         <div class="icon w-[34px] h-[34px] flex justify-center items-center rounded-[10px]"
         [style.backgroundColor]="this.highlightColor"
         >
@@ -8,15 +8,40 @@
             />
         </div>
 
-        <div class="card-dots h-max">
-            <a>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </a>
-        </div>
+        @if (this.cardDropdownButton.visible) {
+            <div class="card-dots h-max">
+                <a (click)="this.toggleCardDropdown()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+            
+            @if (this.showCardDropdown) {
+                <div class="card-dropdown appear-softly absolute top-8 right-0 bg-white border border-gray-200 p-2 rounded">
+                    <div class="dropdown-container">
+                        <ul class=" flex flex-col gap-1">
+                            @for (item of this.cardDropdownButton.items; track $index) {
+                                @switch (item) {
+                                    @case ('edit') {
+                                        <li><a [routerLink]="null" class="text-sm text-default py-0" >Editar cartão</a></li>
+                                    }
+                                    @case ('hideValues') {
+                                        <li><a [routerLink]="null" class="text-sm text-default py-0" >Ocultar valores</a></li>
+                                    }
+                                    @case ('delete') {
+                                        <li><a [routerLink]="null" class="text-sm text-error/90 py-0" >Eliminar cartão</a></li>
+                                    }
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+        }
+
     </div>
     <div class="card-body w-full">
         <h1 class="font-outfit text-[1.25rem] limited-text two-lines leading-[25px] text-left text-primary">

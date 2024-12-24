@@ -21,7 +21,8 @@ implements OnInit, OnChanges {
   @Input() cardCurrency!: ICurrency;
   @Input() addCardButton: { visibility: boolean, route?: string } = { visibility: false };
   @Input() showValue = false;
-
+  @Input() cardDropdownButton: { visible: boolean, items: ('edit' | 'hideValues' | 'delete')[] } = { visible: true, items: [ "edit", "hideValues" ] }
+  
   // element with overflow hidden
   @ViewChild('goalsContentScroller') goalsContentScroller!: ElementRef<HTMLElement>;
   @ViewChild('sectionHeaderLimitedContainer') sectionHeaderLimitedContainer!: ElementRef<HTMLElement>

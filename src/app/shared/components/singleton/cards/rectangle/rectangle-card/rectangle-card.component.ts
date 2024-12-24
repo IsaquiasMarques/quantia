@@ -23,4 +23,5 @@ export class RectangleCardComponent {
   @Input() amount: number = 0;
   @Input() currency!: ICurrency;
   @Input() showValue = false;
+  @Input() cardDropdownButton: { visible: boolean, items: ('edit' | 'hideValues' | 'delete')[] } = { visible: true, items: [ "edit", "hideValues" ] }
 }
