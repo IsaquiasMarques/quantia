@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Icon } from '@core/models/icon.model';
 import { IconComponent } from '../../icon/icon.component';
 import { FormatPipe } from '@shared/pipes/number/format.pipe';
 import { RouterLink } from '@angular/router';
+import { TemplateExtender } from '../template.extender';
 
 @Component({
   selector: 'app-square-card',
@@ -12,14 +13,15 @@ import { RouterLink } from '@angular/router';
   templateUrl: './square-card.component.html',
   styleUrl: './square-card.component.css'
 })
-export class SquareCardComponent {
+export class SquareCardComponent extends TemplateExtender {
   @Input() icon!: Icon;
   @Input() highlightColor: string = '';
   @Input() tinyRightText: string = '';
   @Input() title: string = '';
+  @Input({ required: true }) id: string = '';
   @Input() description: string = '';
   @Input() amount: number = 0;
-  @Input() showValue = true;
+  @Input() showValue = false;
   @Input() showBottomInformations = true;
   @Input() cardDropdownButton: { visible: boolean, items: ('edit' | 'hideValues' | 'delete')[] } = { visible: false, items: [ "edit", "hideValues" ] }
   showCardDropdown: boolean = false;
@@ -32,6 +34,12 @@ export class SquareCardComponent {
     }
   }
 
+  deleteItem(): void{
+   if(window.confirm("Deseja realmente eliminar este item?")){
+     this.deletionService.deleteCard(this.id);
+   }
+  }
+
   openCardDropdown(): void{
     this.showCardDropdown = true;
   }
@@ -39,4 +47,5 @@ export class SquareCardComponent {
   closeCardDropdown(): void{
     this.showCardDropdown = false;
   }
+
 }

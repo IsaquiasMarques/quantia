@@ -9,9 +9,11 @@ export enum LoaderActionEnum{
     //cards
     CARDS = '[user-account] get user cards meta-data',
     CREATE_CARD = '[user-account] create user card',
+    EDIT_CARD = '[user-account] edit user card',
 
     //goals
     GOALS = '[user-account] get user goals meta-data',
+    CREATE_GOAL = '[user-account] create card goal',
 
     //transactions
     TRANSACTIONS = '[user-account] get user transactions meta-data',

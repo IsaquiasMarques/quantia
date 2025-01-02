@@ -45,10 +45,10 @@
                 <div class="items-list max-h-[160px] overflow-y-auto no-scroller">
                     @for (item of this.filteredItems; track $index) {
                         <div class="item px-5 py-[10px] text-primary cursor-pointer border-y border-[#F3F3F3] hover:bg-[#F1F1F1]"
-                        [ngClass]="{ 'bg-[#F1F1F1]': this.itemIndex(item[this.optionValue]) !== -1 }"
+                        [ngClass]="{ 'bg-[#F1F1F1]': this.itemIndex(item[this.option.value]) !== -1 }"
                         (click)="this.selectItem(item)"
                         >
-                            {{ item[this.optionName] }}
+                            {{ item[this.option.name] }}
                         </div>
                     }
                 </div>
@@ -68,7 +68,7 @@
                             <path d="M4 4L9 9" stroke="white" stroke-width="1.08547" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </button>
-                    {{ selectedItem[this.optionName] }}
+                    {{ selectedItem[this.option.name] }}
                 </div>
             }
         </div>

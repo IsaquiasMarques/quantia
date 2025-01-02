@@ -7,7 +7,6 @@
                 [loaderActionEnum]="this.loaderActionEnum.CARDS"
                 [sectionTitle]="{ title: 'Quantia geral', count: true }"
                 [cards]="generalCards"
-                [showValue]="true"
                 [cardDropdownButton]="{ visible: true, items: [ 'hideValues' ] }"
                 />
             </div>
@@ -19,7 +18,7 @@
             [addCardButton]="{ visibility: true, route: '/account/cards/create' }"
             (activeIndexEventEmitter)="activeCardListener($event)"
             [cards]="cards"
-            [showValue]="true"
+            [cardDropdownButton]="{ visible: true, items: [ 'edit', 'hideValues', 'delete' ] }"
             />
         </div>
         @if (this.cards.length > 0) {
@@ -32,7 +31,6 @@
                 [cardCurrency]="cards[activeCardIndex()].settings.currency"
                 (activeIndexEventEmitter)="activeGoalEventListener($event)"
                 [captureEvents]="true"
-                [showValue]="true"
                 />
             </div>
         }

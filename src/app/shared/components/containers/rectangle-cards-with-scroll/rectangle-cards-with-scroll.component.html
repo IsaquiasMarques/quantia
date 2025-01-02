@@ -35,12 +35,14 @@
                     @for (goal of goals; track $index) {
                         <app-rectangle-card
                         [icon]="{ ref: goal.iconRef, color: 'white' }"
+                        [id]="goal.id"
                         [title]="goal.name"
                         [amount]="goal.goal_amount.amount"
                         [description]="goal.description"
                         [achievement]="goal.achievement_amount"
                         [currency]="cardCurrency"
-                        [showValue]="this.showValue"
+                        [showValue]="this.seeMoneyService.seeMoney$()"
+                        (changeSeeMoneyStatus)="this.seeMoneyService.changeSeeMoneyStatus($event)"
                         [cardDropdownButton]="this.cardDropdownButton"
                         />
                     }

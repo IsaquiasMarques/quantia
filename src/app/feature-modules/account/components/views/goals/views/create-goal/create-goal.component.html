@@ -1,0 +1,108 @@
+<div class="page-wrapper">
+    <div class="limited-container pt-6">
+        <h1 class="uppercase text-lg font-medium font-outfit text-primary leading-[23px]">
+            Adicionar Meta
+            
+            <!-- @if (sectionTitle.count) {
+                <span class="text-base text-mediumGray/80 font-normal">({{ this.cards.length }})</span>
+            } -->
+        </h1>
+    </div>
+
+    <div class="add-card-form my-7">
+        <div class="limited-container">
+            <form
+            (submit)="this.submit()"
+            [formGroup]="this.createGoalFormGroup"
+            class="flex flex-col gap-y-10">
+                <div class="input-container flex flex-col gap-y-4">
+                    
+                    <div class="cards-select w-full flex flex-col gap-[10px]">
+                        <app-select
+                        [name]="'cards'"
+                        [items]="cards"
+                        [label]="'Cartão destino'"
+                        [multi]="false"
+                        (selectedItemsEventEmitter)="this.captureSelectedCard($event)"
+                        [option]="{ value: 'id', name: 'name' }"
+                        [clearSelection]="this.resetCardSelection"
+                        [placeholder]="'Seleccione o cartão'"
+                        [required]="true"
+                        />
+                    </div>
+                    <div class="input w-full flex flex-col gap-[10px]">
+                        <label for="name" class="text-primary font-outfit text-base">Nome</label>
+                        <input
+                        type="text"
+                        formControlName="name"
+                        id="name"
+                        maxlength="30"
+                        placeholder="Arrendar uma casa"
+                        class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-mediumGray duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                        [ngClass]="{
+                            'is-invalid': createGoalFormGroup.get('name')?.invalid && createGoalFormGroup.get('name')?.touched
+                        }"
+                        >
+                    </div>
+                    <div class="input w-full flex flex-col gap-[10px]">
+                        <label for="description" class="text-primary font-outfit text-base">Descrição</label>
+                        <input
+                        type="text"
+                        formControlName="description"
+                        id="description"
+                        maxlength="30"
+                        placeholder="Poupança para arrendamento"
+                        class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-mediumGray duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                        [ngClass]="{
+                            'is-invalid': createGoalFormGroup.get('description')?.invalid && createGoalFormGroup.get('description')?.touched
+                        }"
+                        >
+                    </div>
+                    <div class="input w-full flex flex-col gap-[10px]">
+                        <label for="achievement" class="text-primary font-outfit text-base">Meta</label>
+                        <input
+                        appDigitGroups
+                        type="text"
+                        formControlName="achievement"
+                        id="achievement"
+                        minlength="1"
+                        placeholder="Quanto quer atingir?"
+                        class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-mediumGray duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                        [ngClass]="{
+                            'is-invalid': createGoalFormGroup.get('achievement')?.invalid && createGoalFormGroup.get('achievement')?.touched
+                        }"
+                        >
+                    </div>
+                    <div class="icons-select w-full flex flex-col gap-[10px]">
+                        <app-select
+                        [name]="'icons'"
+                        [items]="icons"
+                        [label]="'Ícone para a meta'"
+                        [multi]="false"
+                        (selectedItemsEventEmitter)="this.captureSelectedIcon($event)"
+                        [option]="{ value: 'id', name: 'name' }"
+                        [clearSelection]="this.resetIconsSelection"
+                        [placeholder]="'Seleccione o ícone'"
+                        [required]="true"
+                        />
+                    </div>
+                </div>
+                
+                <div class="submit-container">
+                    <div class="submit w-full">
+                        <button
+                            [disabled]="this.createGoalFormGroup.invalid || !(this.selectedCard.length > 0) || !(this.selectedIcon.length > 0)"
+                            type="submit"
+                            class="focus:outline-none disabled:cursor-auto px-5 py-4 font-outfit w-full duration-[.2s] bg-primary disabled:bg-primary/80 border-[1px] border-white hover:enabled:border-primary hover:enabled:bg-white text-white hover:enabled:text-primary font-medium rounded-[10px] text-sm">
+                            @if (!this.loaderService.getState(this.createGoalloaderActionEnum)()) {
+                                <span class="font-outfit">Adicionar meta</span>
+                            } @else {
+                                <app-load-spinner />
+                            }
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

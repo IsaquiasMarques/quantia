@@ -16,11 +16,11 @@
     </div>
     <div class="card-body w-full">
         @if (this.showValue) {
-            <h1 class="font-outfit text-xl limited-text one-line font-semibold text-left text-primary">
+            <h1 class="font-outfit text-xl appear-softly limited-text one-line font-semibold text-left text-primary">
                 {{ this.amount | number | format }} {{ currency.name }}
             </h1>
         } @else {
-            <h1 class="font-outfit text-xl limited-text one-line font-semibold text-left text-primary/30">
+            <h1 class="font-outfit text-xl appear-softly text-primary/50 limited-text one-line font-semibold text-left">
                 --- --- --- ---
             </h1>
         }

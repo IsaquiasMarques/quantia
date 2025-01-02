@@ -10,10 +10,9 @@ export class SelectComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() label: string = 'Label';
   @Input() name: string = 'label';
-  @Input() items!: any[];
-  @Input() optionValue!: string;
-  @Input() optionName!: string;
-  @Input() placeholder!: string;
+  @Input({ required: true }) items!: any[];
+  @Input({ required: true }) option!: { value: string, name: string };
+  @Input({ required: true }) placeholder!: string;
   @Input() multi: boolean = false;
   @Input() clearSelection: boolean = false;
 
@@ -24,7 +23,8 @@ export class SelectComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Output() selectedItemsEventEmitter: EventEmitter<any[]> = new EventEmitter<any[]>();
 
-  selectedItems: any[] = [];
+  @Input() selectedItems: any[] = [];
+  selectedItemsAlreadyFromParent: any[] = [];
   filteredItems: any[] = [];
 
   placeholderDisplay: string = '';
@@ -45,10 +45,17 @@ export class SelectComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+
     this.placeholderDisplay = this.placeholder;
+    
+    if(this.selectedItems.length > 0){
+      this.inputPlaceholderContentChange();
+      this.selectedItemsEventEmitter.emit(this.selectedItems);
+    }
+
     this.filteredItems = this.items;
     this.countItems();
-
+    
     if(this.clearSelection){
       this.selectedItems = [];
     }
@@ -106,7 +113,7 @@ export class SelectComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   selectItem(item: any){
-    let itemIndex = this.itemIndex(item[this.optionValue]);
+    let itemIndex = this.itemIndex(item[this.option.value]);
     if(itemIndex === -1){
       if(this.multi){
         this.selectedItems.push(item);
@@ -123,12 +130,12 @@ export class SelectComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   itemIndex(itemValue: any): number{
-    return this.selectedItems.findIndex(item => item[this.optionValue] === itemValue);
+    return this.selectedItems.findIndex(item => item[this.option.value] === itemValue);
   }
 
   searchItem(): void{
     if(this.selectSearchTerm.length !== 0){
-      this.filteredItems = this.items.filter(item => item[this.optionName].toLowerCase().includes(this.selectSearchTerm.toLocaleLowerCase()));
+      this.filteredItems = this.items.filter(item => item[this.option.name].toLowerCase().includes(this.selectSearchTerm.toLocaleLowerCase()));
     }else{
       this.filteredItems = this.items;
     }
@@ -137,7 +144,7 @@ export class SelectComponent implements OnInit, OnChanges, AfterViewInit {
   inputPlaceholderContentChange(){
     let getItemsNames: string[] = [];
     this.selectedItems.forEach(item => {
-      getItemsNames.push(item[this.optionName]);
+      getItemsNames.push(item[this.option.name]);
     });
     let joined = getItemsNames.join(', ');
     if(getItemsNames.length > 0){

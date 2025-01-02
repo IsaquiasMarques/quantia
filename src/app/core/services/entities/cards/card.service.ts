@@ -122,4 +122,36 @@ export class CardService{
         );
     }
 
+    editCardWithSettings(card_id: string, card: any): Observable<any>{
+        return this.editCard(card_id, card).pipe(
+            switchMap((cardResponse: any) => {
+                return this.editCardSettings(card_id, card);
+            })
+        )
+    }
+
+    private editCard(card_id: string, card: { name: string, objective_id: string }): Observable<any>{
+        return from(
+            this.supabase.supabase.from('cards').update({ name: card.name, objective_id: card.objective_id }).eq('id', card_id).select().single()
+        )
+    }
+
+    private editCardSettings(card_id: string, settings: { highlightColor: string, currency_id: string }): Observable<any>{
+        return from(
+            this.supabase.supabase.from('cardSettings')
+            .update(
+                {
+                    highlightColor: settings.highlightColor,
+                    currency_id: settings.currency_id
+                }
+            ).eq('card_id', card_id)
+        )
+    }
+
+    delete(card_id: string): Observable<any>{
+        return from(
+            this.supabase.supabase.from('cards').delete().eq('id', card_id)
+        )
+    }
+
 }

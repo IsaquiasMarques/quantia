@@ -13,6 +13,13 @@ import { MyCardsComponent } from './components/views/cards/views/index/my-cards.
 import { CreateCardComponent } from './components/views/cards/views/create/create-card.component';
 import { EditCardComponent } from './components/views/cards/views/edit/edit-card.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MyGoalsComponent } from './components/views/goals/views/my-goals/my-goals.component';
+import { CreateGoalComponent } from './components/views/goals/views/create-goal/create-goal.component';
+import { EditGoalComponent } from './components/views/goals/views/edit-goal/edit-goal.component';
+import { EditTransactionComponent } from './components/views/transactions/views/edit-transaction/edit-transaction.component';
+import { CreateTransactionComponent } from './components/views/transactions/views/create-transaction/create-transaction.component';
+import { MyTransactionsComponent } from './components/views/transactions/views/my-transactions/my-transactions.component';
+import { TransactionComponent } from './components/views/transactions/containers/transaction/transaction.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +31,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CreateCardComponent,
     EditCardComponent,
     GoalComponent,
+    MyGoalsComponent,
+    CreateGoalComponent,
+    EditGoalComponent,
+    EditTransactionComponent,
+    CreateTransactionComponent,
+    MyTransactionsComponent,
+    TransactionComponent,
   ],
   imports: [
     SharedModule,

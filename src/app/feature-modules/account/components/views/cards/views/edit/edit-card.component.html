@@ -1,1 +1,83 @@
-<p>edit-card works!</p>
+
+<div class="add-card-form my-7">
+    <div class="limited-container">
+        <form
+        (submit)="this.submit()"
+        [formGroup]="this.editCardFormGroup"
+        class="flex flex-col gap-y-10">
+            <div class="input-container flex flex-col gap-y-4">
+                <div class="input w-full flex flex-col gap-[10px]">
+                    <label for="name" class="text-primary font-outfit text-base">Nome</label>
+                    <input
+                    type="text"
+                    formControlName="name"
+                    id="name"
+                    placeholder=""
+                    class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-[#BDBDBD] duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                    [ngClass]="{
+                        'is-invalid': editCardFormGroup.get('name')?.invalid && editCardFormGroup.get('name')?.touched
+                    }"
+                    >
+                </div>
+                <div class="objectives-select w-full flex flex-col gap-[10px]">
+                    <app-select
+                    [name]="'objectives'"
+                    [items]="objectives"
+                    [label]="'Objectivo do cartão'"
+                    [multi]="false"
+                    (selectedItemsEventEmitter)="this.captureSelectedObjective($event)"
+                    [selectedItems]="[this.theCard()[0].objective]"
+                    [option]="{ value: 'id', name: 'description' }"
+                    [clearSelection]="this.resetObjectivesSelection"
+                    [placeholder]="'Seleccione o objectivo'"
+                    [required]="true"
+                    />
+                </div>
+                <div class="currencies-select w-full flex flex-col gap-[10px]">
+                    <app-select
+                    [name]="'currencies'"
+                    [items]="currencies"
+                    [label]="'Moeda'"
+                    [multi]="false"
+                    (selectedItemsEventEmitter)="this.captureSelectedCurrency($event)"
+                    [selectedItems]="[this.theCard()[0].settings.currency]"
+                    [placeholder]="'Seleccione a moeda'"
+                    [option]="{ value: 'id', name: 'name' }"
+                    [clearSelection]="this.resetCurrenciesSelection"
+                    [required]="true"
+                    />
+                </div>
+                <div class="input w-full flex flex-col gap-[10px]">
+                    <label for="color" class="text-primary font-outfit text-base">Cor de destaque</label>
+                    <input
+                    appColorInputDefaultValue
+                    [defaultValue]="this.theCard()[0].settings.highlightColor"
+                    type="color"
+                    formControlName="color"
+                    id="color"
+                    placeholder=""
+                    class="focus:outline-none input-color placeholder:text-base placeholder:font-['Outfit'] placeholder:text-[#BDBDBD] duration-[.2s] px-[15px] py-[15px] w-full h-[54px] bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                    [ngClass]="{
+                        'is-invalid': editCardFormGroup.get('color')?.invalid && editCardFormGroup.get('color')?.touched
+                    }"
+                    >
+                </div>
+            </div>
+            
+            <div class="submit-container">
+                <div class="submit w-full">
+                    <button
+                        [disabled]="this.editCardFormGroup.invalid || !(this.selectedObjective.length > 0) || !(this.selectedCurrency.length > 0)"
+                        type="submit"
+                        class="focus:outline-none disabled:cursor-auto px-5 py-4 font-outfit w-full duration-[.2s] bg-primary disabled:bg-primary/80 border-[1px] border-white hover:enabled:border-primary hover:enabled:bg-white text-white hover:enabled:text-primary font-medium rounded-[10px] text-sm">
+                        @if (!this.loaderService.getState(this.editCardloaderActionEnum)()) {
+                            <span class="font-outfit">Editar cartão</span>
+                        } @else {
+                            <app-load-spinner />
+                        }
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

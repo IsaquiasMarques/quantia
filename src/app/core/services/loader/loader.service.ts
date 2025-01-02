@@ -36,7 +36,15 @@ export class Loader{
             loading: signal(false)
         },
         {
+            action: LoaderActionEnum.EDIT_CARD,
+            loading: signal(false)
+        },
+        {
             action: LoaderActionEnum.GOALS,
+            loading: signal(false)
+        },
+        {
+            action: LoaderActionEnum.CREATE_GOAL,
             loading: signal(false)
         },
         {

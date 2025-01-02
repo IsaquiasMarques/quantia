@@ -13,6 +13,9 @@ import { RouterModule } from '@angular/router';
 import { ScrollerPointControllersComponent } from './components/singleton/scroller-point-controllers/scroller-point-controllers.component';
 import { SelectComponent } from './components/widgets/select/select.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ColorInputDefaultValueDirective } from './directives/color-input-default-value.directive';
+import { AlertComponent } from './components/singleton/alert/alert.component';
+import { DigitGroupsDirective } from './directives/digit-groups.directive';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SquareCardsWithScrollComponent,
     RectangleCardsWithScrollComponent,
     SelectComponent,
+    ColorInputDefaultValueDirective,
+    AlertComponent,
+    DigitGroupsDirective,
   ],
   imports: [
     CommonModule,
@@ -41,7 +47,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormatPipe,
     RouterModule,
     SelectComponent,
-    LoadSpinnerComponent
+    LoadSpinnerComponent,
+    ColorInputDefaultValueDirective,
+    DigitGroupsDirective
   ]
 })
 export class SharedModule { }

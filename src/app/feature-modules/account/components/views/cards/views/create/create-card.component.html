@@ -9,6 +9,7 @@
         [showCardButton]="false"
         [captureEvents]="false"
         [showBottomInformations]="false"
+        [cardDropdownButton]="{ visible: true, items: [ 'edit', 'delete' ] }"
         />
     </div>
 
@@ -39,8 +40,7 @@
                         [label]="'Objectivo do cartão'"
                         [multi]="false"
                         (selectedItemsEventEmitter)="this.captureSelectedObjective($event)"
-                        [optionValue]="'id'"
-                        [optionName]="'description'"
+                        [option]="{ value: 'id', name: 'description' }"
                         [clearSelection]="this.resetObjectivesSelection"
                         [placeholder]="'Seleccione o objectivo'"
                         [required]="true"
@@ -53,8 +53,7 @@
                         [label]="'Moeda'"
                         [multi]="false"
                         (selectedItemsEventEmitter)="this.captureSelectedCurrency($event)"
-                        [optionValue]="'id'"
-                        [optionName]="'name'"
+                        [option]="{ value: 'id', name: 'name' }"
                         [clearSelection]="this.resetCurrenciesSelection"
                         [placeholder]="'Seleccione a moeda'"
                         [required]="true"

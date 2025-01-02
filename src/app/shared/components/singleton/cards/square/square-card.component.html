@@ -26,13 +26,30 @@
                             @for (item of this.cardDropdownButton.items; track $index) {
                                 @switch (item) {
                                     @case ('edit') {
-                                        <li><a [routerLink]="null" class="text-sm text-default py-0" >Editar cartão</a></li>
+                                        <li>
+                                            <a
+                                            [routerLink]="['/account/cards/edit/' + this.id ]"
+                                            class="text-sm text-default py-0"
+                                            >Editar cartão</a></li>
                                     }
                                     @case ('hideValues') {
-                                        <li><a [routerLink]="null" class="text-sm text-default py-0" >Ocultar valores</a></li>
+                                        <li>
+                                            <a
+                                            [routerLink]="null"
+                                            class="text-sm text-default py-0"
+                                            (click)="this.changeSeeMoneyStatusEventEmitter(!this.showValue)"
+                                            (click)="this.closeCardDropdown()"
+                                            >{{ (this.showValue ? 'Ocultar valores' : 'Mostrar valores') }}</a></li>
                                     }
                                     @case ('delete') {
-                                        <li><a [routerLink]="null" class="text-sm text-error/90 py-0" >Eliminar cartão</a></li>
+                                        <li>
+                                            <a
+                                            [routerLink]="null"
+                                            (click)="this.closeCardDropdown()"
+                                            (click)="this.deleteItem()"
+                                            class="text-sm text-error/90 py-0"
+                                            >Eliminar cartão</a>
+                                        </li>
                                     }
                                 }
                             }
@@ -59,12 +76,12 @@
         @if (this.showBottomInformations) {
             <div class="amount max-w-[130px]">
                 @if (this.showValue) {
-                    <p class="text-[20px] text-primary font-outfit font-semibold limited-text one-line">
+                    <p class="text-[20px] appear-softly text-primary font-outfit font-semibold limited-text one-line">
                         {{ this.amount | number | format }} <span class="opacity-0"></span>
                     </p>
                 } @else {
                     <!-- <p class="placeholder !relative !w-fit !h-fit rounded text-xl text-transparent font-sembold"> placeholder</p> -->
-                    <p class="text-xl text-primary/30 font-outfit font-semibold limited-text one-line">
+                    <p class="text-xl appear-softly text-primary/50 font-outfit font-semibold limited-text one-line">
                         --- --- --- ---
                     </p>
                 }

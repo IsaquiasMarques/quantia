@@ -5,6 +5,7 @@ import { ICard } from '@core/models/entities/cards.model';
 import { ICurrency } from '@core/models/entities/currencies.model';
 import { IGoal } from '@core/models/entities/goals.model';
 import { Loader } from '@core/services/loader/loader.service';
+import { SeeMoneyService } from '@shared/services/see-money.service';
 
 @Component({
   selector: 'app-rectangle-cards-with-scroll',
@@ -14,13 +15,14 @@ import { Loader } from '@core/services/loader/loader.service';
 export class RectangleCardsWithScrollComponent
 extends ControlledScrollWithLoader
 implements OnInit, OnChanges {
+
+  public seeMoneyService = inject(SeeMoneyService);
   
   @Input() sectionTitle: { title: string, count: boolean } = { title: 'Cards', count: false };
   @Input() showLimitationsInformation!: { status: boolean, limit: number };
   @Input() goals: IGoal[] = [];
   @Input() cardCurrency!: ICurrency;
   @Input() addCardButton: { visibility: boolean, route?: string } = { visibility: false };
-  @Input() showValue = false;
   @Input() cardDropdownButton: { visible: boolean, items: ('edit' | 'hideValues' | 'delete')[] } = { visible: true, items: [ "edit", "hideValues" ] }
   
   // element with overflow hidden

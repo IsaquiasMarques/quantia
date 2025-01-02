@@ -7,6 +7,13 @@ import { GoalComponent } from './components/views/goals/container/goal/goal.comp
 import { CreateCardComponent } from './components/views/cards/views/create/create-card.component';
 import { MyCardsComponent } from './components/views/cards/views/index/my-cards.component';
 import { EditCardComponent } from './components/views/cards/views/edit/edit-card.component';
+import { MyGoalsComponent } from './components/views/goals/views/my-goals/my-goals.component';
+import { CreateGoalComponent } from './components/views/goals/views/create-goal/create-goal.component';
+import { EditGoalComponent } from './components/views/goals/views/edit-goal/edit-goal.component';
+import { TransactionComponent } from './components/views/transactions/containers/transaction/transaction.component';
+import { MyTransactionsComponent } from './components/views/transactions/views/my-transactions/my-transactions.component';
+import { CreateTransactionComponent } from './components/views/transactions/views/create-transaction/create-transaction.component';
+import { EditTransactionComponent } from './components/views/transactions/views/edit-transaction/edit-transaction.component';
 
 const routes: Routes = [
   {
@@ -43,60 +50,64 @@ const routes: Routes = [
             component: CreateCardComponent,
           },
           {
-            path: 'edit',
+            path: 'edit/:id',
             title: 'Editar cartão',
             component: EditCardComponent,
           },
         ]
       },
-      // {
-      //   path: 'goals',
-      //   component: GoalComponent,
-      //   children: [
-      //     {
-      //       path: '',
-      //       redirectTo: '/account/goals/index',
-      //       pathMatch: 'full',
-      //     },
-      //     {
-      //       path: 'index',
-      //       title: 'Minhas metas',
-      //       component: GoalIndexComponent,
-      //     },
-      //     {
-      //       path: 'create',
-      //       title: 'Adicionar cartão',
-      //       component: GoalCreateComponent,
-      //     },
-      //     {
-      //       path: 'edit',
-      //       title: 'Editar cartão',
-      //       component: GoalEditComponent,
-      //     },
-      //   ]
-      // },
-      // {
-      //   path: 'transactions',
-      //   redirectTo: '/account/transactions/index',
-      //   pathMatch: 'full',
-      //   children: [
-      //     {
-      //       path: 'index',
-      //       title: 'Minhas transações',
-      //       component: TransactionIndexComponent,
-      //     },
-      //     {
-      //       path: 'create',
-      //       title: 'Adicionar transação',
-      //       component: TransactionCreateComponent,
-      //     },
-      //     {
-      //       path: 'edit',
-      //       title: 'Editar transação',
-      //       component: TransactionEditComponent,
-      //     },
-      //   ]
-      // },
+      {
+        path: 'goals',
+        component: GoalComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: '/account/goals/index',
+            pathMatch: 'full',
+          },
+          {
+            path: 'index',
+            title: 'Minhas metas',
+            component: MyGoalsComponent,
+          },
+          {
+            path: 'create',
+            title: 'Adicionar cartão',
+            component: CreateGoalComponent,
+          },
+          {
+            path: 'edit',
+            title: 'Editar cartão',
+            component: EditGoalComponent,
+          },
+        ]
+      },
+      {
+        path: 'transactions',
+        component: TransactionComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: '/account/transactions/index',
+            pathMatch: 'full'
+          },
+          {
+            path: 'index',
+            title: 'Minhas transações',
+            component: MyTransactionsComponent,
+          },
+          {
+            path: 'create',
+            title: 'Adicionar transação',
+            component: CreateTransactionComponent,
+          },
+          {
+            path: 'edit',
+            title: 'Editar transação',
+            component: EditTransactionComponent,
+          },
+        ]
+      },
     ]
   }
 ];

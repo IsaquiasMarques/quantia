@@ -3,6 +3,7 @@ import { ControlledScrollWithLoader } from '@core/classes/abstracts/controlled-s
 import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
 import { ICard } from '@core/models/entities/cards.model';
 import { Loader } from '@core/services/loader/loader.service';
+import { SeeMoneyService } from '@shared/services/see-money.service';
 
 @Component({
   selector: 'app-square-cards-with-scroll',
@@ -13,10 +14,11 @@ export class SquareCardsWithScrollComponent
 extends ControlledScrollWithLoader
 implements OnInit, OnChanges {
 
+  public seeMoneyService = inject(SeeMoneyService);
+
   @Input() sectionTitle: { title: string, count: boolean } = { title: 'Cards', count: false };
   @Input() cards: ICard[] = [];
   @Input() showCardButton: boolean = true;
-  @Input() showValue = false;
   @Input() showBottomInformations = true;
   @Input() showLimitationsInformation!: { status: boolean, limit: number };
   @Input() addCardButton: { visibility: boolean, route?: string } = { visibility: false }
