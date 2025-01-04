@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ColorInputDefaultValueDirective } from './directives/color-input-default-value.directive';
 import { AlertComponent } from './components/singleton/alert/alert.component';
 import { DigitGroupsDirective } from './directives/digit-groups.directive';
+import { HtmlSanitizerPipe } from './pipes/html/html-sanitizer.pipe';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { DigitGroupsDirective } from './directives/digit-groups.directive';
     RectangleCardComponent,
     ScrollerPointControllersComponent,
     RouterModule,
-    FormsModule
+    FormsModule,
+    HtmlSanitizerPipe,
   ],
   exports: [
     CommonModule,
@@ -49,7 +51,8 @@ import { DigitGroupsDirective } from './directives/digit-groups.directive';
     SelectComponent,
     LoadSpinnerComponent,
     ColorInputDefaultValueDirective,
-    DigitGroupsDirective
+    DigitGroupsDirective,
+    HtmlSanitizerPipe
   ]
 })
 export class SharedModule { }

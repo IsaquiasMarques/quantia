@@ -112,6 +112,7 @@ export class AuthService extends AuthenticationContext{
                 console.error("Error during getting user data: " + error);
                 this.loggerService.add("Error ao carregar as suas informações", LogStatus.ERROR);
                 this.loaderService.changeState(LoaderActionEnum.GETTING_USER_DATA, false);
+                this.router.navigate(['/auth']);
             }
         })
 

@@ -15,7 +15,7 @@ import { TemplateExtender } from '../../template.extender';
   styleUrl: './rectangle-card.component.css'
 })
 export class RectangleCardComponent extends TemplateExtender {
-  @Input() icon!: Icon;
+  @Input({ required: true }) icon!: Icon;
   @Input() highlightColor: string = '';
   @Input() tinyRightText: string = '';
   @Input({ required: true }) id: string = '';

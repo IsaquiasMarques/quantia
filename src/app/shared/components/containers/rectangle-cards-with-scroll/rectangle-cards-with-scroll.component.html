@@ -34,7 +34,7 @@
             @if (goals.length > 0) {
                     @for (goal of goals; track $index) {
                         <app-rectangle-card
-                        [icon]="{ ref: goal.iconRef, color: 'white' }"
+                        [icon]="goal.icon"
                         [id]="goal.id"
                         [title]="goal.name"
                         [amount]="goal.goal_amount.amount"
@@ -48,8 +48,8 @@
                     }
             } @else {
                 <!-- @if(this.addCardButton.visibility){ -->
-                    <div class="card w-[227px] min-h-[157px] h-full border border-dashed border-[#DCDCDC] rounded-[15px] p-[15px] flex justify-center items-center">
-                        <a [routerLink]="addCardButton.route" class="block w-fit h-full">
+                    <div class="card w-[227px] h-[157px] border border-dashed border-[#DCDCDC] rounded-[15px] p-[15px]">
+                        <a [routerLink]="addCardButton.route" class="w-full h-full flex justify-center items-center">
                             <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M10 30H50M30 10V50" stroke="#B2B2B2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>

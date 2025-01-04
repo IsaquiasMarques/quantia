@@ -40,9 +40,7 @@ export class CardFacade extends FacadeExtender{
                         }
                         return response;
                     }),
-                    catchError(error => {
-                        return throwError(() => error)
-                    })
+                    catchError(error => throwError(() => error))
                 )
     }
 

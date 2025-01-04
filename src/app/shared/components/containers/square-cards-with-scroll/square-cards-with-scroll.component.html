@@ -63,7 +63,7 @@
                 @if (cards.length > 0) {
                         @for (card of cards; track $index) {
                             <app-square-card
-                            [icon]="{ ref: card.iconRef, color: 'white' }"
+                            [icon]="card.objective.icon"
                             [id]="card.id"
                             [title]="card.name"
                             [description]="card.objective.description"
@@ -78,8 +78,8 @@
                         }
                 } @else {
                     @if (this.showCardButton) {
-                        <div class="card w-[204px] min-h-[181px] h-full border border-dashed border-[#DCDCDC] rounded-[15px] p-[15px] flex justify-center items-center">
-                            <a [routerLink]="addCardButton.route" class="block w-fit h-full">
+                        <div class="card w-[204px] h-[181px] border border-dashed border-[#DCDCDC] rounded-[15px] p-[15px] flex justify-center items-center">
+                            <a [routerLink]="addCardButton.route" class="w-full h-full flex justify-center items-center">
                                 <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M10 30H50M30 10V50" stroke="#B2B2B2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>

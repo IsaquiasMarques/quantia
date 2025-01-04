@@ -1,4 +1,7 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { LoaderSupporter } from '@core/classes/abstracts/loader-supporter.class';
+import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
+import { Loader } from '@core/services/loader/loader.service';
 import { executeWhenReady } from '@shared/helpers/execute-when-ready.func';
 
 @Component({
@@ -6,15 +9,17 @@ import { executeWhenReady } from '@shared/helpers/execute-when-ready.func';
   templateUrl: './select.component.html',
   styleUrl: './select.component.css'
 })
-export class SelectComponent implements OnInit, OnChanges, AfterViewInit {
+export class SelectComponent extends LoaderSupporter implements OnInit, OnChanges, AfterViewInit {
 
   @Input() label: string = 'Label';
   @Input() name: string = 'label';
   @Input({ required: true }) items!: any[];
-  @Input({ required: true }) option!: { value: string, name: string };
+  @Input({ required: true }) option!: { value: string, name: string, searchByAttribute?: string };
+  @Input() optionRenderization: { render: boolean, type: 'svg' | 'img', attribute: string } = { render: false, type: 'svg', attribute: '' }
   @Input({ required: true }) placeholder!: string;
   @Input() multi: boolean = false;
   @Input() clearSelection: boolean = false;
+  @Input({ required: true }) override loaderActionEnum!: LoaderActionEnum;
 
   // states
   touched: boolean = false;
@@ -47,6 +52,11 @@ export class SelectComponent implements OnInit, OnChanges, AfterViewInit {
   ngOnChanges(changes: SimpleChanges): void {
 
     this.placeholderDisplay = this.placeholder;
+
+    if(this.loader$()){
+      this.countItemsWhileLoading();
+      return;
+    }
     
     if(this.selectedItems.length > 0){
       this.inputPlaceholderContentChange();
@@ -54,7 +64,7 @@ export class SelectComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     this.filteredItems = this.items;
-    this.countItems();
+    this.countItemsAfterLoading();
     
     if(this.clearSelection){
       this.selectedItems = [];
@@ -62,10 +72,14 @@ export class SelectComponent implements OnInit, OnChanges, AfterViewInit {
   }
   
   ngAfterViewInit(): void {
-    this.countItems();
+    if(this.loader$()){
+      this.countItemsWhileLoading();
+    } else {
+      this.countItemsAfterLoading();
+    }
   }
 
-  countItems(){
+  countItemsAfterLoading(){
     if(!(this.items.length > 0)) return;
     const selectDropdownReference = document.querySelector(`.dropdown-${ this.name }`) as HTMLElement;
     if(!selectDropdownReference) return;
@@ -82,6 +96,17 @@ export class SelectComponent implements OnInit, OnChanges, AfterViewInit {
         }
       }
     )
+  }
+
+  countItemsWhileLoading(): void{
+    const selectDropdownReference = document.querySelector(`.dropdown-${ this.name }`) as HTMLElement;
+    if(!selectDropdownReference) return;
+    if(this.loader$()){
+      for (let index = 0; index < selectDropdownReference.children.length; index++) {
+        this.maxHeightOfDropdown += selectDropdownReference.children[index].clientHeight;
+      }
+      return;
+    }
   }
 
   toggleSelectVisibility(){
@@ -135,7 +160,7 @@ export class SelectComponent implements OnInit, OnChanges, AfterViewInit {
 
   searchItem(): void{
     if(this.selectSearchTerm.length !== 0){
-      this.filteredItems = this.items.filter(item => item[this.option.name].toLowerCase().includes(this.selectSearchTerm.toLocaleLowerCase()));
+      this.filteredItems = this.items.filter(item => ((this.option.searchByAttribute) ? item[this.option.searchByAttribute] : item[this.option.name]).toLowerCase().includes(this.selectSearchTerm.toLocaleLowerCase()));
     }else{
       this.filteredItems = this.items;
     }

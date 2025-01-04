@@ -24,6 +24,7 @@
                         [label]="'Cartão destino'"
                         [multi]="false"
                         (selectedItemsEventEmitter)="this.captureSelectedCard($event)"
+                        [loaderActionEnum]="this.getCardsLoaderActionEnum"
                         [option]="{ value: 'id', name: 'name' }"
                         [clearSelection]="this.resetCardSelection"
                         [placeholder]="'Seleccione o cartão'"
@@ -62,6 +63,8 @@
                         <label for="achievement" class="text-primary font-outfit text-base">Meta</label>
                         <input
                         appDigitGroups
+                        [separator]="'.'"
+                        [digits]="3"
                         type="text"
                         formControlName="achievement"
                         id="achievement"
@@ -73,6 +76,23 @@
                         }"
                         >
                     </div>
+                    <div class="input w-full flex flex-col gap-[10px]">
+                        <label for="actual_amount" class="text-primary font-outfit text-base">Quantia actual</label>
+                        <input
+                        appDigitGroups
+                        [separator]="'.'"
+                        [digits]="3"
+                        type="text"
+                        formControlName="actual_amount"
+                        id="actual_amount"
+                        min="0"
+                        placeholder="Quanto possui?"
+                        class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-mediumGray duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                        [ngClass]="{
+                            'is-invalid': createGoalFormGroup.get('actual_amount')?.invalid && createGoalFormGroup.get('actual_amount')?.touched
+                        }"
+                        >
+                    </div>
                     <div class="icons-select w-full flex flex-col gap-[10px]">
                         <app-select
                         [name]="'icons'"
@@ -80,7 +100,9 @@
                         [label]="'Ícone para a meta'"
                         [multi]="false"
                         (selectedItemsEventEmitter)="this.captureSelectedIcon($event)"
-                        [option]="{ value: 'id', name: 'name' }"
+                        [loaderActionEnum]="this.getIconsLoaderActionEnum"
+                        [option]="{ value: 'id', name: 'display', searchByAttribute: 'reference' }"
+                        [optionRenderization]="{ render: true, type: 'svg', attribute: 'embedded_svg' }"
                         [clearSelection]="this.resetIconsSelection"
                         [placeholder]="'Seleccione o ícone'"
                         [required]="true"

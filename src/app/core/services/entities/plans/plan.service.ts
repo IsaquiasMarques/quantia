@@ -4,7 +4,7 @@ import { User } from "@core/classes/entities/User/user.class";
 import { SECRET_COFING } from "@core/config/secret.config";
 import { IPlan } from "@core/models/entities/plan.model";
 import { SupabaseService } from "@core/services/supabase/supabase.service";
-import { from, map, Observable } from "rxjs";
+import { catchError, from, map, Observable, throwError } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -30,7 +30,8 @@ export class PlanService{
                                 .select()
                                 .then((response) => {
                                     if(response.error){
-                                        console.error("Error during inserting relation between user and plan if data is null: " + response.error.message);
+                                        // console.error("Error during inserting relation between user and plan if data is null: " + response.error.message);
+                                        throw new Error("Error during inserting relation between user and plan if data is null: " + response.error.message)
                                     }
                                 })
                                 break;
@@ -45,12 +46,13 @@ export class PlanService{
                             name: planData.name,
                             limits: {
                                 cards: planData.cardsLimit,
-                                goals: planData.goalsLimit
+                                goalsPerCard: planData.goalsLimitByCard
                             }
                         }).get();
                     }    
                     return plan;
-            })
+            }),
+            catchError(error => throwError(() => error))
         )
     }
 

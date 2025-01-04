@@ -40,6 +40,30 @@ export class Loader{
             loading: signal(false)
         },
         {
+            action: LoaderActionEnum.ICONS,
+            loading:  signal(false)
+        },
+        {
+            action: LoaderActionEnum.CREATE_ICON,
+            loading:  signal(false)
+        },
+        {
+            action: LoaderActionEnum.CURRENCIES,
+            loading:  signal(false)
+        },
+        {
+            action: LoaderActionEnum.CREATE_CURRENCY,
+            loading:  signal(false)
+        },
+        {
+            action: LoaderActionEnum.CARD_OBJECTIVES,
+            loading:  signal(false)
+        },
+        {
+            action: LoaderActionEnum.CREATE_CARD_OBJECTIVE,
+            loading:  signal(false)
+        },
+        {
             action: LoaderActionEnum.GOALS,
             loading: signal(false)
         },

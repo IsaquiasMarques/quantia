@@ -4,7 +4,7 @@ import { ICard } from "@core/models/entities/cards.model";
 import { IGoalAmount } from "@core/models/entities/goal-amount.model";
 import { IGoal } from "@core/models/entities/goals.model";
 import { SupabaseService } from "@core/services/supabase/supabase.service";
-import { from, map, Observable, tap } from "rxjs";
+import { from, map, Observable, switchMap, tap } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -13,10 +13,6 @@ export class GoalService{
 
     private supabaseClient = inject(SupabaseService);
 
-    getGoals(): Observable<IGoal[]>{
-        return from([]);
-    }
-
     getGoalsByCard(card_id: string): Observable<IGoal[]>{
         return from(
             this.supabaseClient.supabase.from('cardGoals').select(`
@@ -24,13 +20,16 @@ export class GoalService{
                 name,
                 description,
                 achievement_amount,
-                goal_icon,
+                icon_id:icons(id,reference,display,embedded_svg),
                 card_id,
+                created_at,
                 goalAmount(
                     id,
                     amount
                 )
-            `).eq('card_id', card_id)
+            `)
+            .eq('card_id', card_id)
+            .order('created_at', { ascending: false })
         ).pipe(
             map((incoming: any) => {
                 let outcoming: IGoal[] = [];
@@ -38,13 +37,18 @@ export class GoalService{
                 incoming.data.forEach((goal: any) => {
 
                     let goalAmount: IGoalAmount;
-                    goalAmount = (goal.goalAmount.length > 0) ? goal.goalAmount[0] : { id: 'empty', amount: 0 };
+                    goalAmount = (goal.goalAmount) ? goal.goalAmount : { id: 'empty', amount: 0 };
 
                     outcoming.push({
                         id: goal.id,
                         name: goal.name,
                         description: goal.description,
-                        iconRef: goal.goal_icon,
+                        icon: {
+                            id: goal.icon_id.id,
+                            reference: goal.icon_id.reference,
+                            display: goal.icon_id.display,
+                            embedded_svg: goal.icon_id.embedded_svg
+                        },
                         achievement_amount: goal.achievement_amount,
                         goal_amount: goalAmount
                     });
@@ -53,6 +57,36 @@ export class GoalService{
                 return outcoming;
 
             })
+        );
+    }
+
+    create(goal: any): Observable<any>{
+        return from(
+            this.supabaseClient.supabase.from('cardGoals').insert(
+                {
+                    name: goal.name,
+                    description: goal.description,
+                    achievement_amount: goal.achievement_amount,
+                    card_id: goal.card_id,
+                    icon_id: goal.icon_id
+                }
+            ).select('id').single()
+        ).pipe(
+            switchMap((latestGoal: any) => {
+                return this.createGoalAmount(latestGoal.data.id, goal.actual_amount);
+            })
+        );
+    }
+
+    private createGoalAmount(goal_id: string, amount: number): Observable<any>{
+        return from(
+            this.supabaseClient.supabase.from('goalAmount').insert({ amount: amount, goal_id: goal_id })
+        )
+    }
+
+    updateGoalAmount(goal_id: string, amount: number): Observable<any>{
+        return from(
+            this.supabaseClient.supabase.from('goalAmount').update({ amount: amount }).eq('goal_id', goal_id)
         );
     }
 

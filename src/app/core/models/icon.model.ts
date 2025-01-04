@@ -1,6 +1,6 @@
-import { IconEnum } from "@core/enums/icon.enum";
-
 export interface Icon{
-    ref: IconEnum,
-    color: string
+    id: string,
+    reference: string,
+    embedded_svg: string,
+    display: string
 }

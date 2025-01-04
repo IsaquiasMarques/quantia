@@ -3,6 +3,6 @@ export interface IPlan{
     name: string,
     limits: {
         cards: number,
-        goals: number
+        goalsPerCard: number
     }
 }

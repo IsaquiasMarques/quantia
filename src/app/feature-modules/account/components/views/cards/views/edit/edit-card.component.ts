@@ -38,6 +38,8 @@ export class EditCardComponent extends Unsubscriber implements OnInit {
   resetCurrenciesSelection: boolean = false;
 
   editCardloaderActionEnum: LoaderActionEnum = LoaderActionEnum.EDIT_CARD;
+  getObjectivesloaderActionEnum = LoaderActionEnum.CARD_OBJECTIVES;
+  getCurrenciesLoaderActionEnum = LoaderActionEnum.CURRENCIES;
 
   objectives: ICardObjective[] = [];
   currencies: ICurrency[] = [];
@@ -83,23 +85,41 @@ export class EditCardComponent extends Unsubscriber implements OnInit {
   }
 
   private getObjectives(): void{
+    this.loaderService.changeState(this.getObjectivesloaderActionEnum, true);
     this.objectiveFacade.getObjectives().pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: incoming => {
         this.objectives = incoming;
+
+        if(this.objectives.length > 0){
+          this.loaderService.changeState(this.getObjectivesloaderActionEnum, false);
+        } else {
+          this.loaderService.changeStateAfterFirstResponseIsEmpty(this.getObjectivesloaderActionEnum, false)
+        }
+        
       },
       error: error => {
         console.error(error)
+        this.loggerService.add(error, LogStatus.ERROR);
+        this.loaderService.changeState(this.getObjectivesloaderActionEnum, false);
       }
     });
   }
 
   private getCurrencies(): void{
+    this.loaderService.changeState(this.getCurrenciesLoaderActionEnum, true);
     this.currencyFacade.getCurrencies().pipe(takeUntil(this.unsubscribe$)).subscribe({
       next: incoming => {
         this.currencies = incoming;
+        if(this.currencies.length > 0){
+          this.loaderService.changeState(this.getCurrenciesLoaderActionEnum, false);
+        } else {
+          this.loaderService.changeStateAfterFirstResponseIsEmpty(this.getCurrenciesLoaderActionEnum, false);
+        }
       },
       error: error => {
         console.error(error);
+        this.loggerService.add(error, LogStatus.ERROR)
+        this.loaderService.changeState(this.getCurrenciesLoaderActionEnum, false);
       }
     });
   }

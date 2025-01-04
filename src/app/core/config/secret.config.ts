@@ -7,7 +7,7 @@ export class SECRET_COFING{
         name: 'Basic',
         limits: {
             cards: 2,
-            goals: 5
+            goalsPerCard: 5
         }
     }
 

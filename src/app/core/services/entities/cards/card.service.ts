@@ -3,7 +3,6 @@ import { User } from "@core/classes/entities/User/user.class";
 import { ICardObjective } from "@core/models/entities/card-objective.model";
 import { ICardSettings } from "@core/models/entities/card-settings.model";
 import { ICard } from "@core/models/entities/cards.model";
-import { AuthService } from "@core/services/auth/auth.service";
 import { SupabaseService } from "@core/services/supabase/supabase.service";
 import { from, map, Observable, switchMap } from "rxjs";
 
@@ -22,10 +21,10 @@ export class CardService{
                 id,
                 name,
                 created_at,
-                icon_reference,
                 objective_id:cardObjectives(
                     id,
-                    description
+                    description,
+                    icon_id:icons(id,reference,display,embedded_svg)
                 ),
                 cardSettings(
                     id,
@@ -47,12 +46,22 @@ export class CardService{
             .order('created_at', { ascending: false })
         ).pipe(
             map((incoming: any) => {
+                if(incoming.error){
+                    throw new Error(incoming.error.message);
+                }
+
                 const cardWithAmounts = incoming.data.map((card: any) => {
 
                     let cardObjective: ICardObjective;
                     cardObjective = {
                         id: card.objective_id.id,
-                        description: card.objective_id.description
+                        description: card.objective_id.description,
+                        icon: {
+                            id: card.objective_id.icon_id.id,
+                            reference: card.objective_id.icon_id.reference,
+                            display: card.objective_id.icon_id.display,
+                            embedded_svg: card.objective_id.icon_id.embedded_svg
+                        }
                     }
 
                     let cardSettings: ICardSettings;
@@ -67,14 +76,13 @@ export class CardService{
                     }
 
                     const cardAmount = card.cardGoals.reduce((total: number, goal: any) => {
-                        const goalAmount = goal.goalAmount ? goal.goalAmount[0].amount : 0;
+                        const goalAmount = goal.goalAmount ? goal.goalAmount.amount : 0;
                         return goalAmount + total;
                     }, 0)
 
                     return {
                         id: card.id,
                         name: card.name,
-                        iconRef: card.icon_reference,
                         objective: cardObjective,
                         settings: cardSettings,
                         amount: cardAmount

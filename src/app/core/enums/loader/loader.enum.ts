@@ -6,6 +6,18 @@ export enum LoaderActionEnum{
     SETTINGS = '[user-account] get user settings meta-data',
     PLAN = '[user-account] get user plan meta-data',
 
+    // objectives
+    CARD_OBJECTIVES = '[admin-account] get card objectives',
+    CREATE_CARD_OBJECTIVE = '[admin-account] create card objective',
+
+    // icons
+    ICONS = '[admin-account] get icons',
+    CREATE_ICON = '[admin-account] create icon',
+
+    // currencies
+    CURRENCIES = '[admin-account] get currencies',
+    CREATE_CURRENCY = '[admin-account] create currencies',
+
     //cards
     CARDS = '[user-account] get user cards meta-data',
     CREATE_CARD = '[user-account] create user card',
