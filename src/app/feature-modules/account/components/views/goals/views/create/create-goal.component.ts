@@ -3,11 +3,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
 import { ICard } from '@core/models/entities/cards.model';
 import { Icon } from '@core/models/icon.model';
+import { UserService } from '@core/services/entities/user/user.service';
 import { Loader } from '@core/services/loader/loader.service';
 import { LogStatus, PopupLogService } from '@core/services/loggers/pop-up-log.service';
 import { CardFacade } from '@feature-modules/account/facades/card.facade';
 import { GoalFacade } from '@feature-modules/account/facades/goal.facade';
 import { IconFacade } from '@feature-modules/account/facades/icon.facade';
+import { EntitiesIntermediator } from '@feature-modules/account/services/entities-intermediator.service';
 import { NumberFormatation } from '@shared/helpers/number-format.func';
 
 @Component({
@@ -21,13 +23,17 @@ export class CreateGoalComponent implements OnInit {
   private cardFacade = inject(CardFacade);
   private goalFacade = inject(GoalFacade);
   private iconFacade = inject(IconFacade);
+  public entitiesIntermediator = inject(EntitiesIntermediator);
   private log = inject(PopupLogService);
+  public userService = inject(UserService);
 
   createGoalFormGroup!: FormGroup;
 
   createGoalloaderActionEnum = LoaderActionEnum.CREATE_GOAL;
   getCardsLoaderActionEnum = LoaderActionEnum.CARDS;
   getIconsLoaderActionEnum = LoaderActionEnum.ICONS;
+
+  selectedCardGoalsLength: number = 0;
 
   cards: ICard[] = [];
   selectedCard: ICard[] = [];

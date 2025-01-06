@@ -18,10 +18,10 @@ implements OnInit, OnChanges {
 
   public seeMoneyService = inject(SeeMoneyService);
   
-  @Input() sectionTitle: { title: string, count: boolean } = { title: 'Cards', count: false };
+  @Input() sectionTitle: { title: string, count: boolean, limit: number } = { title: 'Cards', count: false, limit: 0 };
   @Input() showLimitationsInformation!: { status: boolean, limit: number };
   @Input() goals: IGoal[] = [];
-  @Input() cardCurrency!: ICurrency;
+  @Input() card!: ICard;
   @Input() addCardButton: { visibility: boolean, route?: string } = { visibility: false };
   @Input() cardDropdownButton: { visible: boolean, items: ('edit' | 'hideValues' | 'delete')[] } = { visible: true, items: [ "edit", "hideValues" ] }
   
@@ -43,6 +43,9 @@ implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.itemsArray = this.goals;
     this.activeIndex = 0;
+    if(this.captureEvents){
+      this.activeIndexEventEmitter.emit(this.activeIndex);
+    }
   }
   
 }

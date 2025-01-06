@@ -5,9 +5,11 @@ import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
 import { ICard } from '@core/models/entities/cards.model';
 import { IGoal } from '@core/models/entities/goals.model';
 import { ITransaction } from '@core/models/entities/transaction.model';
+import { UserService } from '@core/services/entities/user/user.service';
 import { CardFacade } from '@feature-modules/account/facades/card.facade';
 import { GoalFacade } from '@feature-modules/account/facades/goal.facade';
 import { TransactionFacade } from '@feature-modules/account/facades/transaction.facade';
+import { EntitiesIntermediator } from '@feature-modules/account/services/entities-intermediator.service';
 import { map, takeUntil } from 'rxjs';
 
 @Component({
@@ -22,6 +24,8 @@ implements OnInit {
   private cardFacade = inject(CardFacade);
   private goalFacade = inject(GoalFacade);
   private transactionFacade = inject(TransactionFacade);
+  private EntitiesIntermediator = inject(EntitiesIntermediator);
+  public userService = inject(UserService);
 
   generalCards: ICard[] = [];
   cards: ICard[] = [];
@@ -51,11 +55,13 @@ implements OnInit {
 
   activeCardListener($activeCardIndex: number){
     this.activeCardIndex.set($activeCardIndex);
-    this.loader.changeState(LoaderActionEnum.GOALS, true);
+    this.EntitiesIntermediator.card = this.cards[this.activeCardIndex()];
     this.getGoalsByCard();
   }
 
   getGoalsByCard(): void{
+    
+    this.loader.changeState(LoaderActionEnum.GOALS, true);
     this.goalFacade.getGoals.pipe(
       takeUntil(this.unsubscribe$ || this.goals.length > 0),
       map((incoming) => {

@@ -11,7 +11,7 @@ export class IconService{
 
     get all(): Observable<Icon[]>{
         return from(
-            this.supabaseClient.supabase.from('icons').select('id,reference,display,embedded_svg')
+            this.supabaseClient.supabase.from('icons').select('id,reference,display,embedded_svg').order('display', { ascending: true })
         ).pipe(
             map(incoming => {
                 if(incoming.error){

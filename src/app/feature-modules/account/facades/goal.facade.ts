@@ -15,6 +15,12 @@ export class GoalFacade extends FacadeExtender{
         return this.dataByKey('goals');
     }
 
+    getGoalsByCard(card_id: string): Observable<IGoal[]>{
+        return this.getGoals.pipe(
+            map(incoming => incoming[card_id])
+        );
+    }
+
     create(goal: any): Observable<any>{
         return this.getGoals.pipe(
             take(1),

@@ -30,14 +30,14 @@
                                         <li>
                                             <a
                                             [routerLink]="['/account/cards/edit/' + this.id ]"
-                                            class="text-sm text-default py-0"
+                                            class="text-sm text-default py-1 block"
                                             >Editar cartão</a></li>
                                     }
                                     @case ('hideValues') {
                                         <li>
                                             <a
                                             [routerLink]="null"
-                                            class="text-sm text-default py-0"
+                                            class="text-sm text-default py-1 block"
                                             (click)="this.changeSeeMoneyStatusEventEmitter(!this.showValue)"
                                             (click)="this.closeCardDropdown()"
                                             >{{ (this.showValue ? 'Ocultar valores' : 'Mostrar valores') }}</a></li>
@@ -48,7 +48,7 @@
                                             [routerLink]="null"
                                             (click)="this.closeCardDropdown()"
                                             (click)="this.deleteItem()"
-                                            class="text-sm text-error/90 py-0"
+                                            class="text-sm text-error/90 py-1 block"
                                             >Eliminar cartão</a>
                                         </li>
                                     }

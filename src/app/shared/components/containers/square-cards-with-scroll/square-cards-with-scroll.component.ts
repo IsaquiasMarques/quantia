@@ -16,7 +16,7 @@ implements OnInit, OnChanges {
 
   public seeMoneyService = inject(SeeMoneyService);
 
-  @Input() sectionTitle: { title: string, count: boolean } = { title: 'Cards', count: false };
+  @Input() sectionTitle: { title: string, count: boolean, limit: number } = { title: 'Cards', count: false, limit: 0 };
   @Input() cards: ICard[] = [];
   @Input() showCardButton: boolean = true;
   @Input() showBottomInformations = true;
@@ -41,6 +41,9 @@ implements OnInit, OnChanges {
   
   ngOnChanges(changes: SimpleChanges): void {
     this.itemsArray = this.cards;
+    if(this.captureEvents){
+      this.activeIndexEventEmitter.emit(this.activeIndex);
+    }
   }
 
 }

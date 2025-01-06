@@ -5,7 +5,7 @@
                 <app-square-cards-with-scroll
                 [captureEvents]="false"
                 [loaderActionEnum]="this.loaderActionEnum.CARDS"
-                [sectionTitle]="{ title: 'Quantia geral', count: true }"
+                [sectionTitle]="{ title: 'Quantia geral', count: true, limit: 0 }"
                 [cards]="generalCards"
                 [cardDropdownButton]="{ visible: true, items: [ 'hideValues' ] }"
                 />
@@ -13,7 +13,7 @@
         }
         <div class="quantia-by-cards-section appear-softly">
             <app-square-cards-with-scroll
-            [sectionTitle]="{ title: 'Quantia por cartão', count: true }"
+            [sectionTitle]="{ title: 'Quantia por cartão', count: true, limit: this.userService.getUser()!.plan!.limits.cards }"
             [loaderActionEnum]="this.loaderActionEnum.CARDS"
             [addCardButton]="{ visibility: true, route: '/account/cards/create' }"
             (activeIndexEventEmitter)="activeCardListener($event)"
@@ -24,13 +24,14 @@
         @if (this.cards.length > 0) {
             <div class="goals-by-active-card-section">
                 <app-rectangle-cards-with-scroll
-                [sectionTitle]="{ title: 'Metas', count: true }"
+                [sectionTitle]="{ title: 'Metas', count: true, limit: this.userService.getUser()!.plan!.limits.goalsPerCard }"
                 [addCardButton]="{ visibility: true, route: '/account/goals/create' }"
                 [loaderActionEnum]="this.loaderActionEnum.GOALS"
                 [goals]="goals"
-                [cardCurrency]="cards[activeCardIndex()].settings.currency"
+                [card]="cards[activeCardIndex()]"
                 (activeIndexEventEmitter)="activeGoalEventListener($event)"
                 [captureEvents]="true"
+                [cardDropdownButton]="{ visible: true, items: [ 'edit', 'hideValues', 'delete' ] }"
                 />
             </div>
         }

@@ -5,7 +5,7 @@
                 {{ sectionTitle.title }}
                 
                 @if (sectionTitle.count) {
-                    <span class="text-base text-mediumGray/80 font-normal">({{ this.goals.length }})</span>
+                    <span class="text-base text-mediumGray/80 font-normal">({{ this.goals.length }}{{ (sectionTitle.limit > 0) ? '/' + sectionTitle.limit : '' }})</span>
                 }
             </h1>
             @if (addCardButton.visibility && goals.length > 0) {
@@ -40,7 +40,7 @@
                         [amount]="goal.goal_amount.amount"
                         [description]="goal.description"
                         [achievement]="goal.achievement_amount"
-                        [currency]="cardCurrency"
+                        [card]="card"
                         [showValue]="this.seeMoneyService.seeMoney$()"
                         (changeSeeMoneyStatus)="this.seeMoneyService.changeSeeMoneyStatus($event)"
                         [cardDropdownButton]="this.cardDropdownButton"

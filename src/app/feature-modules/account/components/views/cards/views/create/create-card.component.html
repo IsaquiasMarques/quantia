@@ -1,7 +1,7 @@
 <div class="page-wrapper">
     <div class="quantia-by-cards-section appear-softly">
         <app-square-cards-with-scroll
-        [sectionTitle]="{ title: 'Meus cartões', count: true }"
+        [sectionTitle]="{ title: 'Meus cartões', count: true, limit: this.userService.getUser()!.plan!.limits!.cards }"
         [showLimitationsInformation]="{ status: true, limit: this.userService.getUser()!.plan!.limits!.cards}"
         [addCardButton]="{ visibility: false }"
         [loaderActionEnum]="this.loaderActionEnum"

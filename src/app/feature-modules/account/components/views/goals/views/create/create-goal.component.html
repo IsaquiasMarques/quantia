@@ -2,10 +2,7 @@
     <div class="limited-container pt-6">
         <h1 class="uppercase text-lg font-medium font-outfit text-primary leading-[23px]">
             Adicionar Meta
-            
-            <!-- @if (sectionTitle.count) {
-                <span class="text-base text-mediumGray/80 font-normal">({{ this.cards.length }})</span>
-            } -->
+            <span class="text-base text-mediumGray/80 font-normal">({{ this.selectedCardGoalsLength }})</span>
         </h1>
     </div>
 
@@ -23,6 +20,7 @@
                         [items]="cards"
                         [label]="'Cartão destino'"
                         [multi]="false"
+                        [selectedItems]="this.entitiesIntermediator.card"
                         (selectedItemsEventEmitter)="this.captureSelectedCard($event)"
                         [loaderActionEnum]="this.getCardsLoaderActionEnum"
                         [option]="{ value: 'id', name: 'name' }"

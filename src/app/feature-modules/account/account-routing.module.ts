@@ -7,9 +7,9 @@ import { GoalComponent } from './components/views/goals/container/goal/goal.comp
 import { CreateCardComponent } from './components/views/cards/views/create/create-card.component';
 import { MyCardsComponent } from './components/views/cards/views/index/my-cards.component';
 import { EditCardComponent } from './components/views/cards/views/edit/edit-card.component';
-import { MyGoalsComponent } from './components/views/goals/views/my-goals/my-goals.component';
-import { CreateGoalComponent } from './components/views/goals/views/create-goal/create-goal.component';
-import { EditGoalComponent } from './components/views/goals/views/edit-goal/edit-goal.component';
+import { MyGoalsComponent } from './components/views/goals/views/index/my-goals.component';
+import { CreateGoalComponent } from './components/views/goals/views/create/create-goal.component';
+import { EditGoalComponent } from './components/views/goals/views/edit/edit-goal.component';
 import { TransactionComponent } from './components/views/transactions/containers/transaction/transaction.component';
 import { MyTransactionsComponent } from './components/views/transactions/views/my-transactions/my-transactions.component';
 import { CreateTransactionComponent } from './components/views/transactions/views/create-transaction/create-transaction.component';

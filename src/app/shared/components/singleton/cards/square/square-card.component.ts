@@ -1,15 +1,15 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Icon } from '@core/models/icon.model';
-import { IconComponent } from '../../icon/icon.component';
 import { FormatPipe } from '@shared/pipes/number/format.pipe';
 import { RouterLink } from '@angular/router';
 import { TemplateExtender } from '../template.extender';
+import { IconComponent } from '../../icon/icon.component';
+import { DecimalPipe, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-square-card',
   standalone: true,
-  imports: [CommonModule, IconComponent, FormatPipe, RouterLink],
+  imports: [DecimalPipe, NgClass, IconComponent, FormatPipe, RouterLink],
   templateUrl: './square-card.component.html',
   styleUrl: './square-card.component.css'
 })

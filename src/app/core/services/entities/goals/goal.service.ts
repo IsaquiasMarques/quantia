@@ -4,7 +4,7 @@ import { ICard } from "@core/models/entities/cards.model";
 import { IGoalAmount } from "@core/models/entities/goal-amount.model";
 import { IGoal } from "@core/models/entities/goals.model";
 import { SupabaseService } from "@core/services/supabase/supabase.service";
-import { from, map, Observable, switchMap, tap } from "rxjs";
+import { from, map, Observable, of, switchMap, tap } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -76,6 +76,14 @@ export class GoalService{
                 return this.createGoalAmount(latestGoal.data.id, goal.actual_amount);
             })
         );
+    }
+
+    update(goal: any): Observable<any>{
+        return of();
+    }
+
+    delete(goal_id: string): Observable<any>{
+        return of();
     }
 
     private createGoalAmount(goal_id: string, amount: number): Observable<any>{
