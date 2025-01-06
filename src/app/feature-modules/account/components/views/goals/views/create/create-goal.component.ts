@@ -132,7 +132,7 @@ export class CreateGoalComponent implements OnInit {
       },
       error: error => {
         console.error(error);
-        this.log.add(error);
+        this.log.add(error, LogStatus.ERROR);
         this.loaderService.changeState(this.createGoalloaderActionEnum, false);
       }
     })
