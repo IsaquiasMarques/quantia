@@ -25,7 +25,7 @@ export class GoalFacade extends FacadeExtender{
         return this.getGoals.pipe(
             take(1),
             map(existingGoals => {
-                if(existingGoals.length >= this.userService.getUser()!.plan!.limits.goalsPerCard){
+                if(existingGoals[goal.card_id].length >= this.userService.getUser()!.plan!.limits.goalsPerCard){
                     throw new Error("Limite de cartões atingido para o plano seu actual");
                 }
                 return existingGoals[goal.card_id];
