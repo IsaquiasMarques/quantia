@@ -144,6 +144,7 @@ export class EditCardComponent extends Unsubscriber implements OnInit {
       next: response => {
         if(response.error){
           this.loggerService.add(response.error.message, LogStatus.ERROR);
+          this.loaderService.changeState(this.editCardloaderActionEnum, false);
           console.error(response.error.message)
           return;
         }
@@ -153,11 +154,11 @@ export class EditCardComponent extends Unsubscriber implements OnInit {
           this.editCardFormGroup.reset();
           this.resetObjectivesSelection = true;
           this.resetCurrenciesSelection = true;
+          this.loaderService.changeState(this.editCardloaderActionEnum, false);
 
           this.router.navigate(['/account']);
           
         }
-        this.loaderService.changeState(this.editCardloaderActionEnum, false);
       },
       error: error => {
         this.loggerService.add(error, LogStatus.ERROR);

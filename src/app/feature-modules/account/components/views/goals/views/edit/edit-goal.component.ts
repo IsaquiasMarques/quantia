@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Unsubscriber } from '@core/classes/unsubscriber.class';
 import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
 import { ICard } from '@core/models/entities/cards.model';
@@ -31,6 +31,7 @@ export class EditGoalComponent extends Unsubscriber implements OnInit {
   private log = inject(PopupLogService);
   public userService = inject(UserService);
   private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
 
   editGoalFormGroup!: FormGroup;
 
@@ -141,12 +142,20 @@ export class EditGoalComponent extends Unsubscriber implements OnInit {
     }
 
     this.loaderService.changeState(this.editGoalloaderActionEnum, true);
-    this.goalFacade.create(goal).subscribe({
+    this.goalFacade.update(this.theGoal()[0].id, goal).subscribe({
       next: response => {
-        if(response.status === 201){
+        if(response.error){
+          this.log.add(response.error.message, LogStatus.ERROR);
+          console.error(response.error.message)
           this.loaderService.changeState(this.editGoalloaderActionEnum, false);
-          this.log.add("Meta adicionada", LogStatus.SUCCESS);
+          return;
+        }
+
+        if(response.status === 204){
+          this.log.add("Meta editada", LogStatus.SUCCESS);
           this.editGoalFormGroup.reset();
+          this.loaderService.changeState(this.editGoalloaderActionEnum, false);
+          this.router.navigate(['/account']);
         }
       },
       error: error => {

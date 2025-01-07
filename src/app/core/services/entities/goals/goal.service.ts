@@ -88,7 +88,7 @@ export class GoalService{
                     card_id: goal.card_id,
                     icon_id: goal.icon_id
                 }
-            ).eq('id', goal_id).select().single()
+            ).eq('id', goal_id)
         )
     }
 
