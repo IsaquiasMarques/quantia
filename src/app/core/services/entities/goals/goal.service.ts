@@ -78,8 +78,18 @@ export class GoalService{
         );
     }
 
-    update(goal: any): Observable<any>{
-        return of();
+    update(goal_id: string, goal: any): Observable<any>{
+        return from(
+            this.supabaseClient.supabase.from('cardGoals').update(
+                {
+                    name: goal.name,
+                    description: goal.description,
+                    achievement_amount: goal.achievement_amount,
+                    card_id: goal.card_id,
+                    icon_id: goal.icon_id
+                }
+            ).eq('id', goal_id).select().single()
+        )
     }
 
     delete(goal_id: string): Observable<any>{

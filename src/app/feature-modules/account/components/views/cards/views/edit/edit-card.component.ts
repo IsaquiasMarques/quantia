@@ -140,7 +140,7 @@ export class EditCardComponent extends Unsubscriber implements OnInit {
     }
 
     this.loaderService.changeState(this.editCardloaderActionEnum, true);
-    this.cardFacade.editCard(this.theCard()[0].id, card).subscribe({
+    this.cardFacade.updateCard(this.theCard()[0].id, card).subscribe({
       next: response => {
         if(response.error){
           this.loggerService.add(response.error.message, LogStatus.ERROR);

@@ -27,7 +27,7 @@ export class CardFacade extends FacadeExtender{
                 .pipe(
                     map((existingCards: ICard[]) => {
                         if(existingCards.length >= this.userService.getUser()!.plan!.limits.cards){
-                            throw new Error("Limite de cartões atingido para o plano seu actual");
+                            throw new Error("O limite de cartões para o seu plano foi atingido");
                         }
                         return this.userService.getUser()!.plan;
                     }),
@@ -44,8 +44,8 @@ export class CardFacade extends FacadeExtender{
                 )
     }
 
-    editCard(card_id: string, card: any): Observable<any>{
-        return this.cardService.editCardWithSettings(card_id, card).pipe(
+    updateCard(card_id: string, card: any): Observable<any>{
+        return this.cardService.updateCardWithSettings(card_id, card).pipe(
             tap(response => {
                 if(response.status === 204){
                     this.actions.getCards();

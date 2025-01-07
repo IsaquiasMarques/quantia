@@ -72,6 +72,10 @@ export class Loader{
             loading: signal(false)
         },
         {
+            action: LoaderActionEnum.EDIT_GOAL,
+            loading: signal(false)
+        },
+        {
             action: LoaderActionEnum.TRANSACTIONS,
             loading: signal(false)
         }

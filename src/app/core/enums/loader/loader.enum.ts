@@ -26,6 +26,7 @@ export enum LoaderActionEnum{
     //goals
     GOALS = '[user-account] get user goals meta-data',
     CREATE_GOAL = '[user-account] create card goal',
+    EDIT_GOAL = '[user-account] edit card goal',
 
     //transactions
     TRANSACTIONS = '[user-account] get user transactions meta-data',

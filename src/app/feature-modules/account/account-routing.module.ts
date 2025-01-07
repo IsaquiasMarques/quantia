@@ -76,7 +76,7 @@ const routes: Routes = [
             component: CreateGoalComponent,
           },
           {
-            path: 'edit',
+            path: 'edit/:id',
             title: 'Editar cartão',
             component: EditGoalComponent,
           },

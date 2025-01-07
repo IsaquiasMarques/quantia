@@ -10,7 +10,7 @@ export class DigitGroupsDirective {
   @Input({ required: true }) digits: number = 3;
 
   constructor(private el: ElementRef) { }
-
+  
   @HostListener('input', ['$event'])
   onInput(event: InputEvent): void {
     const input = this.el.nativeElement;

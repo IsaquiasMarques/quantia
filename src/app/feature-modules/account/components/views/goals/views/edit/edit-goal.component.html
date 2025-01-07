@@ -1,1 +1,127 @@
-<p>edit-goal works!</p>
+<div class="page-wrapper">
+    <div class="limited-container pt-6">
+        <h1 class="uppercase text-lg font-medium font-outfit text-primary leading-[23px]">
+            Editar Meta
+            <!-- <span class="text-base text-mediumGray/80 font-normal">({{ this.selectedCardGoalsLength }})</span> -->
+        </h1>
+    </div>
+
+    <div class="add-card-form my-7">
+        <div class="limited-container">
+            <form
+            (submit)="this.submit()"
+            [formGroup]="this.editGoalFormGroup"
+            class="flex flex-col gap-y-10">
+                <div class="input-container flex flex-col gap-y-4">
+                    
+                    <div class="cards-select w-full flex flex-col gap-[10px]">
+                        <app-select
+                        [name]="'cards'"
+                        [items]="cards"
+                        [label]="'Cartão destino'"
+                        [multi]="false"
+                        [selectedItems]="this.entitiesIntermediator.card"
+                        (selectedItemsEventEmitter)="this.captureSelectedCard($event)"
+                        [loaderActionEnum]="this.getCardsLoaderActionEnum"
+                        [option]="{ value: 'id', name: 'name' }"
+                        [placeholder]="'Seleccione o cartão'"
+                        [required]="true"
+                        />
+                    </div>
+                    <div class="input w-full flex flex-col gap-[10px]">
+                        <label for="name" class="text-primary font-outfit text-base">Nome</label>
+                        <input
+                        type="text"
+                        formControlName="name"
+                        id="name"
+                        maxlength="30"
+                        placeholder="Arrendar uma casa"
+                        class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-mediumGray duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                        [ngClass]="{
+                            'is-invalid': editGoalFormGroup.get('name')?.invalid && editGoalFormGroup.get('name')?.touched
+                        }"
+                        >
+                    </div>
+                    <div class="input w-full flex flex-col gap-[10px]">
+                        <label for="description" class="text-primary font-outfit text-base">Descrição</label>
+                        <input
+                        type="text"
+                        formControlName="description"
+                        id="description"
+                        maxlength="30"
+                        placeholder="Poupança para arrendamento"
+                        class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-mediumGray duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                        [ngClass]="{
+                            'is-invalid': editGoalFormGroup.get('description')?.invalid && editGoalFormGroup.get('description')?.touched
+                        }"
+                        >
+                    </div>
+                    <div class="input w-full flex flex-col gap-[10px]">
+                        <label for="achievement" class="text-primary font-outfit text-base">Meta</label>
+                        <input
+                        appDigitGroups
+                        [separator]="'.'"
+                        [digits]="3"
+                        type="text"
+                        formControlName="achievement"
+                        id="achievement"
+                        minlength="1"
+                        placeholder="Quanto quer atingir?"
+                        class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-mediumGray duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                        [ngClass]="{
+                            'is-invalid': editGoalFormGroup.get('achievement')?.invalid && editGoalFormGroup.get('achievement')?.touched
+                        }"
+                        >
+                    </div>
+                    <div class="input w-full flex flex-col gap-[10px]">
+                        <label for="actual_amount" class="text-primary font-outfit text-base">Quantia actual</label>
+                        <input
+                        appDigitGroups
+                        [separator]="'.'"
+                        [digits]="3"
+                        type="text"
+                        formControlName="actual_amount"
+                        id="actual_amount"
+                        min="0"
+                        placeholder="Quanto possui?"
+                        class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-mediumGray duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                        [ngClass]="{
+                            'is-invalid': editGoalFormGroup.get('actual_amount')?.invalid && editGoalFormGroup.get('actual_amount')?.touched
+                        }"
+                        >
+                    </div>
+                    <div class="icons-select w-full flex flex-col gap-[10px]">
+                        <app-select
+                        [name]="'icons'"
+                        [items]="icons"
+                        [label]="'Ícone para a meta'"
+                        [multi]="false"
+                        [selectedItems]="[this.theGoal()[0].icon]"
+                        (selectedItemsEventEmitter)="this.captureSelectedIcon($event)"
+                        [loaderActionEnum]="this.getIconsLoaderActionEnum"
+                        [option]="{ value: 'id', name: 'display', searchByAttribute: 'reference' }"
+                        [optionRenderization]="{ render: true, type: 'svg', attribute: 'embedded_svg' }"
+                        [placeholder]="'Seleccione o ícone'"
+                        [required]="true"
+                        />
+                    </div>
+                </div>
+                
+                <div class="submit-container">
+                    <div class="submit w-full">
+                        <button
+                            [disabled]="this.editGoalFormGroup.invalid || !(this.selectedCard.length > 0) || !(this.selectedIcon.length > 0)"
+                            type="submit"
+                            class="focus:outline-none disabled:cursor-auto px-5 py-4 font-outfit w-full duration-[.2s] bg-primary disabled:bg-primary/80 border-[1px] border-white hover:enabled:border-primary hover:enabled:bg-white text-white hover:enabled:text-primary font-medium rounded-[10px] text-sm">
+                            @if (!this.loaderService.getState(this.editGoalloaderActionEnum)()) {
+                                <span class="font-outfit">Adicionar meta</span>
+                            } @else {
+                                <app-load-spinner />
+                            }
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

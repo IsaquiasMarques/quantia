@@ -2,7 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { FacadeExtender } from "@core/classes/facades.extender";
 import { IGoal } from "@core/models/entities/goals.model";
 import { GoalService } from "@core/services/entities/goals/goal.service";
-import { catchError, map, Observable, switchMap, take, tap, throwError } from "rxjs";
+import { catchError, map, Observable, of, switchMap, take, tap, throwError } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -41,5 +41,13 @@ export class GoalFacade extends FacadeExtender{
             }),
             catchError(error => throwError(() => error))
         );
+    }
+
+    update(goal_id: string, goal: any): Observable<any>{
+        return this.goalService.update(goal_id, goal);
+    }
+
+    delete(goal_id: string): Observable<any>{
+        return this.goalService.delete(goal_id);
     }
 }
