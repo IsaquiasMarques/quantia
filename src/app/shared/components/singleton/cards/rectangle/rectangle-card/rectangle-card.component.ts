@@ -41,7 +41,7 @@ export class RectangleCardComponent extends TemplateExtender {
 
   deleteItem(): void{
    if(window.confirm("Deseja realmente eliminar este item?")){
-     this.deletionService.deleteCard(this.id);
+     this.deletionService.deleteGoal(this.id, this.card.id);
    }
   }
 

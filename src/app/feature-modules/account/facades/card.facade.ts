@@ -1,5 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { FacadeExtender } from "@core/classes/facades.extender";
+import { SUPABASE_RESPONSE_STATUS } from "@core/enums/supabase-response-status.enum";
 import { ICard } from "@core/models/entities/cards.model";
 import { IPlan } from "@core/models/entities/plan.model";
 import { CardService } from "@core/services/entities/cards/card.service";
@@ -35,7 +36,7 @@ export class CardFacade extends FacadeExtender{
                         return this.cardService.createCardWithSettings(this.userService.getUser(), card);
                     }),
                     tap(response => {
-                        if(response.status === 201){
+                        if(response.status === SUPABASE_RESPONSE_STATUS.SUCCESS_WITH_DATA){
                             this.actions.getCards();
                         }
                         return response;
@@ -44,10 +45,10 @@ export class CardFacade extends FacadeExtender{
                 )
     }
 
-    updateCard(card_id: string, card: any): Observable<any>{
+    update(card_id: string, card: any): Observable<any>{
         return this.cardService.updateCardWithSettings(card_id, card).pipe(
             tap(response => {
-                if(response.status === 204){
+                if(response.status === SUPABASE_RESPONSE_STATUS.SUCCESS_EMPTY){
                     this.actions.getCards();
                 }
                 return response;
@@ -55,10 +56,10 @@ export class CardFacade extends FacadeExtender{
         );
     }
 
-    deleteCard(card_id: string): Observable<any>{
+    delete(card_id: string): Observable<any>{
         return this.cardService.delete(card_id).pipe(
             tap(response => {
-                if(response.status === 204){
+                if(response.status === SUPABASE_RESPONSE_STATUS.SUCCESS_EMPTY){
                     this.actions.getCards();
                 }
                 return response;

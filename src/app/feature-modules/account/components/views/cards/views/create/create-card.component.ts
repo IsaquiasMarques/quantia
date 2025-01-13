@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Unsubscriber } from '@core/classes/unsubscriber.class';
 import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
+import { SUPABASE_RESPONSE_STATUS } from '@core/enums/supabase-response-status.enum';
 import { ICardObjective } from '@core/models/entities/card-objective.model';
 import { ICard } from '@core/models/entities/cards.model';
 import { ICurrency } from '@core/models/entities/currencies.model';
@@ -139,7 +140,7 @@ export class CreateCardComponent extends Unsubscriber implements OnInit {
     this.loaderService.changeState(this.createCardloaderActionEnum, true);
     this.cardFacade.createCardWithSettings(card).subscribe({
       next: response => {
-        if(response.status === 201){
+        if(response.status === SUPABASE_RESPONSE_STATUS.SUCCESS_WITH_DATA){
           this.loggerService.add("Cartão adicionado", LogStatus.SUCCESS);
           this.createCardFormGroup.reset();
           this.resetObjectivesSelection = true;

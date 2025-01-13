@@ -82,6 +82,7 @@ implements OnInit {
 
   activeGoalEventListener($event: number){
     this.activeGoalIndex.set($event);
+    this.EntitiesIntermediator.goal = this.goals[this.activeGoalIndex()];
     this.getTransactionsByGoal();
 
   }

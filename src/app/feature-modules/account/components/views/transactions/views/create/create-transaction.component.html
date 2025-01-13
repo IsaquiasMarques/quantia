@@ -1,0 +1,184 @@
+<div class="page-wrapper">
+    <div class="limited-container pt-6">
+        <h1 class="uppercase text-lg font-medium font-outfit text-primary leading-[23px]">
+            Adicionar Meta
+            <!-- <span class="text-base text-mediumGray/80 font-normal">({{ this.selectedCardGoalsLength }})</span> -->
+        </h1>
+    </div>
+
+    <div class="add-card-form my-7">
+        <div class="limited-container">
+            <form
+            (submit)="this.submit()"
+            [formGroup]="this.createTransactionFormGroup"
+            class="flex flex-col gap-y-10">
+                <div class="input-container flex flex-col gap-y-4">
+                    
+                    <div class="input w-full flex flex-col gap-[10px]">
+                        <label for="description" class="text-primary font-outfit text-base">Descrição</label>
+                        <input
+                        type="text"
+                        formControlName="description"
+                        id="description"
+                        maxlength="30"
+                        placeholder="Poupança do mês"
+                        class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-mediumGray duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                        [ngClass]="{
+                            'is-invalid': createTransactionFormGroup.get('description')?.invalid && createTransactionFormGroup.get('description')?.touched
+                        }"
+                        >
+                    </div>
+
+                    <div class="types-select w-full flex flex-col gap-[10px]">
+                        <app-select
+                        [name]="'transaction-type'"
+                        [items]="types"
+                        [label]="'Tipo de transação'"
+                        [multi]="false"
+                        [selectedItems]="this.selectedType"
+                        (selectedItemsEventEmitter)="this.captureSelectedTransactionType($event)"
+                        [loaderActionEnum]="this.getTypesLoaderActionEnum"
+                        [option]="{ value: 'key', name: 'name' }"
+                        [clearSelection]="this.resetTransactionTypeSelection"
+                        [placeholder]="'Seleccione o tipo de transação'"
+                        [required]="true"
+                        />
+                    </div>
+
+                    <div class="input w-full flex flex-col gap-[10px]">
+                        <label for="amount" class="text-primary font-outfit text-base">Quantia</label>
+                        <input
+                        appDigitGroups
+                        [separator]="'.'"
+                        [digits]="3"
+                        type="text"
+                        formControlName="amount"
+                        id="amount"
+                        min="0"
+                        placeholder="Valor da transação"
+                        class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-mediumGray duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                        [ngClass]="{
+                            'is-invalid': createTransactionFormGroup.get('amount')?.invalid && createTransactionFormGroup.get('amount')?.touched
+                        }"
+                        >
+                    </div>
+
+                    <div class="input w-full flex flex-col gap-[10px]">
+                        <label for="transaction_date" class="text-primary font-outfit text-base">Data da transação</label>
+                        <input
+                        type="date"
+                        formControlName="transaction_date"
+                        id="transaction_date"
+                        [max]="this.today"
+                        class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-mediumGray duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                        [ngClass]="{
+                            'is-invalid': createTransactionFormGroup.get('transaction_date')?.invalid && createTransactionFormGroup.get('transaction_date')?.touched
+                        }"
+                        >
+                    </div>
+
+                    @if (this.selectedType[0].key == 'expense' || this.selectedType[0].key == 'g2g') {
+                        <div class="cards-select w-full flex flex-col gap-[10px]">
+                            <app-select
+                            [name]="'origin-cards'"
+                            [items]="cards"
+                            [label]="'Cartão Origem'"
+                            [multi]="false"
+                            [selectedItems]="(this.selectedType[0].key == 'expense') ? this.entitiesIntermediator.card : []"
+                            (selectedItemsEventEmitter)="this.captureSelectedOriginCard($event)"
+                            [loaderActionEnum]="this.getCardsLoaderActionEnum"
+                            [option]="{ value: 'id', name: 'name' }"
+                            [clearSelection]="this.resetCardSelection"
+                            [placeholder]="'Seleccione o cartão'"
+                            [required]="true"
+                            />
+                        </div>
+    
+                        <div class="icons-select w-full flex flex-col gap-[10px]">
+                            <app-select
+                            [name]="'origin-goals'"
+                            [items]="originGoals"
+                            [label]="'Meta origem'"
+                            [multi]="false"
+                            [selectedItems]="(this.selectedType[0].key == 'expense') ? this.entitiesIntermediator.goal : []"
+                            (selectedItemsEventEmitter)="this.captureSelectedOriginGoal($event)"
+                            [loaderActionEnum]="this.getOriginGoalsLoaderActionEnum"
+                            [option]="{ value: 'id', name: 'name' }"
+                            [clearSelection]="this.resetIconsSelection"
+                            [placeholder]="'Seleccione a meta de destino'"
+                            [required]="true"
+                            />
+                        </div>
+                    }
+                    
+                    @if (this.selectedType[0].key == 'income' || this.selectedType[0].key == 'g2g') {
+                        <div class="cards-select w-full flex flex-col gap-[10px]">
+                            <app-select
+                            [name]="'destination-cards'"
+                            [items]="cards"
+                            [label]="'Cartão destino'"
+                            [multi]="false"
+                            [selectedItems]="this.entitiesIntermediator.card"
+                            (selectedItemsEventEmitter)="this.captureSelectedDestinationCard($event)"
+                            [loaderActionEnum]="this.getCardsLoaderActionEnum"
+                            [option]="{ value: 'id', name: 'name' }"
+                            [clearSelection]="this.resetCardSelection"
+                            [placeholder]="'Seleccione o cartão'"
+                            [required]="true"
+                            />
+                        </div>
+    
+                        <div class="icons-select w-full flex flex-col gap-[10px]">
+                            <app-select
+                            [name]="'destination-goals'"
+                            [items]="destinationGoals"
+                            [label]="'Meta destino'"
+                            [multi]="false"
+                            [selectedItems]="this.entitiesIntermediator.goal"
+                            (selectedItemsEventEmitter)="this.captureSelectedDestinationGoal($event)"
+                            [loaderActionEnum]="this.getDestinationGoalsLoaderActionEnum"
+                            [option]="{ value: 'id', name: 'name' }"
+                            [clearSelection]="this.resetIconsSelection"
+                            [placeholder]="'Seleccione a meta de destino'"
+                            [required]="true"
+                            />
+                        </div>
+                    }
+
+
+
+                    <div class="input w-full flex flex-col gap-[10px]">
+                        <label for="notes" class="text-primary font-outfit text-base">Nota adicional</label>
+                        <textarea
+                        type="text"
+                        formControlName="notes"
+                        id="notes"
+                        rows="3"
+                        maxlength="100"
+                        placeholder="Poupança do com o salário de janeiro"
+                        class="focus:outline-none resize-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-mediumGray duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                        [ngClass]="{
+                            'is-invalid': createTransactionFormGroup.get('notes')?.invalid && createTransactionFormGroup.get('notes')?.touched
+                        }"
+                        ></textarea>
+                    </div>
+                </div>
+
+                <div class="submit-container">
+                    <div class="submit w-full">
+                        <button
+                            [disabled]="this.createTransactionFormGroup.invalid || !(this.selectedType.length > 0)"
+                            type="submit"
+                            class="focus:outline-none disabled:cursor-auto px-5 py-4 font-outfit w-full duration-[.2s] bg-primary disabled:bg-primary/80 border-[1px] border-white hover:enabled:border-primary hover:enabled:bg-white text-white hover:enabled:text-primary font-medium rounded-[10px] text-sm">
+                            @if (!this.loaderService.getState(this.createTransactionloaderActionEnum)()) {
+                                <span class="font-outfit">Adicionar meta</span>
+                            } @else {
+                                <app-load-spinner />
+                            }
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

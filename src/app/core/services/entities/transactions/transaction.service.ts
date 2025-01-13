@@ -21,7 +21,7 @@ export class TransactionService{
         return from(
             this.supabaseClient.supabase
             .from('transactions')
-            .select('id, amount, type, description, notes, from, origin_goal_id, destination_goal_id, created_at')
+            .select('id, amount, type, description, notes, from, origin_goal_id, destination_goal_id, transaction_date, created_at')
             .or(`origin_goal_id.eq.${goal_id},destination_goal_id.eq.${goal_id}`)
             .range(start, end)
             .order('created_at', { ascending: false })
@@ -39,6 +39,7 @@ export class TransactionService{
                         from: transaction.from,
                         originGoalId: transaction.origin_goal_id,
                         destinationGoalId: transaction.destination_goal_id,
+                        transaction_date: transaction.transaction_date,
                         created_at: transaction.created_at,
                         description: transaction.description,
                         notes: transaction.notes
@@ -49,6 +50,12 @@ export class TransactionService{
             }),
             // tap(console.log)
         );
+    }
+
+    create(transaction: any): Observable<any>{
+        return from(
+            this.supabaseClient.supabase.from('transactions').insert(transaction).select().single()
+        )
     }
 
 }

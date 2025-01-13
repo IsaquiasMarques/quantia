@@ -5,7 +5,7 @@
                 {{ sectionTitle.title }}
                 
                 @if (sectionTitle.count) {
-                    <span class="text-base text-mediumGray/80 font-normal">({{ this.goals.length }}{{ (sectionTitle.limit > 0) ? '/' + sectionTitle.limit : '' }})</span>
+                    <span class="text-sm text-primary/70 font-semibold">({{ this.goals.length }}{{ (sectionTitle.limit > 0) ? '/' + sectionTitle.limit : '' }})</span>
                 }
             </h1>
             @if (addCardButton.visibility && goals.length > 0) {

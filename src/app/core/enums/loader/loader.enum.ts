@@ -30,4 +30,7 @@ export enum LoaderActionEnum{
 
     //transactions
     TRANSACTIONS = '[user-account] get user transactions meta-data',
+    CREATE_TRANSACTION = '[user-account] create goal transaction',
+    EDIT_TRANSACTION = '[user-account] edit goal transaction',
+    TRANSACTION_TYPES = '[user-account] get transactions type'
 }

@@ -1,5 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { FacadeExtender } from "@core/classes/facades.extender";
+import { SUPABASE_RESPONSE_STATUS } from "@core/enums/supabase-response-status.enum";
 import { IGoal } from "@core/models/entities/goals.model";
 import { GoalService } from "@core/services/entities/goals/goal.service";
 import { catchError, map, Observable, of, switchMap, take, tap, throwError } from "rxjs";
@@ -21,6 +22,10 @@ export class GoalFacade extends FacadeExtender{
         );
     }
 
+    getGoalsByCardIdFromService(card_id: string): Observable<IGoal[]>{
+        return this.goalService.getGoalsByCard(card_id);
+    }
+
     create(goal: any): Observable<any>{
         return this.getGoals.pipe(
             take(1),
@@ -34,7 +39,7 @@ export class GoalFacade extends FacadeExtender{
                 return this.goalService.create(goal);
             }),
             tap(response => {
-                if(response.status === 201){
+                if(response.status === SUPABASE_RESPONSE_STATUS.SUCCESS_WITH_DATA){
                     this.actions.getGoalsByCardId(goal.card_id)
                 }
                 return response;
@@ -44,10 +49,31 @@ export class GoalFacade extends FacadeExtender{
     }
 
     update(goal_id: string, goal: any): Observable<any>{
-        return this.goalService.update(goal_id, goal);
+        return this.goalService.update(goal_id, goal).pipe(
+            tap((response) => {
+                if(response.status == SUPABASE_RESPONSE_STATUS.SUCCESS_EMPTY){
+                    this.actions.getCards();
+                    this.actions.getGoalsByCardId(goal.card_id);
+                }
+                return response
+            }),
+            catchError(error => throwError(() => error))
+        );
     }
 
-    delete(goal_id: string): Observable<any>{
-        return this.goalService.delete(goal_id);
+    updateGoalAmount(goal_id: string, amount: number): Observable<any>{
+        return this.goalService.updateGoalAmount(goal_id, amount);
+    }
+
+    delete(goal_id: string, card_id: string): Observable<any>{
+        return this.goalService.delete(goal_id).pipe(
+            tap(response => {
+                if(response.status === SUPABASE_RESPONSE_STATUS.SUCCESS_EMPTY){
+                    this.actions.getCards();
+                    this.actions.getGoalsByCardId(card_id);
+                }
+                return response;
+            })
+        );
     }
 }

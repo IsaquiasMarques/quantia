@@ -79,6 +79,14 @@ export class GoalService{
     }
 
     update(goal_id: string, goal: any): Observable<any>{
+        return this.updateGoal(goal_id, goal).pipe(
+            switchMap(() => {
+                return this.updateGoalAmount(goal_id, goal.actual_amount);
+            })
+        );
+    }
+
+    private updateGoal(goal_id: string, goal: any): Observable<any>{
         return from(
             this.supabaseClient.supabase.from('cardGoals').update(
                 {
@@ -93,7 +101,9 @@ export class GoalService{
     }
 
     delete(goal_id: string): Observable<any>{
-        return of();
+        return from(
+            this.supabaseClient.supabase.from('cardGoals').delete().eq('id', goal_id)
+        )
     }
 
     private createGoalAmount(goal_id: string, amount: number): Observable<any>{

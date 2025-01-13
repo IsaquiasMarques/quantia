@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Unsubscriber } from '@core/classes/unsubscriber.class';
 import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
+import { SUPABASE_RESPONSE_STATUS } from '@core/enums/supabase-response-status.enum';
 import { ICardObjective } from '@core/models/entities/card-objective.model';
 import { ICard } from '@core/models/entities/cards.model';
 import { ICurrency } from '@core/models/entities/currencies.model';
@@ -140,7 +141,7 @@ export class EditCardComponent extends Unsubscriber implements OnInit {
     }
 
     this.loaderService.changeState(this.editCardloaderActionEnum, true);
-    this.cardFacade.updateCard(this.theCard()[0].id, card).subscribe({
+    this.cardFacade.update(this.theCard()[0].id, card).subscribe({
       next: response => {
         if(response.error){
           this.loggerService.add(response.error.message, LogStatus.ERROR);
@@ -149,7 +150,7 @@ export class EditCardComponent extends Unsubscriber implements OnInit {
           return;
         }
 
-        if(response.status === 204){
+        if(response.status === SUPABASE_RESPONSE_STATUS.SUCCESS_EMPTY){
           this.loggerService.add("Cartão editado", LogStatus.SUCCESS);
           this.editCardFormGroup.reset();
           this.resetObjectivesSelection = true;

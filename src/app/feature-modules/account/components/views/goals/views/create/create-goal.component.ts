@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
+import { SUPABASE_RESPONSE_STATUS } from '@core/enums/supabase-response-status.enum';
 import { ICard } from '@core/models/entities/cards.model';
 import { Icon } from '@core/models/icon.model';
 import { UserService } from '@core/services/entities/user/user.service';
@@ -58,11 +59,11 @@ export class CreateGoalComponent implements OnInit {
   }
 
   private getCards(): void{
-    this.loaderService.changeState(this.getCardsLoaderActionEnum, false);
+    this.loaderService.changeState(this.getCardsLoaderActionEnum, true);
     this.cardFacade.getCards.subscribe({
       next: cards => {
         this.cards = cards;
-        if(this.icons.length > 0){
+        if(this.cards.length > 0){
           this.loaderService.changeState(this.getCardsLoaderActionEnum, false);
         } else {
           this.loaderService.changeStateAfterFirstResponseIsEmpty(this.getCardsLoaderActionEnum, false);
@@ -122,7 +123,7 @@ export class CreateGoalComponent implements OnInit {
     this.loaderService.changeState(this.createGoalloaderActionEnum, true);
     this.goalFacade.create(goal).subscribe({
       next: response => {
-        if(response.status === 201){
+        if(response.status === SUPABASE_RESPONSE_STATUS.SUCCESS_WITH_DATA){
           this.loaderService.changeState(this.createGoalloaderActionEnum, false);
           this.log.add("Meta adicionada", LogStatus.SUCCESS);
           this.createGoalFormGroup.reset();

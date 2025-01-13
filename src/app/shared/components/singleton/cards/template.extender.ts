@@ -8,7 +8,7 @@ export class TemplateExtender{
     @Output() changeSeeMoneyStatus: EventEmitter<boolean> = new EventEmitter<boolean>();
     
     changeSeeMoneyStatusEventEmitter(status: boolean): void{
-    this.changeSeeMoneyStatus.emit(status)
+        this.changeSeeMoneyStatus.emit(status)
     }
 
 }

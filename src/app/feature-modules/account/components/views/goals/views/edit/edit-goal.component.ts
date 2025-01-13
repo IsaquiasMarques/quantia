@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Unsubscriber } from '@core/classes/unsubscriber.class';
 import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
+import { SUPABASE_RESPONSE_STATUS } from '@core/enums/supabase-response-status.enum';
 import { ICard } from '@core/models/entities/cards.model';
 import { IGoal } from '@core/models/entities/goals.model';
 import { Icon } from '@core/models/icon.model';
@@ -151,7 +152,7 @@ export class EditGoalComponent extends Unsubscriber implements OnInit {
           return;
         }
 
-        if(response.status === 204){
+        if(response.status === SUPABASE_RESPONSE_STATUS.SUCCESS_EMPTY){
           this.log.add("Meta editada", LogStatus.SUCCESS);
           this.editGoalFormGroup.reset();
           this.loaderService.changeState(this.editGoalloaderActionEnum, false);

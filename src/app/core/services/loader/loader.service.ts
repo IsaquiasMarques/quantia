@@ -78,6 +78,18 @@ export class Loader{
         {
             action: LoaderActionEnum.TRANSACTIONS,
             loading: signal(false)
+        },
+        {
+            action: LoaderActionEnum.CREATE_TRANSACTION,
+            loading: signal(false)
+        },
+        {
+            action: LoaderActionEnum.EDIT_TRANSACTION,
+            loading: signal(false)
+        },
+        {
+            action: LoaderActionEnum.TRANSACTION_TYPES,
+            loading: signal(false)
         }
     ];
 

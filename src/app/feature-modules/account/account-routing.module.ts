@@ -11,9 +11,9 @@ import { MyGoalsComponent } from './components/views/goals/views/index/my-goals.
 import { CreateGoalComponent } from './components/views/goals/views/create/create-goal.component';
 import { EditGoalComponent } from './components/views/goals/views/edit/edit-goal.component';
 import { TransactionComponent } from './components/views/transactions/containers/transaction/transaction.component';
-import { MyTransactionsComponent } from './components/views/transactions/views/my-transactions/my-transactions.component';
-import { CreateTransactionComponent } from './components/views/transactions/views/create-transaction/create-transaction.component';
-import { EditTransactionComponent } from './components/views/transactions/views/edit-transaction/edit-transaction.component';
+import { MyTransactionsComponent } from './components/views/transactions/views/index/my-transactions.component';
+import { CreateTransactionComponent } from './components/views/transactions/views/create/create-transaction.component';
+import { EditTransactionComponent } from './components/views/transactions/views/edit/edit-transaction.component';
 
 const routes: Routes = [
   {

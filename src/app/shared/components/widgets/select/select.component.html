@@ -1,6 +1,6 @@
 <div class="field-container flex flex-col gap-y-6">
     <div class="select-{{ this.name }} flex flex-col gap-y-3">
-        <label [for]="this.name" class="text-base text-primary font-outfit font-medium">{{ this.label }}</label>
+        <label [for]="this.name" class="text-base text-primary font-outfit">{{ this.label }}</label>
         <div class="dropdown-container">
             <div class="select flex duration-[.2s] cursor-pointer px-5 justify-between items-center text-mediumGray bg-[#F9F9F9] border border-[#F3F3F3] rounded-t-[10px]"
             (click)="this.toggleSelectVisibility()"
@@ -63,6 +63,10 @@
     
                                     </div>
                                 }
+                            </div>
+                        } @empty {
+                            <div class="item flex justify-between items-center px-5 py-[10px] text-primary cursor-pointer border-y border-[#F3F3F3] hover:bg-[#F1F1F1]">
+                                Sem dados
                             </div>
                         }
                     } @else {
