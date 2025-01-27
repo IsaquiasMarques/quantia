@@ -29,7 +29,7 @@ export class NumberFormatation{
      * @param value - O valor formatado.
      * @returns O valor desformatado.
     */
-    static unformatNumber(value: string): string {
-        return value.replace(/\./g, ''); // Remove os pontos usados como separadores de milhares
+    static unformatNumber(value: string, replaceCommaByDot: boolean = true): string {
+        return value.replace(/\./g, '').replace(',', (replaceCommaByDot) ? '.' : ','); // Remove os pontos usados como separadores de milhares
     }
 }

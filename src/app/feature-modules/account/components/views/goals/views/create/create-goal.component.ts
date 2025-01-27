@@ -123,6 +123,12 @@ export class CreateGoalComponent implements OnInit {
     this.loaderService.changeState(this.createGoalloaderActionEnum, true);
     this.goalFacade.create(goal).subscribe({
       next: response => {
+        if(response.error){
+          console.error(response.error);
+          this.log.add(response.error.message, LogStatus.ERROR);
+          this.loaderService.changeState(this.createGoalloaderActionEnum, false);
+        }
+
         if(response.status === SUPABASE_RESPONSE_STATUS.SUCCESS_WITH_DATA){
           this.loaderService.changeState(this.createGoalloaderActionEnum, false);
           this.log.add("Meta adicionada", LogStatus.SUCCESS);
