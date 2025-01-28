@@ -26,6 +26,8 @@ export class SquareCardComponent extends TemplateExtender {
   @Input() cardDropdownButton: { visible: boolean, items: ('edit' | 'hideValues' | 'delete')[] } = { visible: false, items: [ "edit", "hideValues" ] }
   showCardDropdown: boolean = false;
 
+  @Input() isActive: boolean = false;
+
   toggleCardDropdown(): void{
     if(this.showCardDropdown){
       this.closeCardDropdown();

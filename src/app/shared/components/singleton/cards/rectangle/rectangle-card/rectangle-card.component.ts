@@ -28,6 +28,8 @@ export class RectangleCardComponent extends TemplateExtender {
   @Input() card!: ICard;
   @Input() showValue = false;
 
+  @Input() isActive = false;
+
   @Input() cardDropdownButton: { visible: boolean, items: ('edit' | 'hideValues' | 'delete')[] } = { visible: false, items: [ "edit", "hideValues" ] }
   showCardDropdown: boolean = false;
 

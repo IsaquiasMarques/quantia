@@ -36,6 +36,7 @@
                         <app-rectangle-card
                         [icon]="goal.icon"
                         [id]="goal.id"
+                        [isActive]="this.activeIndex == $index"
                         [title]="goal.name"
                         [amount]="goal.goal_amount.amount"
                         [description]="goal.description"

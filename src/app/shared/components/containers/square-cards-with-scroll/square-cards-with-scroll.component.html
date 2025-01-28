@@ -65,6 +65,7 @@
                             <app-square-card
                             [icon]="card.objective.icon"
                             [id]="card.id"
+                            [isActive]="this.activeIndex === $index"
                             [title]="card.name"
                             [description]="card.objective.description"
                             [highlightColor]="card.settings.highlightColor"

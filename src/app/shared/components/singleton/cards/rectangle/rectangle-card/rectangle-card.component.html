@@ -1,4 +1,8 @@
-<div class="card w-[227px] min-h-[157px] h-full border border-[#DCDCDC] rounded-[15px] p-[15px] flex flex-col justify-between items-start">
+<div class="card w-[227px] min-h-[157px] h-full border border-[#DCDCDC] rounded-[15px] p-[15px] flex flex-col justify-between items-start"
+[ngClass]="{
+    'shadow-[0_0_15px_rgba(255,204,0,0.12),_0_0_10px_rgba(255,204,0,0.12)]': this.isActive
+}"
+>
     <div class="card-header relative w-full mb-2 flex justify-between items-start">
         <div class="card-details flex flex-col gap-3">
             <div class="icon w-[34px] h-[34px] flex justify-center items-center rounded-[10px]"
