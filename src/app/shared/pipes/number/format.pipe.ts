@@ -7,6 +7,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FormatPipe implements PipeTransform {
 
   transform(value: string | null | undefined, replace: string = ',', to: string = '.'): string | undefined {
-    return value?.replace(replace, ' ').replace('.', ',').replaceAll(' ', to);
+    return value?.replaceAll(replace, ' ')
+                  .replace('.', ',') // casas decimais
+                  .replaceAll(' ', to);
   }
 }

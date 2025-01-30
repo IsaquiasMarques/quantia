@@ -96,7 +96,7 @@
                         '!text-white/90': this.isActive
                     }"
                     >
-                        {{ this.amount | number | format }} <span class="opacity-0"></span>
+                        {{ this.amount | number:'1.2-2' | format }} <span class="opacity-0"></span>
                     </p>
                 } @else {
                     <!-- <p class="placeholder !relative !w-fit !h-fit rounded text-xl text-transparent font-sembold"> placeholder</p> -->
