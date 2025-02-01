@@ -40,7 +40,8 @@ export class GoalFacade extends FacadeExtender{
             }),
             tap(response => {
                 if(response.status === SUPABASE_RESPONSE_STATUS.SUCCESS_WITH_DATA){
-                    this.actions.getGoalsByCardId(goal.card_id)
+                    this.actions.getCards();
+                    this.actions.getGoalsByCardId(goal.card_id);
                 }
                 return response;
             }),

@@ -57,23 +57,28 @@
                         }"
                         >
                     </div>
-                    <div class="input w-full flex flex-col gap-[10px]">
-                        <label for="achievement" class="text-primary font-outfit text-base">Meta</label>
-                        <input
-                        appDigitGroups
-                        [separator]="'.'"
-                        [digits]="3"
-                        type="text"
-                        formControlName="achievement"
-                        id="achievement"
-                        minlength="1"
-                        placeholder="Quanto quer atingir?"
-                        class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-mediumGray duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
-                        [ngClass]="{
-                            'is-invalid': createGoalFormGroup.get('achievement')?.invalid && createGoalFormGroup.get('achievement')?.touched
-                        }"
-                        >
-                    </div>
+
+                    @if (this.selectedCard.length > 0 && this.selectedCard[0].objective.description === this.SAVINGS_ACCOUNT) {
+                        <div class="input w-full flex flex-col gap-[10px]">
+                            <label for="achievement" class="text-primary font-outfit text-base">Meta</label>
+                            <input
+                            appDigitGroups
+                            [separator]="'.'"
+                            [digits]="3"
+                            type="text"
+                            formControlName="achievement"
+                            id="achievement"
+                            minlength="1"
+                            placeholder="Quanto quer atingir?"
+                            class="focus:outline-none placeholder:text-base placeholder:font-['Outfit'] placeholder:text-mediumGray duration-[.2s] px-5 py-4 w-full bg-[#F9F9F9] border-[1px] border-[#F3F3F3] rounded-[10px] text-sm"
+                            [ngClass]="{
+                                'is-invalid': createGoalFormGroup.get('achievement')?.invalid && createGoalFormGroup.get('achievement')?.touched
+                            }"
+                            >
+                        </div>
+                    } @else {
+                        <!-- If is current card, then its not necessary achievement_amount -->
+                    }
                     <div class="input w-full flex flex-col gap-[10px]">
                         <label for="actual_amount" class="text-primary font-outfit text-base">Quantia actual</label>
                         <input

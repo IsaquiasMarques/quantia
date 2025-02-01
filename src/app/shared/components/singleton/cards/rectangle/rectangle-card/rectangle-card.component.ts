@@ -27,7 +27,7 @@ export class RectangleCardComponent extends TemplateExtender {
   @Input() amount: number = 0;
   @Input() card!: ICard;
   @Input() showValue = false;
-
+  @Input() savingTerm = 'Conta Poupança';
   @Input() isActive = false;
 
   @Input() cardDropdownButton: { visible: boolean, items: ('edit' | 'hideValues' | 'delete')[] } = { visible: false, items: [ "edit", "hideValues" ] }

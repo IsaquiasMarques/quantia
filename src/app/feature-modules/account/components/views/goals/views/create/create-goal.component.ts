@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { LoaderActionEnum } from '@core/enums/loader/loader.enum';
 import { SUPABASE_RESPONSE_STATUS } from '@core/enums/supabase-response-status.enum';
 import { ICard } from '@core/models/entities/cards.model';
@@ -44,6 +44,8 @@ export class CreateGoalComponent implements OnInit {
 
   resetCardSelection: boolean = false;
   resetIconsSelection: boolean = false;
+
+  SAVINGS_ACCOUNT = 'Conta Poupança'
 
   ngOnInit(): void {
     
@@ -96,8 +98,23 @@ export class CreateGoalComponent implements OnInit {
     });
   }
 
+  compareCardObjective(card: ICard, objective: string = this.SAVINGS_ACCOUNT): boolean{
+    return card.objective.description === objective;
+  }
+
+  changeAchievementValidatorSettings(): void{
+    const isSavingsAccount = this.selectedCard.length > 0 && this.compareCardObjective(this.selectedCard[0]);
+    const achievementControl = this.createGoalFormGroup.get('achievement');
+
+    if(achievementControl){
+      achievementControl.setValidators(isSavingsAccount ? [ Validators.required ] : []);
+      achievementControl.updateValueAndValidity();
+    }
+  }
+
   captureSelectedCard($event: ICard[]): void{
     this.selectedCard = $event;
+    this.changeAchievementValidatorSettings();
   }
 
   captureSelectedIcon($event: any[]): void{
@@ -111,10 +128,14 @@ export class CreateGoalComponent implements OnInit {
       !(this.selectedIcon.length > 0)
     ) return;
 
+    const achievement_amount = (this.selectedCard.length > 0 && this.compareCardObjective(this.selectedCard[0])) ? 
+                                NumberFormatation.unformatNumber(this.createGoalFormGroup.get('achievement')?.value) :
+                                null;
+
     const goal = {
       name: this.createGoalFormGroup.get('name')?.value,
       description: this.createGoalFormGroup.get('description')?.value,
-      achievement_amount: NumberFormatation.unformatNumber(this.createGoalFormGroup.get('achievement')?.value),
+      achievement_amount: achievement_amount,
       card_id: this.selectedCard[0].id,
       icon_id: this.selectedIcon[0].id,
       actual_amount: NumberFormatation.unformatNumber(this.createGoalFormGroup.get('actual_amount')?.value)
