@@ -58,7 +58,7 @@
                         >
                     </div>
 
-                    @if (this.selectedCard.length > 0 && this.selectedCard[0].objective.description === this.SAVINGS_ACCOUNT) {
+                    @if (this.selectedCard.length > 0 && this.compareCardObjective(this.selectedCard[0])) {
                         <div class="input w-full flex flex-col gap-[10px]">
                             <label for="achievement" class="text-primary font-outfit text-base">Meta</label>
                             <input

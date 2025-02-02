@@ -47,6 +47,8 @@ export class EditGoalComponent extends Unsubscriber implements OnInit {
 
   icons: Icon[] = [];
   selectedIcon: Icon[] = [];
+  
+  SAVINGS_ACCOUNT = 'Conta Poupança'
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.pipe(takeUntil(this.unsubscribe$)).subscribe(params => {
@@ -58,10 +60,12 @@ export class EditGoalComponent extends Unsubscriber implements OnInit {
 
       this.getGoalById(id);
       
+      const achievement_amount = (this.theGoal().length > 0 && this.selectedCard.length > 0 && this.compareCardObjective(this.selectedCard[0])) ? NumberFormatation.separateByNumberOfDigits((this.theGoal()[0].achievement_amount).toString()) : 0;
+
       this.editGoalFormGroup = new FormGroup({
         'name': new FormControl((this.theGoal().length > 0) ? this.theGoal()[0].name : '', [ Validators.required, Validators.maxLength(30) ]),
         'description': new FormControl((this.theGoal().length > 0) ? this.theGoal()[0].description : '', [ Validators.required, Validators.maxLength(30) ]),
-        'achievement': new FormControl((this.theGoal().length > 0) ? NumberFormatation.separateByNumberOfDigits((this.theGoal()[0].achievement_amount).toString()) : 0, [ Validators.required ]),
+        'achievement': new FormControl(achievement_amount, [ Validators.required ]),
         'actual_amount': new FormControl((this.theGoal().length > 0) ? NumberFormatation.separateByNumberOfDigits((this.theGoal()[0].goal_amount.amount).toString()) : 0, [ Validators.required, Validators.minLength(0) ])
       });
     });
@@ -117,9 +121,24 @@ export class EditGoalComponent extends Unsubscriber implements OnInit {
       }
     });
   }
+  
+  compareCardObjective(card: ICard, objective: string = this.SAVINGS_ACCOUNT): boolean{
+    return card.objective.description === objective;
+  }
+
+  changeAchievementValidatorSettings(): void{
+    const isSavingsAccount = this.selectedCard.length > 0 && this.compareCardObjective(this.selectedCard[0]);
+    const achievementControl = this.editGoalFormGroup.get('achievement');
+
+    if(achievementControl){
+      achievementControl.setValidators(isSavingsAccount ? [ Validators.required ] : []);
+      achievementControl.updateValueAndValidity();
+    }
+  }
 
   captureSelectedCard($event: ICard[]): void{
     this.selectedCard = $event;
+    this.changeAchievementValidatorSettings();
   }
 
   captureSelectedIcon($event: any[]): void{

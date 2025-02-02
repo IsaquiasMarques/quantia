@@ -8,18 +8,20 @@ export class NumberFormatation{
      * @returns O valor formatado.
     */
     static separateByNumberOfDigits(value: string, digits: number = 3, separator: string = '.'): string {
+        
+        // Substitui o ponto por vírgula se form um número decimal e
         // Remove caracteres inválidos, exceto números e vírgula
-        const sanitizedValue = value.replace(/[^0-9,]/g, '');
-
+        const sanitizedValue = value.replace('.', ',').replace(/[^0-9,]/g, '');
+        
         // Divide em parte inteira e decimal
         const [integerPart, decimalPart] = sanitizedValue.split(',');
 
         // Cria o regex dinamicamente com base no número de dígitos
         const regex = new RegExp(`\\B(?=(\\d{${digits}})+(?!\\d))`, 'g');
-
+        
         // Adiciona separadores na parte inteira
         const formattedInteger = integerPart.replace(regex, separator);
-
+        
         // Retorna o número formatado
         return decimalPart !== undefined ? `${formattedInteger},${decimalPart}` : formattedInteger;
     }
