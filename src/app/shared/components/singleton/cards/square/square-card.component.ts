@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Icon } from '@core/models/icon.model';
 import { FormatPipe } from '@shared/pipes/number/format.pipe';
 import { RouterLink } from '@angular/router';
@@ -27,6 +27,15 @@ export class SquareCardComponent extends TemplateExtender {
   showCardDropdown: boolean = false;
 
   @Input() isActive: boolean = false;
+
+  @Input({ required: true }) myIndex: number = 0;
+  @Input() clickableCard: boolean = true;
+  @Output() gotoIndex: EventEmitter<number> = new EventEmitter<number>();
+
+  goto($index: number = this.myIndex){
+    if(!this.clickableCard) return;
+    this.gotoIndex.emit($index);
+  }
 
   toggleCardDropdown(): void{
     if(this.showCardDropdown){

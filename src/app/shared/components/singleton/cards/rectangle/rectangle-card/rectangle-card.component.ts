@@ -33,6 +33,15 @@ export class RectangleCardComponent extends TemplateExtender {
   @Input() cardDropdownButton: { visible: boolean, items: ('edit' | 'hideValues' | 'delete')[] } = { visible: false, items: [ "edit", "hideValues" ] }
   showCardDropdown: boolean = false;
 
+  @Input({ required: true }) myIndex: number = 0;
+  @Input() clickableCard: boolean = true;
+  @Output() gotoIndex: EventEmitter<number> = new EventEmitter<number>();
+
+  goto($index: number = this.myIndex){
+    if(!this.clickableCard) return;
+    this.gotoIndex.emit($index);
+  }
+  
   toggleCardDropdown(): void{
     if(this.showCardDropdown){
       this.closeCardDropdown();

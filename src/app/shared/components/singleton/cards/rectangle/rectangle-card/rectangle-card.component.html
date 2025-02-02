@@ -2,6 +2,7 @@
 [ngClass]="{
     'shadow-[0_0_15px_rgba(255,204,0,0.12),_0_0_10px_rgba(255,204,0,0.12)]': this.isActive
 }"
+(click)="this.goto()"
 >
     <div class="card-header relative w-full mb-2 flex justify-between items-start">
         <div class="card-details flex flex-col gap-3">
@@ -26,7 +27,10 @@
         </div>
         @if (this.cardDropdownButton.visible) {
             <div class="card-dots h-[34px] flex justify-center items-center">
-                <a (click)="this.toggleCardDropdown()">
+                <!-- (click)="$event.stopPropagation()" -->
+                <a
+                (click)="this.toggleCardDropdown()"
+                >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -75,7 +79,10 @@
             }
         }
     </div>
-    <div class="card-body mb-2 w-full">
+    <div class="card-body mb-2 w-full"
+    (click)="$event.stopPropagation()"
+    (click)="this.changeSeeMoneyStatusEventEmitter(!this.showValue)"
+    >
         @if (this.showValue) {
             <h1 class="font-outfit text-xl appear-softly limited-text one-line font-semibold text-left text-primary">
                 {{ this.amount | number | format }} {{ card.settings.currency.name }}

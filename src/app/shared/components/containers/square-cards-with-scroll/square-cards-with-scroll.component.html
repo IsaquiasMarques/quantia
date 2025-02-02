@@ -75,6 +75,8 @@
                             (changeSeeMoneyStatus)="this.seeMoneyService.changeSeeMoneyStatus($event)"
                             [showBottomInformations]="this.showBottomInformations"
                             [cardDropdownButton]="this.cardDropdownButton"
+                            [myIndex]="$index"
+                            (gotoIndex)="gotToIndexEventHandler($event)"
                             />
                         }
                 } @else {

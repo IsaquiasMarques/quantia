@@ -4,6 +4,7 @@
     'border-[#fff] drop-shadow-[0px_0px_10px_rgba(0,0,0,0.3)] scale-[1.03]': this.isActive,
 }"
 [style.backgroundColor]="(this.isActive) ? this.highlightColor : 'rgba(255,255,255,100%)'"
+(click)="this.goto()"
 >
     <div class="card-header relative w-full flex justify-between items-center">
         <div class="icon w-[34px] h-[34px] flex justify-center items-center rounded-[10px]"
@@ -17,7 +18,10 @@
 
         @if (this.cardDropdownButton.visible) {
             <div class="card-dots h-max">
-                <a (click)="this.toggleCardDropdown()">
+                <!-- (click)="$event.stopPropagation()" -->
+                <a
+                (click)="this.toggleCardDropdown()"
+                >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" [attr.stroke]="(!this.isActive) ? 'black' : 'white'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" [attr.stroke]="(!this.isActive) ? 'black' : 'white'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -89,7 +93,10 @@
     }"
     >
         @if (this.showBottomInformations) {
-            <div class="amount max-w-[130px]">
+            <div class="amount max-w-[130px]"
+            (click)="$event.stopPropagation()"
+            (click)="this.changeSeeMoneyStatusEventEmitter(!this.showValue)"
+            >
                 @if (this.showValue) {
                     <p class="text-[20px] appear-softly text-primary font-outfit font-semibold limited-text one-line"
                     [ngClass]="{
